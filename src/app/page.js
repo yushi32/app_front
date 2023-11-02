@@ -17,6 +17,22 @@ export default function Home() {
           </button>
         </div>
       </div>
+      <div className="my-8 p-8">
+        <div className="flex justify-between justify-center my-5 p-2 max-w-5xl mx-auto">
+          <div className="w-1/2 m-2 p-5">SVGアイコン</div>
+          <div className="w-1/2 flex justify-center flex-col items-center gap-4 mx-4 p-8 bg-emerald-100">
+            <h3 className="m-4 text-xl">
+              通知機能
+            </h3>
+            <p className="text-center">
+              ブックマークした記事を設定したタイミングであなたのLINEへ通知します。
+            </p>
+            <p className="text-center">
+              ブックマークして終わりの生活とはお別れです。
+            </p>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
