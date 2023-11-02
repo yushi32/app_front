@@ -1,3 +1,5 @@
+import Image from"next/image";
+
 export default function Home() {
   return (
     <>
@@ -19,7 +21,9 @@ export default function Home() {
       </div>
       <div className="my-8 p-8">
         <div className="flex justify-between justify-center my-5 p-2 max-w-5xl mx-auto">
-          <div className="w-1/2 m-2 p-5">SVGアイコン</div>
+          <div className="w-1/2 flex items-center">
+            <Image src="/notification.svg" alt="Notification" width={100} height={100} className="flex mx-auto" />
+          </div>
           <div className="w-1/2 flex justify-center flex-col items-center gap-4 mx-4 p-8 bg-emerald-100">
             <h3 className="m-4 text-xl">
               通知機能
@@ -44,10 +48,14 @@ export default function Home() {
               ブックマークする度にフォルダを選択する煩わしさから解放されましょう。
             </p>
           </div>
-          <div className="w-1/2 m-2 p-5">SVGアイコン</div>
+          <div className="w-1/2 flex items-center">
+            <Image src="tag.svg" alt="Tag" width={100} height={100} className="flex mx-auto" />
+          </div>
         </div>
         <div className="flex justify-between justify-center my-5 p-2 max-w-5xl mx-auto">
-          <div className="w-1/2 m-2 p-5">SVGアイコン</div>
+          <div className="w-1/2 flex items-center">
+            <Image src="/extension.svg" alt="Chrome-Extension" width={100} height={100} className="flex mx-auto" />
+          </div>
           <div className="w-1/2 flex justify-center flex-col items-center gap-4 mx-4 p-8 bg-emerald-100">
             <h3 className="m-4 text-xl">
               ブックマーク登録もシームレス
