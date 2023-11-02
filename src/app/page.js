@@ -32,6 +32,35 @@ export default function Home() {
             </p>
           </div>
         </div>
+        <div className="flex justify-between justify-center my-5 p-2 max-w-5xl mx-auto">
+          <div className="w-1/2 flex justify-center flex-col items-center gap-4 mx-4 p-8 bg-emerald-100">
+            <h3 className="m-4 text-xl">
+              ブックマーク管理をもっと手軽に
+            </h3>
+            <p className="text-center">
+              Laterlessでは、ブックマークした時に自動でタグを設定します。
+            </p>
+            <p className="text-center">
+              ブックマークする度にフォルダを選択する煩わしさから解放されましょう。
+            </p>
+          </div>
+          <div className="w-1/2 m-2 p-5">SVGアイコン</div>
+        </div>
+        <div className="flex justify-between justify-center my-5 p-2 max-w-5xl mx-auto">
+          <div className="w-1/2 m-2 p-5">SVGアイコン</div>
+          <div className="w-1/2 flex justify-center flex-col items-center gap-4 mx-4 p-8 bg-emerald-100">
+            <h3 className="m-4 text-xl">
+              ブックマーク登録もシームレス
+            </h3>
+            <p className="text-center">
+              Chrome拡張機能をインストールすることで今見ているページから移動せずにLaterlessへ登録できます。
+            </p>
+            <button className="mt-4 p-3 rounded-full bg-emerald-400">
+              <p>Chrome拡張機能は</p>
+              <p>こちら</p>
+            </button>
+          </div>
+        </div>
       </div>
     </>
   )
