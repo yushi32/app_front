@@ -1,5 +1,7 @@
 import Image from"next/image";
 
+import SignInButton from "../components/SignInButton"
+
 export default function Home() {
   return (
     <>
@@ -14,9 +16,7 @@ export default function Home() {
           <p className="my-6 text-xl">
             Laterlessでブックマークを効率的に管理しましょう
           </p>
-          <button className="p-3 my-6 rounded-full bg-emerald-400">
-            今すぐ始める
-          </button>
+          <SignInButton text="今すぐ始める" />
         </div>
       </div>
       <div className="my-8 p-8">
