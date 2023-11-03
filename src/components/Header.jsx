@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import SignInButton from "./SignInButton";
+
 export default function Header() {
   return (
     <header className="sticky top-0 w-full bg-white border-b-2">
@@ -11,7 +13,7 @@ export default function Header() {
             <h2 className="text-lg">Laterless</h2>
           </Link>
         </nav>
-        <button className="bg-emerald-400 p-3 m-2 rounded-full">ログイン</button>
+        <SignInButton text={"ログイン"} />
       </div>
     </header>   
   )
