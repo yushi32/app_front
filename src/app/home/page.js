@@ -29,7 +29,7 @@ export default function Page() {
           headers: { authorization: `Bearer ${token}` },
         };
         console.log(currentUser)
-        const res = await axios.get('http://localhost:3000/api/v1/bookmarks', config);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks`, config);
         setBookmarks(res.data.data)
         console.log(res.data.data);
       }
