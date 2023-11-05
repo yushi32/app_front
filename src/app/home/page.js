@@ -5,14 +5,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuthContext } from "../../context/AuthContext";
-import useFirebaseAuth from "../../hooks/useFirebaseAuth";
+
+import Card from "../../components/Card";
 
 export default function Page() {
   const [bookmarks, setBookmarks] = useState([]);
   const { currentUser, loading } = useAuthContext();
   const router = useRouter();
-
-  const { logout } = useFirebaseAuth();
 
   useEffect(() => {
     if (!loading && !currentUser) {
@@ -38,5 +37,13 @@ export default function Page() {
     getBookmarks();
   }, [currentUser]);
 
-  return <button onClick={logout}>ログアウト</button>;
+  return (
+    <div className="grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl h-screen mx-auto bg-blue-200">
+      {bookmarks.map((bookmark) => {
+        return (
+          <Card key={bookmark.id} url={bookmark.attributes.url} title={bookmark.attributes.title} />
+        )
+      })}
+    </div>
+  )
 }
