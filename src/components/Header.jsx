@@ -1,9 +1,20 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 
+import { useEffect } from "react";
+
 import SignInButton from "./SignInButton";
+import SignOutButton from "./SignOutButton";
+
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Header() {
+  const { currentUser, logout } = useAuthContext();
+
+  useEffect(() => {}, [currentUser]);
+
   return (
     <header className="sticky top-0 w-full bg-white border-b-2">
       <div className="flex justify-between items-center h-16 max-w-5xl mx-auto">
@@ -13,7 +24,7 @@ export default function Header() {
             <h2 className="text-lg">Laterless</h2>
           </Link>
         </nav>
-        <SignInButton text={"ログイン"} />
+        {currentUser ? <SignOutButton logout={logout} /> : <SignInButton text={"ログイン"} />}
       </div>
     </header>   
   )
