@@ -38,7 +38,7 @@ export default function Page() {
   }, [currentUser]);
 
   return (
-    <div className="grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl h-screen mx-auto bg-blue-200">
+    <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl mx-auto bg-blue-200">
       {bookmarks.map((bookmark) => {
         return (
           <Card key={bookmark.id} url={bookmark.attributes.url} title={bookmark.attributes.title} />
