@@ -32,7 +32,7 @@ export default function SignInButton({ text }) {
   };
 
   return (
-    <button onClick={handleGoogleLogin} className="p-3 mx-2 my-6 rounded-full bg-emerald-400">
+    <button onClick={handleGoogleLogin} className="p-3 mx-2 my-6 rounded-full bg-emerald-400 hover:scale-95">
       {text}
     </button>
   );
