@@ -1,13 +1,30 @@
 import axios from "axios";
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link";
-
+import Image from"next/image";
 
 import { useAuthContext } from "../context/AuthContext"
 
 export default function Card({ id, url, title }) {
   const [isDeleted, setIsDeleted] = useState(false);
   const { currentUser } = useAuthContext();
+  const [randomColor, setRandomColor] = useState();
+
+  useEffect(() => {
+    const colors = [
+      'bg-red-300',
+      'bg-blue-300',
+      'bg-green-400',
+      'bg-amber-200',
+      'bg-purple-200',
+      'bg-neutral-700',
+      'bg-teal-200',
+      'bg-pink-200',
+      'bg-orange-300'
+    ];
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    setRandomColor(colors[randomIndex]);
+  }, []); 
 
   const onClickDelete = async () => {
     const token = await currentUser?.getIdToken();
@@ -37,7 +54,7 @@ export default function Card({ id, url, title }) {
   return (
     <div className="col-span-1 rounded-md shadow-md hover:shadow-xl mt-4 mx-1 h-64 flex flex-col justify-between border-6">
       <Link href={url} className="flex flex-col h-full">
-      <div className={`rounded-t-md bg-neutral-800 flex-1 h-[50%]`}></div>
+      <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}></div>
 
         <div className="px-3 pt-3 pb-1 text-center overflow-scroll h-[50%] flex flex-col justify-center">
             <span className="text-center text-sm">{title}</span>
