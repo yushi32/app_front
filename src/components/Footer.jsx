@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full h-16 bg-emerald-400 text-white">
+    <footer className="bottom-0 w-full h-16 bg-emerald-400 text-white">
       <div className="flex justify-between items-center max-w-5xl mx-auto h-full">
         <div className="text-sm">
           © 2023 All rights reserved.

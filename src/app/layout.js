@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <AuthContextProvider>
       <html lang="ja">
-        <body className={inter.className}>
+        <body className={`${inter.className} flex flex-col min-h-screen`}>
           <Header />
           {children}
           <Footer />

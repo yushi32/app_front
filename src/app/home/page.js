@@ -7,9 +7,11 @@ import { useRouter } from "next/navigation";
 import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
+import NoContents from "../../components/NoContents";
 
 export default function Page() {
   const [bookmarks, setBookmarks] = useState([]);
+  const [dataLoading, setDataLoading] = useState(false);
   const { currentUser, loading } = useAuthContext();
   const router = useRouter();
 
@@ -28,22 +30,26 @@ export default function Page() {
         const config = {
           headers: { authorization: `Bearer ${token}` },
         };
-        console.log(currentUser)
+        // console.log(currentUser)
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks`, config);
         setBookmarks(res.data.data)
-        console.log(res.data.data);
+        setDataLoading(true);
+        // console.log(res.data.data);
       }
     }
     getBookmarks();
   }, [currentUser]);
 
   return (
-    <div className="grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl h-screen mx-auto bg-blue-200">
+    <>
+      {dataLoading && !bookmarks.length ? <NoContents /> : <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl mx-auto border-4">
       {bookmarks.map((bookmark) => {
         return (
-          <Card key={bookmark.id} url={bookmark.attributes.url} title={bookmark.attributes.title} />
+          <Card key={bookmark.id} id={bookmark.attributes.id} url={bookmark.attributes.url} title={bookmark.attributes.title} />
         )
       })}
     </div>
-  )
+      }
+    </>
+  );
 }
