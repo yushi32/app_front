@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
+import NoContents from "../../components/NoContents";
 
 export default function Page() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -38,12 +39,15 @@ export default function Page() {
   }, [currentUser]);
 
   return (
-    <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl mx-auto bg-blue-200">
+    <div className="flex-grow">
+      {bookmarks.length === 0 ? <NoContents /> : <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl mx-auto border-4">
       {bookmarks.map((bookmark) => {
         return (
           <Card key={bookmark.id} id={bookmark.attributes.id} url={bookmark.attributes.url} title={bookmark.attributes.title} />
         )
       })}
     </div>
+      }
+    </div>    
   )
 }
