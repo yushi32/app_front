@@ -9,7 +9,7 @@ export default function Footer() {
         </div>
         <nav>
           <Link href="/" className="mx-2">利用規約</Link>
-          <Link href="/" className="mx-2">プライバシーポリシー</Link>
+          <Link href="/privacy_policy" className="mx-2">プライバシーポリシー</Link>
           <Link href="/" className="mx-2">お問い合わせ</Link>
         </nav>
       </div>
