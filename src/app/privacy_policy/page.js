@@ -118,7 +118,9 @@ export default function Page() {
         </div>
       </div>
       <div>
-        <h2 className="mb-2 text-lg font-semibold">プライバシーポリシーの変更</h2>
+        <h2 className="mb-2 text-lg font-semibold">
+          プライバシーポリシーの変更
+        </h2>
         <p className="text-sm">
           当方は、必要に応じて、このプライバシーポリシーの内容を変更します。この場合、変更後のプライバシーポリシーの施行時期と内容を適切な方法により周知または通知します。
         </p>
@@ -130,15 +132,16 @@ export default function Page() {
         <div className="text-sm space-y-4">
           <p>
             お客様の情報の開示、情報の訂正、利用停止、削除をご希望の場合は、以下のTwitterアカウントにご連絡ください。
+            Twitterアカウント：
           </p>
           <p>
-            Twitterアカウント：
             <Link 
               href="https://twitter.com/yushi_en"
               className="text-emerald-500 hover:text-emerald-300"
             >
               https://twitter.com/yushi_en
-            </Link></p>
+            </Link>
+          </p>
           <p>
             この場合、必ず、運転免許証のご提示等当方が指定する方法により、ご本人からのご請求であることの確認をさせていただきます。なお、情報の開示請求については、開示の有無に関わらず関わらず、ご申請時に一件あたり1,000円の事務手数料を申し受けます。
           </p>
