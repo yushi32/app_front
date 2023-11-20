@@ -57,7 +57,7 @@ export default function Card({ id, url, title }) {
       <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}></div>
 
         <div className="px-3 pt-3 pb-1 text-center overflow-scroll h-[50%] flex flex-col justify-center">
-            <span className="text-center text-sm">{title}</span>
+          <p className="text-center text-sm">{title}</p>
         </div>
       </Link>
       <div className=" flex justify-between px-2 py-1">
