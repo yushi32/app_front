@@ -3,14 +3,21 @@ import { useState, useEffect } from "react"
 import Link from "next/link";
 import Image from"next/image";
 
-import { useAuthContext } from "../context/AuthContext"
+import { useAuthContext } from "../context/AuthContext";
 
-export default function Card({ id, url, title }) {
+import Tag from "./Tag";
+
+export default function Card({ id, url, title, bookmarkTags }) {
   const [isDeleted, setIsDeleted] = useState(false);
   const { currentUser } = useAuthContext();
   const [randomColor, setRandomColor] = useState();
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
+    if (bookmarkTags.length !== 0) {
+      setTags(bookmarkTags);
+    }
+
     const colors = [
       'bg-red-300',
       'bg-blue-300',
@@ -61,10 +68,10 @@ export default function Card({ id, url, title }) {
         </div>
       </Link>
       <div className=" flex justify-between px-2 py-1">
-        <div>
-          <button className="rounded-full bg-emerald-200 text-xs px-2 py-1 hover:bg-emerald-400 hover:scale-95">
-            #タグ
-          </button>
+        <div className="flex-1 flex-wrap flex gap-1">
+          {tags.length !==0 && tags.map((tag) => {
+            return <Tag key={tag.id} name={tag.name} />
+          })}
         </div>
         <div>
           <button onClick={onClickEdit}>

@@ -44,7 +44,7 @@ export default function Page() {
       {dataLoading && !bookmarks.length ? <NoContents /> : <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl mx-auto border-4">
       {bookmarks.map((bookmark) => {
         return (
-          <Card key={bookmark.id} id={bookmark.id} url={bookmark.url} title={bookmark.title} />
+          <Card key={bookmark.id} id={bookmark.id} url={bookmark.url} title={bookmark.title} bookmarkTags={bookmark.tags} />
         )
       })}
     </div>
