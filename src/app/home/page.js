@@ -32,9 +32,8 @@ export default function Page() {
         };
         // console.log(currentUser)
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks`, config);
-        setBookmarks(res.data.data)
+        setBookmarks(res.data.bookmarks)
         setDataLoading(true);
-        // console.log(res.data.data);
       }
     }
     getBookmarks();
@@ -45,7 +44,7 @@ export default function Page() {
       {dataLoading && !bookmarks.length ? <NoContents /> : <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl mx-auto border-4">
       {bookmarks.map((bookmark) => {
         return (
-          <Card key={bookmark.id} id={bookmark.attributes.id} url={bookmark.attributes.url} title={bookmark.attributes.title} />
+          <Card key={bookmark.id} id={bookmark.id} url={bookmark.url} title={bookmark.title} />
         )
       })}
     </div>
