@@ -67,13 +67,13 @@ export default function Card({ id, url, title, bookmarkTags }) {
           <p className="text-center text-sm">{title}</p>
         </div>
       </Link>
-      <div className=" flex justify-between px-2 py-1">
+      <div className="flex justify-between place-items-end px-2 py-1">
         <div className="flex-1 flex-wrap flex gap-1">
           {tags.length !==0 && tags.map((tag) => {
             return <Tag key={tag.id} name={tag.name} />
           })}
         </div>
-        <div>
+        <div className="flex items-center justify-center">
           <button onClick={onClickEdit}>
             <Image
               src="/pencil.svg"
