@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function AddTag({ tags, setTags }) {
   const [form, setForm] = useState(false);
   const [input, setInput] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+  const formRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (formRef.current && !formRef.current.contains(event.target)) {
+      setForm(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const openForm = () => {
     setForm(true);
@@ -26,18 +41,29 @@ export default function AddTag({ tags, setTags }) {
     setInput(e.target.value);
   };
 
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+  
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
     <>
       {form ? (
         <>
           <form
             onSubmit={handleOnSubmit}
-            className="flex items-center justify-center rounded-full border pl-1"
+            ref={formRef}
+            className={`flex items-center justify-center rounded-full border pl-1 ${isFocused ? "border-blue-400" : ""}`}
           >
             <input
               type="text"
               value={input}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
               className="focus:outline-none text-xs w-20"
             />
             <button
