@@ -6,6 +6,7 @@ import Image from"next/image";
 import { useAuthContext } from "../context/AuthContext";
 
 import Tag from "./Tag";
+import AddTag from "./AddTag";
 
 export default function Card({ id, url, title, bookmarkTags }) {
   const [isDeleted, setIsDeleted] = useState(false);
@@ -72,6 +73,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
           {tags.length !==0 && tags.map((tag) => {
             return <Tag key={tag.id} name={tag.name} />
           })}
+          <AddTag />
         </div>
         <div className="flex items-center justify-center">
           <button onClick={onClickEdit}>
