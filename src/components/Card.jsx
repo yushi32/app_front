@@ -73,7 +73,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
           {tags.length !==0 && tags.map((tag) => {
             return <Tag key={tag.id} name={tag.name} />
           })}
-          <AddTag tags={tags} setTags={setTags} />
+          <AddTag tags={tags} setTags={setTags} bookmarkId={id} />
         </div>
         <div className="flex items-center justify-center">
           <button onClick={onClickEdit}>
