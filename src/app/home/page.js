@@ -1,17 +1,16 @@
 'use client';
 
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+import { useFetchData } from "../../hooks/useFetchData";
 import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
 
 export default function Page() {
-  const [bookmarks, setBookmarks] = useState([]);
-  const [dataLoading, setDataLoading] = useState(false);
+  const { bookmarks, dataLoading } = useFetchData();
   const { currentUser, loading } = useAuthContext();
   const router = useRouter();
 
@@ -20,24 +19,6 @@ export default function Page() {
       router.push("/");
     }
   }, [currentUser, loading]);
-
-  useEffect(() => {
-    const getBookmarks = async () => {
-      const token = await currentUser?.getIdToken();
-      if (!token) {
-        return
-      } else {
-        const config = {
-          headers: { authorization: `Bearer ${token}` },
-        };
-        // console.log(currentUser)
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks`, config);
-        setBookmarks(res.data.bookmarks)
-        setDataLoading(true);
-      }
-    }
-    getBookmarks();
-  }, [currentUser]);
 
   return (
     <>
