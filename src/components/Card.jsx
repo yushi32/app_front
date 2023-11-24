@@ -1,16 +1,14 @@
-import axios from "axios";
 import { useState, useEffect } from "react"
 import Link from "next/link";
 import Image from"next/image";
 
-import { useAuthContext } from "../context/AuthContext";
+import { useBookmark } from "../hooks/useBookmark";
 
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
 export default function Card({ id, url, title, bookmarkTags }) {
-  const [isDeleted, setIsDeleted] = useState(false);
-  const { currentUser } = useAuthContext();
+  const { isDeleted, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [tags, setTags] = useState([]);
 
@@ -33,25 +31,6 @@ export default function Card({ id, url, title, bookmarkTags }) {
     const randomIndex = Math.floor(Math.random() * colors.length);
     setRandomColor(colors[randomIndex]);
   }, []); 
-
-  const onClickDelete = async () => {
-    const token = await currentUser?.getIdToken();
-      if (!token) {
-        return
-      } else {
-        const config = {
-          headers: { authorization: `Bearer ${token}` },
-        };
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${id}`, config);
-      console.log(res);
-      if (res.status === 204) {
-        setIsDeleted(true);
-        console.log('Successfully deleted');
-      } else {
-        console.log('Failed to delete');
-      }
-    }
-  };
 
   if (isDeleted) {
     return null;
@@ -85,7 +64,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
               className="transform hover:rotate-12 transition-transform duration-300"
             />
           </button>
-          <button onClick={onClickDelete}>
+          <button onClick={deleteBookmark}>
             <Image
               src="/delete.svg"
               alt="delete"
