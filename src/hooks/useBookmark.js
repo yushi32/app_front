@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { useAuthContext } from "../context/AuthContext";
 
-export default function useBookmark() {
+export function useBookmark() {
   const [isDeleted, setIsDeleted] = useState(false);
   const { currentUser } = useAuthContext();
 

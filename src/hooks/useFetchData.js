@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import { useAuthContext } from "../context/AuthContext";
 
-export default function useFetchData() {
+export function useFetchData() {
   const [bookmarks, setBookmarks] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
   const { currentUser, loading } = useAuthContext();
