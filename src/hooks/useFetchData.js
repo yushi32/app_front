@@ -9,7 +9,7 @@ export function useFetchData() {
   const [filteredBookmarks, setFilteredBookmarks] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
   const { currentUser, loading } = useAuthContext();
-  const { selectedTag, setSelectedTag } = useSearchContext();
+  const { selectedTags, setSelectedTags } = useSearchContext();
 
   const setIdToken = async () => {
     const token = await currentUser?.getIdToken();
@@ -34,7 +34,7 @@ export function useFetchData() {
         const bookmarks = await fetchBookmarks();
         setBookmarks(bookmarks);
         setFilteredBookmarks(bookmarks);
-        setSelectedTag(null);
+        setSelectedTags([]);
         setDataLoading(true);
       }
     };
@@ -42,18 +42,19 @@ export function useFetchData() {
   }, [currentUser]);
 
   useEffect(() => {
-    if (!selectedTag) {
-      setFilteredBookmarks(bookmarks)
+    if (!selectedTags.length) {
+      setFilteredBookmarks(bookmarks);
     } else {
-      const result = bookmarks.filter((bookmark) => {
-        return bookmark.tags.some((tag) => tag.name === selectedTag);
-      });
+      const result = bookmarks.filter((bookmark) =>
+        selectedTags.every((selectedTag) =>
+          bookmark.tags.some((tag) => tag.name === selectedTag)
+        )
+      );
       setFilteredBookmarks(result);
     }
-  }, [selectedTag]);
+  }, [selectedTags]);
 
   return {
-    bookmarks,
     filteredBookmarks,
     dataLoading
   };

@@ -5,26 +5,36 @@ import { createContext, useContext, useState } from "react";
 const SearchContext = createContext();
 
 export default function SearchProvider({ children }) {
-  const [selectedTag, setSelectedTag] = useState();
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const filterByTag = (tagName) => {
-    setSelectedTag(tagName);
+    const newSelectedTags = selectedTags.filter(tag => tag !== tagName);
+    setSelectedTags(newSelectedTags);
+  };
+
+  const unselectTag = (tagName) => {
+    const newSelectedTags = [...selectedTags, tagName];
+    setSelectedTags(newSelectedTags);
   };
 
   const removeFilter = () => {
-    setSelectedTag(null);
+    setSelectedTags([]);
+  };
+
+  const isSelected = (tagName) => {
+    return selectedTags.includes(tagName)
   };
 
   const handleOnClickTag = (tagName) => {
-    if (selectedTag) {
-      removeFilter();
-    } else {
-      filterByTag(tagName);
+    if (isSelected(tagName)) {
+      filterByTag(tagName)
+    } else if (!isSelected(tagName)) {
+      unselectTag(tagName);
     }
   };
 
   return (
-    <SearchContext.Provider value={{ selectedTag, setSelectedTag, handleOnClickTag }}>
+    <SearchContext.Provider value={{ selectedTags, setSelectedTags, handleOnClickTag }}>
       {children}
     </SearchContext.Provider>
   );
