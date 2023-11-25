@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 
 const SearchContext = createContext();
 
-export function SearchProvider({ children }) {
+export default function SearchProvider({ children }) {
   const [selectedTag, setSelectedTag] = useState();
 
   const filterByTag = (tagName) => {
