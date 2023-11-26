@@ -1,61 +1,34 @@
 import { useState, useEffect, useRef } from "react";
 
 import { useBookmark } from "../hooks/useBookmark";
+import { useToggleForm } from "../hooks/useToggleForm";
 
 export default function AddTag({ tags, setTags, bookmarkId }) {
-  const [form, setForm] = useState(false);
   const [input, setInput] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
-  const formRef = useRef(null);
   const { addTagToBookmark } = useBookmark();
-
-  const handleClickOutside = (event) => {
-    if (formRef.current && !formRef.current.contains(event.target)) {
-      setForm(false);
-    }
-  };
-
-  // フォームが表示された時にフォームにフォーカスを当てる
-  useEffect(() => {
-    if (form && formRef.current) {
-      formRef.current.querySelector("input").focus();
-    }
-  }, [form]);
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const openForm = () => {
-    setForm(true);
-  };
-
-  const closeForm = () => {
-    setForm(false);
-  };
+  const {
+    form,
+    isFocused,
+    formRef,
+    setForm,
+    openForm,
+    closeForm,
+    handleFocus,
+    handleBlur
+  } = useToggleForm();
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (input !== '') {
       const newTags = await addTagToBookmark(bookmarkId, input);
       setTags(newTags);
+      setInput('');
       setForm(false);
     }
   };
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
-  };
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-  
-  const handleBlur = () => {
-    setIsFocused(false);
   };
 
   return (
