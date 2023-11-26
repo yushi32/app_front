@@ -4,8 +4,8 @@ export default function Tag({ name }) {
   const { handleOnClickTag } = useSearchContext();
 
   const handleOnClick = () => {
-    handleOnClickTag(name)
-  }
+    handleOnClickTag(name);
+  };
 
   return (
     <button

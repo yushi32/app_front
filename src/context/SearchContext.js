@@ -22,12 +22,12 @@ export default function SearchProvider({ children }) {
   };
 
   const isSelected = (tagName) => {
-    return selectedTags.includes(tagName)
+    return selectedTags.includes(tagName);
   };
 
   const handleOnClickTag = (tagName) => {
     if (isSelected(tagName)) {
-      filterByTag(tagName)
+      filterByTag(tagName);
     } else if (!isSelected(tagName)) {
       unselectTag(tagName);
     }
