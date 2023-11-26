@@ -64,7 +64,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
               className="transform hover:rotate-12 transition-transform duration-300"
             />
           </button>
-          <button onClick={deleteBookmark}>
+          <button onClick={() => deleteBookmark(id)}>
             <Image
               src="/delete.svg"
               alt="delete"
