@@ -8,12 +8,12 @@ export default function SearchProvider({ children }) {
   const [selectedTags, setSelectedTags] = useState([]);
 
   const filterByTag = (tagName) => {
-    const newSelectedTags = selectedTags.filter(tag => tag !== tagName);
+    const newSelectedTags = [...selectedTags, tagName];
     setSelectedTags(newSelectedTags);
   };
 
   const unselectTag = (tagName) => {
-    const newSelectedTags = [...selectedTags, tagName];
+    const newSelectedTags = selectedTags.filter(tag => tag !== tagName);
     setSelectedTags(newSelectedTags);
   };
 
@@ -27,9 +27,9 @@ export default function SearchProvider({ children }) {
 
   const handleOnClickTag = (tagName) => {
     if (isSelected(tagName)) {
-      filterByTag(tagName);
-    } else if (!isSelected(tagName)) {
       unselectTag(tagName);
+    } else {
+      filterByTag(tagName);
     }
   };
 
