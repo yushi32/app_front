@@ -1,14 +1,13 @@
-import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 
-import { useAuthContext } from "../context/AuthContext";
+import { useBookmark } from "../hooks/useBookmark";
 
 export default function AddTag({ tags, setTags, bookmarkId }) {
   const [form, setForm] = useState(false);
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const formRef = useRef(null);
-  const { currentUser } = useAuthContext();
+  const { addTagToBookmark } = useBookmark();
 
   const handleClickOutside = (event) => {
     if (formRef.current && !formRef.current.contains(event.target)) {
@@ -41,21 +40,9 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (input !== '') {
-      const newTag = { id: tags.length + 1, name: input };
-      setTags([...tags, newTag]);
-      setInput("");
+      const newTags = await addTagToBookmark(bookmarkId, input);
+      setTags(newTags);
       setForm(false);
-
-      const token = await currentUser?.getIdToken();
-      if (!token) {
-        return
-      } else {
-        const config = {
-          headers: { authorization: `Bearer ${token}` }
-        };
-        const res = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${bookmarkId}`,{ bookmark: { tag_name: input }},  config);
-        console.log(res);
-      }
     }
   };
 
