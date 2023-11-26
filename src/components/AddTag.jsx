@@ -16,6 +16,13 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
     }
   };
 
+  // フォームが表示された時にフォームにフォーカスを当てる
+  useEffect(() => {
+    if (form && formRef.current) {
+      formRef.current.querySelector("input").focus();
+    }
+  }, [form]);
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
