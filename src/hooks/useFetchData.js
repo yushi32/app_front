@@ -1,45 +1,43 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import useSWR from 'swr';
 
 import { useAuthContext } from "../context/AuthContext";
 import { useSearchContext } from "../context/SearchContext";
 
+const fetcher = async (url, currentUser) => {
+  return currentUser?.getIdToken()
+    .then((token) => {
+      if (!token) {
+        throw new Error('No token found');
+      }
+      const config = {
+        headers: { authorization: `Bearer ${token}` },
+      };
+      return axios.get(`${process.env.NEXT_PUBLIC_API_URL}${url}`, config);
+    })
+    .then((res) => {
+      return res.data.bookmarks;
+    });
+};
+
 export function useFetchData() {
-  const [bookmarks, setBookmarks] = useState([]);
+  const { currentUser, loading } = useAuthContext();
+  const { data: bookmarks, error } = useSWR(
+    currentUser ? [`/api/v1/bookmarks`, currentUser] : null, 
+    ([url, currentUser]) => fetcher(url, currentUser)
+  );
   const [filteredBookmarks, setFilteredBookmarks] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
-  const { currentUser, loading } = useAuthContext();
   const { selectedTags, setSelectedTags } = useSearchContext();
 
-  const setIdToken = async () => {
-    const token = await currentUser?.getIdToken();
-    return token;
-  };
-
-  const fetchBookmarks = async () => {
-    const token = await setIdToken();
-    if (!token) {
-      throw new Error('No token found');
-    }
-    const config = {
-      headers: { authorization: `Bearer ${token}` },
-    };
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks`, config);
-    return res.data.bookmarks;
-  };
-
   useEffect(() => {
-    const initPage = async () => {
-      if (!loading) {
-        const bookmarks = await fetchBookmarks();
-        setBookmarks(bookmarks);
-        setFilteredBookmarks(bookmarks);
-        setSelectedTags([]);
-        setDataLoading(true);
-      }
-    };
-    initPage();
-  }, [currentUser]);
+    if (!loading && bookmarks) {
+      setFilteredBookmarks(bookmarks);
+      setSelectedTags([]);
+      setDataLoading(true);
+    }
+  }, [bookmarks]);
 
   useEffect(() => {
     if (!selectedTags.length) {
