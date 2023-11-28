@@ -21,7 +21,7 @@ export default function Page() {
   }, [currentUser, loading]);
 
   if (isLoading) {
-    return <div className="flex-grow"></div>;
+    return <div className="flex-grow flex items-center justify-center text-xl">Loading...</div>;
   }
 
   return (
