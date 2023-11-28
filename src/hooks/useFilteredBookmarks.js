@@ -10,11 +10,12 @@ export function useFilteredBookmarks() {
   const filteredBookmarks = useMemo(() => {
     if (!bookmarks) return [];
     if (selectedTags.length === 0) return bookmarks;
-    return bookmarks.filter((bookmark) =>
+    const result = bookmarks.filter((bookmark) =>
       selectedTags.every((selectedTag) =>
         bookmark.tags.some((tag) => tag.name === selectedTag)
       )
     );
+    return result.length > 0 ? result : bookmarks;
   }, [bookmarks, selectedTags]);
 
   return {

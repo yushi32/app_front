@@ -24,6 +24,7 @@ export function useBookmark() {
     const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${id}`, config);
     if (res.status === 204) {
       setIsDeleted(true);
+      mutate([`/api/v1/bookmarks`, currentUser]);
       console.log('Successfully deleted');
     } else {
       console.log('Failed to delete');
