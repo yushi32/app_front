@@ -1,16 +1,15 @@
-import { useState, useEffect, useRef } from "react";
-
 import { useBookmark } from "../hooks/useBookmark";
 import { useToggleForm } from "../hooks/useToggleForm";
 
 export default function AddTag({ tags, setTags, bookmarkId }) {
-  const [input, setInput] = useState('');
   const { addTagToBookmark } = useBookmark();
   const {
     form,
+    input,
     isFocused,
     formRef,
     setForm,
+    setInput,
     openForm,
     closeForm,
     handleFocus,
