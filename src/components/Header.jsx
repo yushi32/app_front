@@ -7,6 +7,7 @@ import { useEffect } from "react";
 
 import SignInButton from "./SignInButton";
 import SignOutButton from "./SignOutButton";
+import ExtensionButton from "./ExtensionButton";
 
 import { useAuthContext } from "../context/AuthContext";
 
@@ -24,7 +25,14 @@ export default function Header() {
             <h2 className="text-lg">Laterless</h2>
           </Link>
         </nav>
-        {currentUser ? <SignOutButton logout={logout} /> : <SignInButton text={"ログイン"} />}
+          {currentUser ? (
+            <div className="flex items-center justify-center space-x-4 px-2">
+              <ExtensionButton textSize={'text-xs'} />
+              <SignOutButton logout={logout} />
+            </div>
+          ) : (
+            <SignInButton text={"ログイン"} />
+          )}
       </div>
     </header>   
   )
