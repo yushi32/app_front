@@ -10,17 +10,17 @@ export function useBookmark() {
 
   const setIdToken = async () => {
     const token = await currentUser?.getIdToken();
-    return token;
-  };
-
-  const deleteBookmark = async (id) => {
-    const token = await setIdToken();
     if (!token) {
       throw new Error('No token found');
     }
     const config = {
       headers: { authorization: `Bearer ${token}` },
     };
+    return config;
+  };
+
+  const deleteBookmark = async (id) => {
+    const config = await setIdToken();
     const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${id}`, config);
     if (res.status === 204) {
       setIsDeleted(true);
@@ -31,16 +31,10 @@ export function useBookmark() {
   };
 
   const addTagToBookmark = async (bookmarkId, newTagName) => {
-    const token = await setIdToken();
-    if (!token) {
-      throw new Error('No token found');
-    }
-    const config = {
-      headers: { authorization: `Bearer ${token}` },
-    };
+    const config = await setIdToken();
     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${bookmarkId}`,
-      { bookmark: { tag_name: newTagName }},
+      { bookmark: { tag_name: newTagName } },
       config
     );
     mutate([`/api/v1/bookmarks`, currentUser]);
