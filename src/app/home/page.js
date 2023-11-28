@@ -20,9 +20,13 @@ export default function Page() {
     }
   }, [currentUser, loading]);
 
+  if (isLoading) {
+    return <div className="flex-grow"></div>;
+  }
+
   return (
     <>
-      {!isLoading && bookmarks.length === 0 ? (
+      {bookmarks.length === 0 ? (
         <NoContents />
       ) : (
         <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl w-full mx-auto border-4">
