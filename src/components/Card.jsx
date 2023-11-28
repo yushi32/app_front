@@ -61,7 +61,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
               alt="edit"
               width={24}
               height={24}
-              className="transform hover:rotate-12 transition-transform duration-300"
+              className="hover:rotate-12 transition-transform duration-300"
             />
           </button>
           <button onClick={() => deleteBookmark(id)}>
@@ -70,7 +70,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
               alt="delete"
               width={24}
               height={24}
-              className="transform hover:rotate-12 transition-transform duration-300"
+              className="hover:rotate-12 transition-transform duration-300"
             />
           </button>
         </div>
