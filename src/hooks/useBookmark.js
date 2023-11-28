@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { mutate } from "swr";
 
 import { useAuthContext } from "../context/AuthContext";
 
@@ -42,6 +43,7 @@ export function useBookmark() {
       { bookmark: { tag_name: newTagName }},
       config
     );
+    mutate([`/api/v1/bookmarks`, currentUser]);
     return res.data.bookmark.tags;
   };
 
