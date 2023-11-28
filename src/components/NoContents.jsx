@@ -18,7 +18,7 @@ export default function NoContent() {
           おや？まだ保存したブックマークがないようですね。
         </div>
         <div>
-          ヘッダーの入力窓にURLを入力して Laterless を始めましょう。
+          Chrome拡張機能をインストールして Laterless を始めましょう。
         </div>
       </div>
       <div className="flex-grow flex items-center justify-center">
