@@ -8,6 +8,7 @@ import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
+import Sidebar from "../../components/Sidebar";
 
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
@@ -29,12 +30,15 @@ export default function Page() {
       {bookmarks.length === 0 ? (
         <NoContents />
       ) : (
-        <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl w-full mx-auto border-4">
-        {bookmarks.map((bookmark) => {
-          return (
-            <Card key={bookmark.id} id={bookmark.id} url={bookmark.url} title={bookmark.title} bookmarkTags={bookmark.tags} />
-          );
-        })}
+        <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto my-12">
+          <Sidebar />
+          <div className="col-span-4 grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8">
+            {bookmarks.map((bookmark) => {
+              return (
+                <Card key={bookmark.id} id={bookmark.id} url={bookmark.url} title={bookmark.title} bookmarkTags={bookmark.tags} />
+              );
+            })}
+          </div>
         </div>
       )}
     </>

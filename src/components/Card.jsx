@@ -39,7 +39,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
   const onClickEdit = () => {};
 
   return (
-    <div className="col-span-1 rounded-md shadow-md hover:shadow-2xl mt-4 mx-1 h-64 flex flex-col justify-between border-6">
+    <div className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-64 flex flex-col justify-between border-6">
       <Link href={url} className="flex flex-col h-full">
         <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}></div>
         <div className="px-3 pt-3 pb-1 text-center overflow-scroll h-[50%] flex flex-col justify-center">
