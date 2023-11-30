@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useFetchFolders } from "../hooks/useFetchFolders";
 
 import Folder from "./Folder";
+import AddFolder from "./AddFolder";
 
 export default function Sidebar() {
   const { folders, isLoading } = useFetchFolders();
@@ -16,11 +17,7 @@ export default function Sidebar() {
           width={32}
           height={32}
         />
-        <button
-          className="rounded-full bg-emerald-200 text-lg px-2 hover:bg-emerald-400 hover:scale-95 border border-emerald-200 hover:border-emerald-400"
-        >
-          +
-        </button>
+        <AddFolder />
       </div>
       <Folder text={'All'} />
       {folders?.map((folder) => {
