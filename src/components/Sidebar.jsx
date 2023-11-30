@@ -1,8 +1,12 @@
 import Image from "next/image";
 
+import { useFetchFolders } from "../hooks/useFetchFolders";
+
 import Folder from "./Folder";
 
 export default function Sidebar() {
+  const { folders, isLoading } = useFetchFolders();
+
   return (
     <div className="col-span-1 flex flex-col border-r-2 px-4">
       <div className="flex items-center justify-center justify-between pb-4">
@@ -19,8 +23,9 @@ export default function Sidebar() {
         </button>
       </div>
       <Folder text={'All'} />
-      <Folder text={'フォルダ'} />
-      <Folder text={'UIコンポーネントライブラリ'} />
+      {folders?.map((folder) => {
+        return <Folder key={folder.id} name={folder.name} children={folder.children} />;
+      })}
     </div>
   );
 }

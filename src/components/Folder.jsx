@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function Folder({ text }) {
+export default function Folder({ text, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleOnClick = (e) => {
@@ -18,7 +18,7 @@ export default function Folder({ text }) {
         onClick={handleOnClick}
         className="flex-1 text-left text-sm font-medium h-full py-2.5 pl-2"
       >
-        {text}
+        {text || name}
       </button>
       {isHovered && (
         <button
