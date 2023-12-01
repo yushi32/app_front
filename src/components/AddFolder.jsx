@@ -1,4 +1,5 @@
 import { useToggleForm } from "../hooks/useToggleForm";
+import { useFolder } from "../hooks/useFolder";
 
 export default function AddTag() {
   const {
@@ -13,11 +14,12 @@ export default function AddTag() {
     handleFocus,
     handleBlur
   } = useToggleForm();
+  const { createFolder } = useFolder();
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (input !== '') {
-      console.log(input);
+      await createFolder(input);
       setInput('');
       setForm(false);
     }
