@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 import { useToggleForm } from "../hooks/useToggleForm";
@@ -26,13 +26,16 @@ export default function Folder({ text, id, name, children }) {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     console.log(input);
-    setInput('');
-    setForm(false)
+    setForm(false);
   };
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
+
+  useEffect(() => {
+    setInput(name);
+  }, []);
 
   return (
     <>
@@ -70,7 +73,7 @@ export default function Folder({ text, id, name, children }) {
             onClick={openChildFolder}
             className="flex-1 text-left text-sm font-medium h-full py-2.5 pl-2"
           >
-            {text || name}
+            {input || text || name}
           </button>
         )}
         {!form && isHovered && (
