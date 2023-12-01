@@ -1,7 +1,7 @@
 import { useToggleForm } from "../hooks/useToggleForm";
 import { useFolder } from "../hooks/useFolder";
 
-export default function AddTag() {
+export default function AddFolder() {
   const {
     form,
     input,
