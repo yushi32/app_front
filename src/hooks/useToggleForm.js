@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export function useToggleForm() {
+export function useToggleForm(clearInput=true) {
   const [form, setForm] = useState(false);
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -25,7 +25,9 @@ export function useToggleForm() {
   const handleClickOutside = (event) => {
     if (formRef.current && !formRef.current.contains(event.target)) {
       setForm(false);
-      setInput('');
+      if (clearInput) {
+        setInput('');
+      }
     }
   };
 

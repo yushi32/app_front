@@ -18,7 +18,7 @@ export default function Folder({ text, id, name, children }) {
     closeForm,
     handleFocus,
     handleBlur
-  } = useToggleForm();
+  } = useToggleForm(false);
   const { editFolder } = useFolder();
 
   const openChildFolder = () => {
