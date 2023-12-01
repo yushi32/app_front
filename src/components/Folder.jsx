@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 import { useToggleForm } from "../hooks/useToggleForm";
+import { useFolder } from "../hooks/useFolder";
 
 export default function Folder({ text, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -18,6 +19,7 @@ export default function Folder({ text, id, name, children }) {
     handleFocus,
     handleBlur
   } = useToggleForm();
+  const { editFolder } = useFolder();
 
   const openChildFolder = () => {
     setIsOpen(prev => !prev);
@@ -25,8 +27,10 @@ export default function Folder({ text, id, name, children }) {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(input);
-    setForm(false);
+    if (input !== 0) {
+      await editFolder(id, input);
+      setForm(false);
+    }
   };
 
   const handleInputChange = (e) => {

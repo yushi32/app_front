@@ -21,7 +21,7 @@ export default function Sidebar() {
       </div>
       <Folder text={'All'} />
       {folders?.map((folder) => {
-        return <Folder key={folder.id} name={folder.name} children={folder.children} />;
+        return <Folder key={folder.id} id={folder.id} name={folder.name} children={folder.children} />;
       })}
     </div>
   );
