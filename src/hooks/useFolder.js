@@ -36,7 +36,22 @@ export function useFolder() {
     }
   };
 
+  const editFolder = async (id, input) => {
+    const config = await setIdToken();
+    const data ={
+      folder: { name: input }
+    };
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/folders/${id}`,
+      data,
+      config
+    );
+    mutate([`/api/v1/folders`, currentUser]);
+    console.log(res);
+  };
+
   return {
-    createFolder
+    createFolder,
+    editFolder
   };
 };
