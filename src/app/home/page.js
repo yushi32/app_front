@@ -20,11 +20,13 @@ export default function Page() {
 
   const handleDragEnd = (e) => {
     console.log(e);
-    // e.active.id: ブックマークのid（ドラッグ要素）
-    const bookmarkId = e.active.id;
-    // e.over.id: フォルダのid（ドロップ要素）
-    const folderId = e.over.id;
-    putBookmarkInFolder(bookmarkId, folderId);
+    if (e.over) {
+      // e.active.id: ブックマークのid（ドラッグ要素）
+      const bookmarkId = e.active.id;
+      // e.over.id: フォルダのid（ドロップ要素）
+      const folderId = e.over.id;
+      putBookmarkInFolder(bookmarkId, folderId);
+    }
   };
 
   useEffect(() => {
