@@ -25,7 +25,7 @@ export default function Folder({ text, id, name, children }) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
-  const { setSelectedFolderId } = useSearchContext();
+  const { selectedFolderId, setSelectedFolderId } = useSearchContext();
 
   const openChildFolder = () => {
     setIsOpen(prev => !prev);
@@ -58,7 +58,16 @@ export default function Folder({ text, id, name, children }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         ref={setNodeRef}
-        className={`flex items-center justify-center ${!form && 'justify-between'} border-l-2 border-transparent hover:border-emerald-200 ${isOver ? 'bg-blue-200' : undefined}`}
+        className={`
+          flex
+          items-center
+          justify-center
+          ${!form && 'justify-between'}
+          border-l-2
+          ${selectedFolderId === id ? 'border-emerald-200' : 'border-transparent'}
+          hover:border-emerald-200
+          ${isOver ? 'bg-blue-200' : undefined}
+        `}
       >
         {form ? (
           <>
