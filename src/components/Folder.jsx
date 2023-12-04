@@ -4,6 +4,7 @@ import { useDroppable } from '@dnd-kit/core';
 
 import { useToggleForm } from "../hooks/useToggleForm";
 import { useFolder } from "../hooks/useFolder";
+import { useSearchContext } from "../context/SearchContext";
 
 export default function Folder({ text, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -24,9 +25,15 @@ export default function Folder({ text, id, name, children }) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
+  const { setSelectedFolderId } = useSearchContext();
 
   const openChildFolder = () => {
     setIsOpen(prev => !prev);
+    if (!isOpen) {
+      setSelectedFolderId(id);
+    } else {
+      setSelectedFolderId(null);
+    }
   };
 
   const handleOnSubmit = async (e) => {

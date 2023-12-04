@@ -6,6 +6,7 @@ const SearchContext = createContext();
 
 export default function SearchProvider({ children }) {
   const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedFolderId, setSelectedFolderId] = useState();
 
   const filterByTag = (tagName) => {
     const newSelectedTags = [...selectedTags, tagName];
@@ -34,7 +35,7 @@ export default function SearchProvider({ children }) {
   };
 
   return (
-    <SearchContext.Provider value={{ selectedTags, setSelectedTags, handleOnClickTag }}>
+    <SearchContext.Provider value={{ selectedTags, setSelectedTags, selectedFolderId, setSelectedFolderId, handleOnClickTag }}>
       {children}
     </SearchContext.Provider>
   );

@@ -5,18 +5,27 @@ import { useSearchContext } from "../context/SearchContext";
 
 export function useFilteredBookmarks() {
   const { bookmarks, error } = useFetchData();
-  const { selectedTags } = useSearchContext();
+  const { selectedTags, selectedFolderId } = useSearchContext();
 
   const filteredBookmarks = useMemo(() => {
     if (!bookmarks) return [];
-    if (selectedTags.length === 0) return bookmarks;
-    const result = bookmarks.filter((bookmark) =>
-      selectedTags.every((selectedTag) =>
-        bookmark.tags.some((tag) => tag.name === selectedTag)
-      )
-    );
-    return result.length > 0 ? result : bookmarks;
-  }, [bookmarks, selectedTags]);
+
+    let result = bookmarks;
+    
+    if (selectedFolderId) {
+      result = result.filter((bookmark) => bookmark.folder_id === selectedFolderId);
+    }
+
+    if (selectedTags.length > 0) {
+      result = result.filter((bookmark) =>
+        selectedTags.every((selectedTag) =>
+          bookmark.tags.some((tag) => tag.name === selectedTag)
+        )
+      );
+    }
+
+    return result;
+  }, [bookmarks, selectedTags, selectedFolderId]);
 
   return {
     bookmarks: filteredBookmarks,
