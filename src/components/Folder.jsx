@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useDroppable } from '@dnd-kit/core';
 
 import { useToggleForm } from "../hooks/useToggleForm";
 import { useFolder } from "../hooks/useFolder";
@@ -20,6 +21,9 @@ export default function Folder({ text, id, name, children }) {
     handleBlur
   } = useToggleForm(false);
   const { editFolder } = useFolder();
+  const { isOver, setNodeRef } = useDroppable({
+    id: id,
+  });
 
   const openChildFolder = () => {
     setIsOpen(prev => !prev);
@@ -46,7 +50,8 @@ export default function Folder({ text, id, name, children }) {
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`flex items-center justify-center ${!form && 'justify-between'} border-l-2 border-transparent hover:border-emerald-200`}
+        ref={setNodeRef}
+        className={`flex items-center justify-center ${!form && 'justify-between'} border-l-2 border-transparent hover:border-emerald-200 ${isOver ? 'bg-blue-200' : undefined}`}
       >
         {form ? (
           <>

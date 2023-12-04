@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link";
 import Image from"next/image";
+import { useDraggable } from '@dnd-kit/core';
 
 import { useBookmark } from "../hooks/useBookmark";
 
@@ -11,6 +12,9 @@ export default function Card({ id, url, title, bookmarkTags }) {
   const { isDeleted, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [tags, setTags] = useState([]);
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: id,
+  });
 
   useEffect(() => {
     if (bookmarkTags.length !== 0) {
@@ -39,7 +43,12 @@ export default function Card({ id, url, title, bookmarkTags }) {
   const onClickEdit = () => {};
 
   return (
-    <div className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-64 flex flex-col justify-between border-6">
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-64 flex flex-col justify-between border-6"
+    >
       <Link href={url} className="flex flex-col h-full">
         <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}></div>
         <div className="px-3 pt-3 pb-1 text-center overflow-scroll h-[50%] flex flex-col justify-center">

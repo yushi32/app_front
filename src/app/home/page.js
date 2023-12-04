@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { DndContext } from '@dnd-kit/core';
 
 import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
 import { useAuthContext } from "../../context/AuthContext";
@@ -15,6 +16,10 @@ export default function Page() {
   const { currentUser, loading } = useAuthContext();
   const router = useRouter();
 
+  const handleDragEnd = (e) => {
+    console.log(e);
+  };
+
   useEffect(() => {
     if (!loading && !currentUser) {
       router.push("/");
@@ -26,7 +31,7 @@ export default function Page() {
   }
 
   return (
-    <>
+    <DndContext onDragEnd={handleDragEnd}>
       {bookmarks.length === 0 ? (
         <NoContents />
       ) : (
@@ -41,6 +46,6 @@ export default function Page() {
           </div>
         </div>
       )}
-    </>
+    </DndContext>
   );
 }
