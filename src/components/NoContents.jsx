@@ -12,7 +12,7 @@ export default function NoContent() {
   }, []); 
 
   return (
-    <div className="flex-grow flex flex-col items-center justify-center">
+    <div className="col-span-3 flex-grow flex flex-col items-center justify-center">
       <div className="text-center py-4 mt-4 mb-4">
         <div className="mb-4">
           おや？まだ保存したブックマークがないようですね。
