@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { DndContext } from '@dnd-kit/core';
 
 import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
+import { useBookmark } from "../../hooks/useBookmark";
 import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
@@ -13,11 +14,17 @@ import Sidebar from "../../components/Sidebar";
 
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
+  const { putBookmarkInFolder } = useBookmark();
   const { currentUser, loading } = useAuthContext();
   const router = useRouter();
 
   const handleDragEnd = (e) => {
     console.log(e);
+    // e.active.id: ブックマークのid（ドラッグ要素）
+    const bookmarkId = e.active.id;
+    // e.over.id: フォルダのid（ドロップ要素）
+    const folderId = e.over.id;
+    putBookmarkInFolder(bookmarkId, folderId);
   };
 
   useEffect(() => {
