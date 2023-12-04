@@ -47,7 +47,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
         </div>
       </Link>
       <div className="flex justify-between place-items-end px-2 py-1">
-        <div className="flex-1 flex-wrap flex gap-1">
+        <div className="flex-1 flex-wrap flex gap-1 items-center">
           {tags.length !==0 && tags.map((tag) => {
             return <Tag key={tag.id} name={tag.name} />
           })}
