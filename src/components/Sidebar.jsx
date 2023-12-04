@@ -19,7 +19,7 @@ export default function Sidebar() {
         />
         <AddFolder />
       </div>
-      <Folder text={'All'} />
+      <Folder text={'All'} id={65535} />
       {folders?.map((folder) => {
         return <Folder key={folder.id} id={folder.id} name={folder.name} children={folder.children} />;
       })}
