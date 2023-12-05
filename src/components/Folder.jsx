@@ -27,8 +27,14 @@ export default function Folder({ text, id, name, children }) {
   });
   const { selectedFolderId, handleFilteringByFolder } = useSearchContext();
 
-  const openChildFolder = () => {
-    setIsOpen(prev => !prev);
+  const handleClickFolder = () => {
+    const hasChildren = children?.length !== 0;
+    const isSelected = selectedFolderId === id;
+    if (!isOpen && hasChildren) {
+      setIsOpen(true);
+    } else if (isOpen && isSelected) {
+      setIsOpen(false)
+    }
     handleFilteringByFolder(id);
   };
 
@@ -99,7 +105,7 @@ export default function Folder({ text, id, name, children }) {
         </>
         ) : (
           <button
-            onClick={openChildFolder}
+            onClick={handleClickFolder}
             className="flex-1 text-left text-sm font-medium h-full py-2.5 pl-2"
           >
             {input || text || name}
