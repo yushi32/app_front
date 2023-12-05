@@ -27,6 +27,11 @@ export function useFetchFolders() {
     ([url, currentUser]) => fetcher(url, currentUser)
   );
 
+  const getFolderName = (id) => {
+    const folder = folders.find((folder) => folder.id === id);
+    return folder.name;
+  };
+
   useEffect(() => {
     if (error) console.log(`error message: ${error}`);
   }, [error]);
@@ -34,6 +39,7 @@ export function useFetchFolders() {
   return {
     folders,
     isLoading: !folders && !error,
-    error
+    error,
+    getFolderName
   };
 }

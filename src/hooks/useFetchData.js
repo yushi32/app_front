@@ -27,12 +27,15 @@ export function useFetchData() {
     ([url, currentUser]) => fetcher(url, currentUser)
   );
 
+  const totalBookmarksCount = bookmarks ? bookmarks.length : 0;
+
   useEffect(() => {
     if (error) console.log(`error message: ${error}`);
   }, [error]);
 
   return {
     bookmarks,
-    error
+    error,
+    totalBookmarksCount
   };
 }
