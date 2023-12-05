@@ -50,7 +50,8 @@ export default function Folder({ text, id, name, children }) {
 
   useEffect(() => {
     const isSelected = selectedFolderId === id;
-    if (isOpen && !isSelected) {
+    const isParent = children?.some((child) => child.id === selectedFolderId);
+    if (isOpen && !isSelected && !isParent) {
       setIsOpen(false);
     }
   }, [selectedFolderId]);
