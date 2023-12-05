@@ -48,6 +48,13 @@ export default function Folder({ text, id, name, children }) {
     setInput(name);
   }, []);
 
+  useEffect(() => {
+    const isSelected = selectedFolderId === id;
+    if (isOpen && !isSelected) {
+      setIsOpen(false);
+    }
+  }, [selectedFolderId]);
+
   return (
     <>
       <div
