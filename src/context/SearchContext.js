@@ -34,8 +34,16 @@ export default function SearchProvider({ children }) {
     }
   };
 
+  const handleFilteringByFolder = (folderId) => {
+    if (selectedFolderId === folderId) {
+      setSelectedFolderId(null);
+    } else {
+      setSelectedFolderId(folderId);
+    }
+  };
+
   return (
-    <SearchContext.Provider value={{ selectedTags, setSelectedTags, selectedFolderId, setSelectedFolderId, handleOnClickTag }}>
+    <SearchContext.Provider value={{ selectedTags, setSelectedTags, selectedFolderId, handleOnClickTag, handleFilteringByFolder }}>
       {children}
     </SearchContext.Provider>
   );

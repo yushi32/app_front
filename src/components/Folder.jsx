@@ -25,15 +25,11 @@ export default function Folder({ text, id, name, children }) {
   const { isOver, setNodeRef } = useDroppable({
     id: id,
   });
-  const { selectedFolderId, setSelectedFolderId } = useSearchContext();
+  const { selectedFolderId, handleFilteringByFolder } = useSearchContext();
 
   const openChildFolder = () => {
     setIsOpen(prev => !prev);
-    if (!isOpen) {
-      setSelectedFolderId(id);
-    } else {
-      setSelectedFolderId(null);
-    }
+    handleFilteringByFolder(id);
   };
 
   const handleOnSubmit = async (e) => {
