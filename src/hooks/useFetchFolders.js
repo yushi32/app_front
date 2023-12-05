@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import useSWR from 'swr';
 
 import { useAuthContext } from "../context/AuthContext";
@@ -27,6 +27,10 @@ export function useFetchFolders() {
     ([url, currentUser]) => fetcher(url, currentUser)
   );
 
+  const rootFolders = useMemo(() => {
+    return folders ? folders.filter((folder) => folder.parent_id === null) : [];
+  }, [folders]);
+
   const getFolderName = (id) => {
     const folder = folders.find((folder) => folder.id === id);
     return folder.name;
@@ -37,7 +41,7 @@ export function useFetchFolders() {
   }, [error]);
 
   return {
-    folders,
+    folders: rootFolders,
     isLoading: !folders && !error,
     error,
     getFolderName
