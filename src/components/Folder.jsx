@@ -5,6 +5,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { useToggleForm } from "../hooks/useToggleForm";
 import { useFolder } from "../hooks/useFolder";
 import { useSearchContext } from "../context/SearchContext";
+import { useFetchFolders } from "../hooks/useFetchFolders";
 
 export default function Folder({ text, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -27,13 +28,21 @@ export default function Folder({ text, id, name, children }) {
   });
   const { selectedFolderId, handleFilteringByFolder } = useSearchContext();
 
+  /**
+   * バックエンドから返却されるJSONには孫フォルダのデータが含まれないため、
+   * 孫フォルダのデータを取得する関数と管理するstateを定義
+   */
+  const { getChildFolders } = useFetchFolders();
+  const [childFolders, setChildFolders] = useState([]);
+
   const handleClickFolder = () => {
     const hasChildren = children?.length !== 0;
     const isSelected = selectedFolderId === id;
     if (!isOpen && hasChildren) {
       setIsOpen(true);
+      setChildFolders(getChildFolders(id));
     } else if (isOpen && isSelected) {
-      setIsOpen(false)
+      setIsOpen(false);
     }
     handleFilteringByFolder(id);
   };
@@ -126,7 +135,7 @@ export default function Folder({ text, id, name, children }) {
           </button>
         )}
       </div>
-      {isOpen && children && children?.map((folder) => {
+      {isOpen && childFolders?.map((folder) => {
         return (
           <div key={folder.id} className="pl-4">
             <Folder id={folder.id} name={folder.name} children={folder.children} />
