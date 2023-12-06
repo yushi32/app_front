@@ -112,28 +112,28 @@ export default function Folder({ text, id, name, children }) {
       >
         {form ? (
           <>
-          <form
-            onSubmit={handleOnSubmit}
-            ref={formRef}
-            className={`flex items-center my-1.5 ml-2 w-full rounded-full border ${isFocused ? "border-blue-400" : ""}`}
-          >
-            <input
-              type="text"
-              value={input}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              className="focus:outline-none rounded-full border border-transparent text-sm p-0.5 pl-2"
-            />
-            <button
-              type="button"
-              onClick={closeForm}
-              className="rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-6 ml-4"
+            <form
+              onSubmit={handleOnSubmit}
+              ref={formRef}
+              className={`flex items-center my-1.5 ml-2 w-full rounded-full border ${isFocused ? "border-blue-400" : ""}`}
             >
-              -
-            </button>
-          </form>
-        </>
+              <input
+                type="text"
+                value={input}
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                className="focus:outline-none rounded-full border border-transparent text-sm p-0.5 pl-2"
+              />
+              <button
+                type="button"
+                onClick={closeForm}
+                className="rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-6 ml-4"
+              >
+                -
+              </button>
+            </form>
+          </>
         ) : (
           <>
             {isHovered && 
