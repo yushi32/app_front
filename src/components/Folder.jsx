@@ -109,12 +109,12 @@ export default function Folder({ text, id, name, children }) {
               onChange={handleInputChange}
               onFocus={handleFocus}
               onBlur={handleBlur}
-              className={"focus:outline-none rounded-full border border-transparent text-sm p-0.5 pl-2"}
+              className="focus:outline-none rounded-full border border-transparent text-sm p-0.5 pl-2"
             />
             <button
               type="button"
               onClick={closeForm}
-              className={`rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-6 ml-4`}
+              className="rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-6 ml-4"
             >
               -
             </button>
