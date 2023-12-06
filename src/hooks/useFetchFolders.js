@@ -31,11 +31,6 @@ export function useFetchFolders() {
     return folders ? folders.filter((folder) => folder.parent_id === null) : [];
   }, [folders]);
 
-  const getFolderName = (id) => {
-    const folder = folders.find((folder) => folder.id === id);
-    return folder.name;
-  };
-
   const getFolder = (id) => {
     return folders.find((folder) => folder.id === id);
   };
@@ -52,7 +47,6 @@ export function useFetchFolders() {
     folders: rootFolders,
     isLoading: !folders && !error,
     error,
-    getFolderName,
     getFolder,
     getChildFolders
   };
