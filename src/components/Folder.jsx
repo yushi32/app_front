@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useDroppable } from '@dnd-kit/core';
+import { useDroppable, useDraggable } from '@dnd-kit/core';
 
 import { useToggleForm } from "../hooks/useToggleForm";
 import { useFolder } from "../hooks/useFolder";
@@ -23,9 +23,6 @@ export default function Folder({ text, id, name, children }) {
     handleBlur
   } = useToggleForm(false);
   const { editFolder } = useFolder();
-  const { isOver, setNodeRef } = useDroppable({
-    id: id,
-  });
   const { selectedFolderId, handleFilteringByFolder } = useSearchContext();
 
   /**
@@ -34,6 +31,14 @@ export default function Folder({ text, id, name, children }) {
    */
   const { getFolder, getChildFolders } = useFetchFolders();
   const [childFolders, setChildFolders] = useState([]);
+
+  const folderRef = useRef(null);
+  const { isOver, setNodeRef: setDroppableNodeRef } = useDroppable({
+    id: id,
+  });
+  const { attributes, listeners, setNodeRef: setDraggableNodeRef, transform } = useDraggable({
+    id: id,
+  });
 
   const handleClickFolder = () => {
     const hasChildren = children?.length !== 0;
@@ -79,12 +84,23 @@ export default function Folder({ text, id, name, children }) {
     }
   }, [selectedFolderId]);
 
+  // Folderコンポーネントをドラッグ可能かつドロップ可能にする
+  useEffect(() => {
+    if (folderRef.current) {
+      setDroppableNodeRef(folderRef.current);
+      setDraggableNodeRef(folderRef.current);
+    }
+  }, [setDroppableNodeRef, setDraggableNodeRef]);
+
+
   return (
     <>
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        ref={setNodeRef}
+        ref={folderRef}
+        {...listeners}
+        {...attributes}
         className={`
           flex
           items-center
