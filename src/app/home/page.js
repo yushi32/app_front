@@ -6,6 +6,7 @@ import { DndContext } from '@dnd-kit/core';
 
 import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
 import { useBookmark } from "../../hooks/useBookmark";
+import { useFolder } from "../../hooks/useFolder";
 import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
@@ -15,17 +16,31 @@ import Sidebar from "../../components/Sidebar";
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
   const { putBookmarkInFolder } = useBookmark();
+  const { setParentFolder } = useFolder();
   const { currentUser, loading } = useAuthContext();
   const router = useRouter();
 
   const handleDragEnd = (e) => {
-    console.log(e);
-    if (e.over) {
-      // e.active.id: ブックマークのid（ドラッグ要素）
-      const bookmarkId = e.active.id;
-      // e.over.id: フォルダのid（ドロップ要素）
-      const folderId = e.over.id;
-      putBookmarkInFolder(bookmarkId, folderId);
+    const isDropped = e.over;
+    const isFolder = isNaN(e.active.id);
+
+    if (isDropped) {
+      // draggedItemIdはブックマークとフォルダのどちらも入る
+      const draggedItemId = e.active.id;
+      const parentFolderId = e.over.id;
+
+      if (isFolder) {
+        // フォルダをドラッグした時の処理
+
+        // ドラッグ&ドロップを識別するためのidからフォルダのidを取り出す処理
+        const identifiers = draggedItemId.split(':');
+        const childFolderId = parseInt(identifiers[0]);
+
+        setParentFolder(childFolderId, parentFolderId);
+      } else {
+        // ブックマークをドラッグした時の処理
+        putBookmarkInFolder(draggedItemId, parentFolderId);
+      }
     }
   };
 

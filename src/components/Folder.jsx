@@ -37,7 +37,8 @@ export default function Folder({ text, id, name, children }) {
     id: id,
   });
   const { attributes, listeners, setNodeRef: setDraggableNodeRef, transform } = useDraggable({
-    id: id,
+    // ブックマークとフォルダがドラッグ可能なので、idの衝突を避ける
+    id: `${id}:${name}`,
   });
 
   const handleClickFolder = () => {
@@ -91,7 +92,6 @@ export default function Folder({ text, id, name, children }) {
       setDraggableNodeRef(folderRef.current);
     }
   }, [setDroppableNodeRef, setDraggableNodeRef]);
-
 
   return (
     <>
