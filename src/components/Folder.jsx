@@ -22,7 +22,7 @@ export default function Folder({ text, id, name, children }) {
     handleFocus,
     handleBlur
   } = useToggleForm(false);
-  const { editFolder } = useFolder();
+  const { editFolderName } = useFolder();
   const { selectedFolderId, handleFilteringByFolder } = useSearchContext();
 
   /**
@@ -56,7 +56,7 @@ export default function Folder({ text, id, name, children }) {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     if (input !== 0) {
-      await editFolder(id, input);
+      await editFolderName(id, input);
       setForm(false);
     }
   };

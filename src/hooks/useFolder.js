@@ -36,7 +36,7 @@ export function useFolder() {
     }
   };
 
-  const editFolder = async (id, input) => {
+  const editFolderName = async (id, input) => {
     const config = await setIdToken();
     const data ={
       folder: { name: input }
@@ -47,7 +47,6 @@ export function useFolder() {
       config
     );
     mutate([`/api/v1/folders`, currentUser]);
-    console.log(res);
   };
   
   const setParentFolder = async (folderId, parentId) => {
@@ -65,7 +64,7 @@ export function useFolder() {
 
   return {
     createFolder,
-    editFolder, 
+    editFolderName, 
     setParentFolder,
   };
 };
