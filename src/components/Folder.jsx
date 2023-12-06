@@ -99,8 +99,6 @@ export default function Folder({ text, id, name, children }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         ref={folderRef}
-        {...listeners}
-        {...attributes}
         className={`
           flex
           items-center
@@ -137,12 +135,24 @@ export default function Folder({ text, id, name, children }) {
           </form>
         </>
         ) : (
-          <button
-            onClick={handleClickFolder}
-            className="flex-1 text-left text-sm font-medium h-full py-2.5 pl-2"
-          >
-            {input || text || name}
-          </button>
+          <>
+            {isHovered && 
+              <Image
+                {...listeners}
+                {...attributes}
+                src="/draggable.svg"
+                alt="draggable"
+                width={20}
+                height={20}
+              />
+            }
+            <button
+              onClick={handleClickFolder}
+              className={`flex-1 text-left text-sm font-medium h-full py-2.5 ${ !isHovered && 'pl-2'}`}
+            >
+              {input || text || name}
+            </button>
+          </>
         )}
         {!form && isHovered && (
           <button
