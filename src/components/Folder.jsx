@@ -32,7 +32,7 @@ export default function Folder({ text, id, name, children }) {
    * バックエンドから返却されるJSONには孫フォルダのデータが含まれないため、
    * 孫フォルダのデータを取得する関数と管理するstateを定義
    */
-  const { getChildFolders } = useFetchFolders();
+  const { getFolder, getChildFolders } = useFetchFolders();
   const [childFolders, setChildFolders] = useState([]);
 
   const handleClickFolder = () => {
@@ -63,10 +63,18 @@ export default function Folder({ text, id, name, children }) {
     setInput(name);
   }, []);
 
+  // 選択されているフォルダの親階層に自身が含まれるかを再帰的にチェックする関数
+  const hasAncestor = (folderId) => {
+    const folder = getFolder(folderId);
+    if (!folder) return false;
+    if (folder.parent_id === id) return true;
+    if (!folder.parent_id) return false;
+    return hasAncestor(folder.parent_id);
+  };
+
   useEffect(() => {
     const isSelected = selectedFolderId === id;
-    const isParent = children?.some((child) => child.id === selectedFolderId);
-    if (isOpen && !isSelected && !isParent) {
+    if (isOpen && !isSelected && !hasAncestor(selectedFolderId)) {
       setIsOpen(false);
     }
   }, [selectedFolderId]);
@@ -138,7 +146,7 @@ export default function Folder({ text, id, name, children }) {
       {isOpen && childFolders?.map((folder) => {
         return (
           <div key={folder.id} className="pl-4">
-            <Folder id={folder.id} name={folder.name} children={folder.children} />
+            <Folder id={folder.id} name={folder.name} parentId={folder.parent_id} children={folder.children} />
           </div>  
           );
       })}

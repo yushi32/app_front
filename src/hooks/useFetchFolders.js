@@ -36,6 +36,10 @@ export function useFetchFolders() {
     return folder.name;
   };
 
+  const getFolder = (id) => {
+    return folders.find((folder) => folder.id === id);
+  };
+
   const getChildFolders = (id) => {
     return folders.filter((folder) => folder.parent_id === id)
   };
@@ -49,6 +53,7 @@ export function useFetchFolders() {
     isLoading: !folders && !error,
     error,
     getFolderName,
+    getFolder,
     getChildFolders
   };
 }
