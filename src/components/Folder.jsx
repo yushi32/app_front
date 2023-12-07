@@ -46,7 +46,6 @@ export default function Folder({ text, id, name, children }) {
     const isSelected = selectedFolderId === id;
     if (!isOpen && hasChildren) {
       setIsOpen(true);
-      setChildFolders(getChildFolders(id));
     } else if (isOpen && isSelected) {
       setIsOpen(false);
     }
@@ -92,6 +91,11 @@ export default function Folder({ text, id, name, children }) {
       setDraggableNodeRef(folderRef.current);
     }
   }, [setDroppableNodeRef, setDraggableNodeRef]);
+
+  // フォルダ一覧が更新されたら子フォルダの配列を取得してローカルステートを更新する
+  useEffect(() => {
+    setChildFolders(getChildFolders(id));
+  }, [getChildFolders]);
 
   return (
     <>

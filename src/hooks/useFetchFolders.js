@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import useSWR from 'swr';
 
 import { useAuthContext } from "../context/AuthContext";
@@ -35,9 +35,9 @@ export function useFetchFolders() {
     return folders.find((folder) => folder.id === id);
   };
 
-  const getChildFolders = (id) => {
-    return folders.filter((folder) => folder.parent_id === id)
-  };
+  const getChildFolders = useCallback((id) => {
+    return folders ? folders.filter((folder) => folder.parent_id === id) : [];
+  }, [folders]);
 
   useEffect(() => {
     if (error) console.log(`error message: ${error}`);
