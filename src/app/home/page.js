@@ -36,7 +36,7 @@ export default function Page() {
         const identifiers = draggedItemId.split(':');
         const childFolderId = parseInt(identifiers[0]);
 
-        updateParentFolder(childFolderId, parentFolderId);
+        if (childFolderId !== parentFolderId) updateParentFolder(childFolderId, parentFolderId);
       } else {
         // ブックマークをドラッグした時の処理
         putBookmarkInFolder(draggedItemId, parentFolderId);
