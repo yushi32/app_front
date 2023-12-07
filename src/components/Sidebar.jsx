@@ -4,6 +4,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 
 import Folder from "./Folder";
 import AddFolder from "./AddFolder";
+import Inbox from "./Inbox";
 
 export default function Sidebar() {
   const { folders, isLoading } = useFetchFolders();
@@ -19,10 +20,12 @@ export default function Sidebar() {
         />
         <AddFolder />
       </div>
-      <Folder text={'All'} id={65535} />
-      {folders?.map((folder) => {
-        return <Folder key={folder.id} id={folder.id} name={folder.name} children={folder.children} />;
-      })}
+      <div className="space-y-0.5">
+        <Inbox />
+        {folders?.map((folder) => {
+          return <Folder key={folder.id} id={folder.id} name={folder.name} children={folder.children} />;
+        })}
+      </div>
     </div>
   );
 }

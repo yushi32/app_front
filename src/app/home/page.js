@@ -27,7 +27,7 @@ export default function Page() {
     if (isDropped) {
       // draggedItemIdはブックマークとフォルダのどちらも入る
       const draggedItemId = e.active.id;
-      const parentFolderId = e.over.id;
+      const parentFolderId = e.over.id === 'all' ? null : e.over.id;
 
       if (isFolder) {
         // フォルダをドラッグした時の処理
