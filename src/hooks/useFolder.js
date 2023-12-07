@@ -49,7 +49,7 @@ export function useFolder() {
     mutate([`/api/v1/folders`, currentUser]);
   };
   
-  const setParentFolder = async (folderId, parentId) => {
+  const updateParentFolder = async (folderId, parentId) => {
     const config = await setIdToken();
     const data ={
       folder: { parent_id: parentId }
@@ -65,6 +65,6 @@ export function useFolder() {
   return {
     createFolder,
     editFolderName, 
-    setParentFolder,
+    updateParentFolder,
   };
 };

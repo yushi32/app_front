@@ -16,7 +16,7 @@ import Sidebar from "../../components/Sidebar";
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
   const { putBookmarkInFolder } = useBookmark();
-  const { setParentFolder } = useFolder();
+  const { updateParentFolder } = useFolder();
   const { currentUser, loading } = useAuthContext();
   const router = useRouter();
 
@@ -36,7 +36,7 @@ export default function Page() {
         const identifiers = draggedItemId.split(':');
         const childFolderId = parseInt(identifiers[0]);
 
-        setParentFolder(childFolderId, parentFolderId);
+        updateParentFolder(childFolderId, parentFolderId);
       } else {
         // ブックマークをドラッグした時の処理
         putBookmarkInFolder(draggedItemId, parentFolderId);
