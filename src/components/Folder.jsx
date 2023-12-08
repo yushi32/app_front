@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { useDroppable, useDraggable } from '@dnd-kit/core';
+import { useDroppable, useDraggable, useDndContext } from '@dnd-kit/core';
 import { CSS } from "@dnd-kit/utilities";
 
 import { useToggleForm } from "../hooks/useToggleForm";
@@ -11,6 +11,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 export default function Folder({ text, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSelf, setIsSelf] = useState(true);
   const {
     form,
     input,
@@ -44,6 +45,7 @@ export default function Folder({ text, id, name, children }) {
   const style = {
     transform: CSS.Transform.toString(transform)
   };
+  const { active, over } = useDndContext();
 
   const handleClickFolder = () => {
     const hasChildren = children?.length !== 0;
@@ -101,6 +103,19 @@ export default function Folder({ text, id, name, children }) {
     setChildFolders(getChildFolders(id));
   }, [getChildFolders]);
 
+  // ドラッグした時に自身に重なっているかどうかを検知する
+  useEffect(() => {
+    const identifiers = active?.id.split(':');
+    if (identifiers) {
+      const draggedId = parseInt(identifiers[0]);
+      if (over?.id !== draggedId) {
+        setIsSelf(false);
+      } else {
+        setIsSelf(true);
+      }
+    }
+  }, [over]);
+
   return (
     <>
       <div
@@ -116,7 +131,7 @@ export default function Folder({ text, id, name, children }) {
           border-l-2
           ${selectedFolderId === id ? 'border-emerald-200' : 'border-transparent'}
           hover:border-emerald-200
-          ${isOver ? 'bg-blue-200' : undefined}
+          ${isOver && !isSelf ? 'bg-emerald-200' : ''}
         `}
       >
         {form ? (

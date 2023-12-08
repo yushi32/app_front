@@ -23,7 +23,7 @@ export default function Folder() {
         border-l-2
         ${!selectedFolderId ? 'border-emerald-200' : 'border-transparent'}
         hover:border-emerald-200
-        ${isOver ? 'bg-blue-200' : ''}
+        ${isOver ? 'bg-emerald-200' : ''}
       `}
     >
       <button
