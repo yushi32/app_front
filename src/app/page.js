@@ -1,5 +1,6 @@
 import Image from"next/image";
 
+import Footer from "../components/Footer";
 import SignInButton from "../components/SignInButton";
 import ExtensionButton from "../components/ExtensionButton";
 
@@ -68,6 +69,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }
