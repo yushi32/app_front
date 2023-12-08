@@ -48,6 +48,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
 
   return (
     <div
+      style={style}
       className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-64 flex flex-col justify-between border-6"
     >
       <div
