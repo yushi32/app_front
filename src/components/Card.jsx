@@ -12,6 +12,7 @@ import AddTag from "./AddTag";
 export default function Card({ id, url, title, bookmarkTags }) {
   const { isDeleted, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
+  const [isHovered, setIsHovered] = useState(false);
   const [tags, setTags] = useState([]);
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
@@ -48,16 +49,28 @@ export default function Card({ id, url, title, bookmarkTags }) {
 
   return (
     <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={style}
       className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-64 flex flex-col justify-between border-6"
     >
       <div
         ref={setNodeRef}
-        {...listeners}
-        {...attributes}
         className="flex flex-col h-full"
       >
-        <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}></div>
+        <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}>
+          {isHovered && 
+            <Image
+              {...listeners}
+              {...attributes}
+              src="/draggable.svg"
+              alt="draggable"
+              width={20}
+              height={20}
+              className="m-2"
+            />
+          }
+        </div>
         <Link
           href={url}
           className="
