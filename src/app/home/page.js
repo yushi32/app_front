@@ -56,9 +56,9 @@ export default function Page() {
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto my-12">
+      <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto mt-12 mb-8 h-80">
         <Sidebar />
-        <div className="col-span-4 grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8">
+        <div className="col-span-4 overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8 pb-12">
           {bookmarks.length === 0 ? (
             <NoContents />
           ) : bookmarks.map((bookmark) => {

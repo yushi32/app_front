@@ -10,7 +10,7 @@ export default function Sidebar() {
   const { folders, isLoading } = useFetchFolders();
 
   return (
-    <div className="col-span-1 flex flex-col border-r-2 px-4">
+    <div className="col-span-1 flex flex-col border-r-2 px-4 overflow-y-auto">
       <div className="flex items-center justify-center justify-between pb-4">
         <Image
           src="/folder.svg"
