@@ -73,6 +73,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
         </div>
         <Link
           href={url}
+          target="_blank"
           className="
             px-3
             pt-3
