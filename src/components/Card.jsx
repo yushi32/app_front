@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link";
 import Image from"next/image";
 import { useDraggable } from '@dnd-kit/core';
+import { CSS } from "@dnd-kit/utilities";
 
 import { useBookmark } from "../hooks/useBookmark";
 
@@ -15,6 +16,9 @@ export default function Card({ id, url, title, bookmarkTags }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
   });
+  const style = {
+    transform: CSS.Transform.toString(transform)
+  };
 
   useEffect(() => {
     if (bookmarkTags.length !== 0) {
@@ -46,18 +50,34 @@ export default function Card({ id, url, title, bookmarkTags }) {
     <div
       className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-64 flex flex-col justify-between border-6"
     >
-      <Link
+      <div
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        href={url}
         className="flex flex-col h-full"
       >
         <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}></div>
-        <div className="px-3 pt-3 pb-1 text-center overflow-scroll h-[50%] flex flex-col justify-center">
-          <p className="text-center text-sm">{title}</p>
-        </div>
-      </Link>
+        <Link
+          href={url}
+          className="
+            px-3
+            pt-3
+            pb-1
+            text-center
+            text-sm
+            overflow-scroll
+            h-[50%]
+            flex
+            flex-col
+            justify-center
+            hover:underline
+            hover:decoration-emerald-300
+            underline-offset-4
+          "
+        >
+          {title}
+        </Link>
+      </div>
       <div className="flex justify-between place-items-end px-2 py-1">
         <div className="flex-1 flex-wrap flex gap-1 items-center">
           {tags.length !==0 && tags.map((tag) => {
