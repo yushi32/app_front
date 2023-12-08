@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useDroppable, useDraggable } from '@dnd-kit/core';
+import { CSS } from "@dnd-kit/utilities";
 
 import { useToggleForm } from "../hooks/useToggleForm";
 import { useFolder } from "../hooks/useFolder";
@@ -40,6 +41,9 @@ export default function Folder({ text, id, name, children }) {
     // ブックマークとフォルダがドラッグ可能なので、idの衝突を避ける
     id: `${id}:${name}`,
   });
+  const style = {
+    transform: CSS.Transform.toString(transform)
+  };
 
   const handleClickFolder = () => {
     const hasChildren = children?.length !== 0;
@@ -103,6 +107,7 @@ export default function Folder({ text, id, name, children }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         ref={folderRef}
+        style={style}
         className={`
           flex
           items-center
