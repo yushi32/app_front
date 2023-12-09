@@ -103,15 +103,20 @@ export default function Folder({ text, id, name, children }) {
     setChildFolders(getChildFolders(id));
   }, [getChildFolders]);
 
-  // ドラッグした時に自身に重なっているかどうかを検知する
+  /**
+   * ドロップ対象になっているフォルダに背景色を追加して分かりやすくする
+   * フォルダをドラッグしている場合は自身に重なっているかどうかを検知する
+   */
   useEffect(() => {
-    const identifiers = active?.id.split(':');
-    if (identifiers) {
-      const draggedId = parseInt(identifiers[0]);
-      if (over?.id !== draggedId) {
-        setIsSelf(false);
-      } else {
-        setIsSelf(true);
+    if (active && Number.isInteger(active.id)) {
+      setIsSelf(false)
+    } else {
+      const identifiers = active?.id.split(':');
+      if (identifiers) {
+        const draggedId = parseInt(identifiers[0]);
+        if (over?.id !== draggedId) {
+          setIsSelf(false);
+        } 
       }
     }
   }, [over]);
