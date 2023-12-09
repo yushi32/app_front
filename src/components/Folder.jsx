@@ -38,7 +38,7 @@ export default function Folder({ text, id, name, children }) {
   const { isOver, setNodeRef: setDroppableNodeRef } = useDroppable({
     id: id,
   });
-  const { attributes, listeners, setNodeRef: setDraggableNodeRef, transform } = useDraggable({
+  const { isDragging, attributes, listeners, setNodeRef: setDraggableNodeRef, transform } = useDraggable({
     // ブックマークとフォルダがドラッグ可能なので、idの衝突を避ける
     id: `${id}:${name}`,
   });
@@ -46,6 +46,12 @@ export default function Folder({ text, id, name, children }) {
     transform: CSS.Transform.toString(transform)
   };
   const { active, over } = useDndContext();
+
+  const borderStyle = () => {
+    if (isDragging) return 'border rounded-md border-gray-400';
+    if (isHovered || selectedFolderId === id) return 'border-l-2 border-emerald-200';
+    return 'border-transparent';
+  };
 
   const handleClickFolder = () => {
     const hasChildren = children?.length !== 0;
@@ -116,7 +122,7 @@ export default function Folder({ text, id, name, children }) {
         const draggedId = parseInt(identifiers[0]);
         if (over?.id !== draggedId) {
           setIsSelf(false);
-        } 
+        }
       }
     }
   }, [over]);
@@ -133,10 +139,9 @@ export default function Folder({ text, id, name, children }) {
           items-center
           justify-center
           ${!form && 'justify-between'}
-          border-l-2
-          ${selectedFolderId === id ? 'border-emerald-200' : 'border-transparent'}
-          hover:border-emerald-200
           ${isOver && !isSelf ? 'bg-emerald-200' : ''}
+          ${isDragging && 'bg-white opacity-50'}
+          ${borderStyle()}
         `}
       >
         {form ? (
