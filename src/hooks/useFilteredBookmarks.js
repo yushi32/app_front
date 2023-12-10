@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 
-import { useFetchData } from "../hooks/useFetchData";
+import { useFetchBookmarks } from "../hooks/useFetchBookmarks";
 import { useSearchContext } from "../context/SearchContext";
 
 export function useFilteredBookmarks() {
-  const { bookmarks, error } = useFetchData();
+  const { bookmarks, error } = useFetchBookmarks();
   const { selectedTags, setSelectedTags, selectedFolderId } = useSearchContext();
 
   const filteredBookmarks = useMemo(() => {

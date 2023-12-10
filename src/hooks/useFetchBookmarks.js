@@ -20,7 +20,7 @@ const fetcher = async (url, currentUser) => {
     });
 };
 
-export function useFetchData() {
+export function useFetchBookmarks() {
   const { currentUser } = useAuthContext();
   const { data: bookmarks, error } = useSWR(
     currentUser ? [`/api/v1/bookmarks`, currentUser] : null, 

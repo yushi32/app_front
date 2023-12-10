@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-import { useFetchData } from "../hooks/useFetchData";
+import { useFetchBookmarks } from "../hooks/useFetchBookmarks";
 import { useFetchFolders } from "../hooks/useFetchFolders";
 import { useSearchContext } from "../context/SearchContext";
 
 export default function NoContent() {
   const [num, setNum] = useState();
   const { selectedFolderId } = useSearchContext();
-  const { totalBookmarksCount } = useFetchData();
+  const { totalBookmarksCount } = useFetchBookmarks();
   const { getFolder } = useFetchFolders();
 
   useEffect(() => {
