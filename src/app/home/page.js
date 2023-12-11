@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { DndContext } from '@dnd-kit/core';
 
 import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
-import { useBookmark } from "../../hooks/useBookmark";
-import { useFolder } from "../../hooks/useFolder";
+import { useDnD } from "../../hooks/useDnD";
 import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
@@ -15,34 +14,9 @@ import Sidebar from "../../components/Sidebar";
 
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
-  const { putBookmarkInFolder } = useBookmark();
-  const { updateParentFolder } = useFolder();
   const { currentUser, loading } = useAuthContext();
+  const { handleDragEnd } = useDnD();
   const router = useRouter();
-
-  const handleDragEnd = (e) => {
-    const isDropped = e.over;
-    const isFolder = isNaN(e.active.id);
-
-    if (isDropped) {
-      // draggedItemIdはブックマークとフォルダのどちらも入る
-      const draggedItemId = e.active.id;
-      const parentFolderId = e.over.id === 'all' ? null : e.over.id;
-
-      if (isFolder) {
-        // フォルダをドラッグした時の処理
-
-        // ドラッグ&ドロップを識別するためのidからフォルダのidを取り出す処理
-        const identifiers = draggedItemId.split(':');
-        const childFolderId = parseInt(identifiers[0]);
-
-        if (childFolderId !== parentFolderId) updateParentFolder(childFolderId, parentFolderId);
-      } else {
-        // ブックマークをドラッグした時の処理
-        putBookmarkInFolder(draggedItemId, parentFolderId);
-      }
-    }
-  };
 
   useEffect(() => {
     if (!loading && !currentUser) {
@@ -55,7 +29,7 @@ export default function Page() {
   }
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext onDragEnd={(e) => handleDragEnd(e)}>
       <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto mt-12 mb-8 h-80">
         <Sidebar />
         <div className="col-span-4 overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8 pb-12">
