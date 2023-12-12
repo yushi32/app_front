@@ -6,7 +6,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 
 export function useFolder() {
   const { currentUser } = useAuthContext();
-  const { folders, getFolder } = useFetchFolders();
+  const { folders } = useFetchFolders();
 
   const setIdToken = async () => {
     const token = await currentUser?.getIdToken();

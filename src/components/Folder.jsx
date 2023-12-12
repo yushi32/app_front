@@ -9,7 +9,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 
 import FolderSortingArea from "../components/FolderSortingArea";
 
-export default function Folder({ text, id, name, children }) {
+export default function Folder({ id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelf, setIsSelf] = useState(true);
@@ -195,7 +195,7 @@ export default function Folder({ text, id, name, children }) {
                 onClick={handleClickFolder}
                 className={`flex-1 text-left text-sm font-medium h-full w-full ${!isHovered && 'pl-2'}`}
               >
-                {input || text || name}
+                {name}
               </button>
             </div>
           )}
