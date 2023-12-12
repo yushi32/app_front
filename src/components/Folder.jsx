@@ -218,7 +218,7 @@ export default function Folder({ text, id, name, children }) {
             <FolderSortingArea
               id={id}
               setIsHovered={setIsHovered}
-              handleClickFolder={handleClickFolder}
+              handleClick={handleClickFolder}
               bgStyle={bgStyle}
               borderStyle={borderStyle}
             />

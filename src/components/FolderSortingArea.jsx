@@ -1,13 +1,13 @@
 import { useDroppable } from "@dnd-kit/core";
 
-export default function FolderSortingArea({ id, setIsHovered, handleClickFolder, bgStyle , borderStyle }) {
+export default function FolderSortingArea({ id, setIsHovered, handleClick, bgStyle , borderStyle }) {
   const { isOver, setNodeRef } = useDroppable({ id: `${id}`});
 
   return (
     <button
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleClickFolder}
+      onClick={handleClick}
       ref={setNodeRef}
       className={`
         w-full
