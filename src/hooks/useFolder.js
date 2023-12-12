@@ -2,9 +2,11 @@ import axios from "axios";
 import { mutate } from "swr";
 
 import { useAuthContext } from "../context/AuthContext";
+import { useFetchFolders } from "../hooks/useFetchFolders";
 
 export function useFolder() {
   const { currentUser } = useAuthContext();
+  const { folders, getFolder } = useFetchFolders();
 
   const setIdToken = async () => {
     const token = await currentUser?.getIdToken();
@@ -62,9 +64,30 @@ export function useFolder() {
     mutate([`/api/v1/folders`, currentUser]);
   };
 
+  const sortFolder = async (targetId, prevId) => {
+    // 現在の並び順からソート後の前後のフォルダを取得する
+    const prevIndex = folders.findIndex(folder => folder.id === prevId);
+    const prevFolder = folders[prevIndex];
+    const nextFolder = folders[prevIndex + 1];
+    
+    const sortedPosition = (prevFolder.position + nextFolder.position) / 2;
+
+    const config = await setIdToken();
+    const data ={
+      folder: { position: sortedPosition },
+    };
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/folders/${targetId}`,
+      data,
+      config
+    );
+    mutate([`/api/v1/folders`, currentUser]);
+  };
+
   return {
     createFolder,
     editFolderName, 
     updateParentFolder,
+    sortFolder,
   };
 };

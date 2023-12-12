@@ -3,7 +3,7 @@ import { useFolder } from "./useFolder";
 
 export function useDnD() {
   const { putBookmarkInFolder } = useBookmark();
-  const { updateParentFolder } = useFolder();
+  const { updateParentFolder, sortFolder } = useFolder();
 
   // ドラッグした要素を一意に識別するためのidからフォルダのidを取り出す処理
   const extractNumericId = (id) => {
@@ -38,7 +38,8 @@ export function useDnD() {
       const targetIsFolder = isNaN(active.id);
 
       if (isSort) {
-        console.log('ソート処理');
+        const prevId = parseInt(parentFolderId);
+        sortFolder(targetId, prevId);
 
       } else if (targetIsFolder) {
         // フォルダをドラッグした時の処理
