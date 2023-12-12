@@ -228,7 +228,7 @@ export default function Folder({ text, id, name, children }) {
         return (
           <div key={folder.id} className="pl-4">
             <Folder id={folder.id} name={folder.name} parentId={folder.parent_id} children={folder.children} />
-          </div>  
+          </div>
           );
       })}
     </>
