@@ -44,7 +44,8 @@ export function useFetchFolders() {
   }, [error]);
 
   return {
-    folders: rootFolders,
+    folders,
+    rootFolders,
     isLoading: !folders && !error,
     error,
     getFolder,

@@ -5,7 +5,18 @@ export function useDnD() {
   const { putBookmarkInFolder } = useBookmark();
   const { updateParentFolder } = useFolder();
 
-  const handleDragEnd = (e) => {
+  const extractNumericId = (id) => {
+    const identifiers = id.split(':');
+    return parseInt(identifiers[0]);
+  };
+
+  const handleDragStart = (e, setActiveId) => {
+    const id = extractNumericId(e.active.id);
+    setActiveId(id);
+  };
+
+  const handleDragEnd = (e, setActiveId) => {
+    setActiveId(null);
     const isDropped = e.over;
     const isFolder = isNaN(e.active.id);
 
@@ -30,6 +41,7 @@ export function useDnD() {
   };
 
   return {
+    handleDragStart,
     handleDragEnd,
   };
 }

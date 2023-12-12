@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useDroppable, useDraggable, useDndContext } from '@dnd-kit/core';
-import { CSS } from "@dnd-kit/utilities";
 
 import { useToggleForm } from "../hooks/useToggleForm";
 import { useFolder } from "../hooks/useFolder";
@@ -38,17 +37,16 @@ export default function Folder({ text, id, name, children }) {
   const { isOver, setNodeRef: setDroppableNodeRef } = useDroppable({
     id: id,
   });
-  const { isDragging, attributes, listeners, setNodeRef: setDraggableNodeRef, transform } = useDraggable({
+  const { isDragging, attributes, listeners, setNodeRef: setDraggableNodeRef } = useDraggable({
     // ブックマークとフォルダがドラッグ可能なので、idの衝突を避ける
     id: `${id}:${name}`,
   });
   const style = {
-    transform: CSS.Transform.toString(transform)
+    opacity: isDragging ? 0 : undefined,
   };
   const { active, over } = useDndContext();
 
   const borderStyle = () => {
-    if (isDragging) return 'border rounded-md border-gray-400';
     if (isHovered || selectedFolderId === id) return 'border-l-2 border-emerald-200';
     return 'border-transparent';
   };

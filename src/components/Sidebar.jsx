@@ -8,7 +8,7 @@ import Inbox from "./Inbox";
 import SidebarFooter from "./SidebarFooter";
 
 export default function Sidebar() {
-  const { folders, isLoading } = useFetchFolders();
+  const { rootFolders, isLoading } = useFetchFolders();
 
   return (
     <div className="col-span-1 flex flex-col border-r-2 px-4 overflow-y-auto">
@@ -21,13 +21,13 @@ export default function Sidebar() {
         />
         <AddFolder />
       </div>
-      <div className="space-y-0.5">
-        <Inbox />
-        {folders?.map((folder) => {
-          return <Folder key={folder.id} id={folder.id} name={folder.name} children={folder.children} />;
-        })}
-      </div>
-      <SidebarFooter />
+        <div className="space-y-0.5">
+          <Inbox />
+          {rootFolders?.map((folder) => {
+            return <Folder key={folder.id} id={folder.id} name={folder.name} children={folder.children} />;
+          })}
+        </div>
+        <SidebarFooter />
     </div>
   );
 }
