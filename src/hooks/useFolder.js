@@ -70,7 +70,17 @@ export function useFolder() {
     const prevFolder = folders[prevIndex];
     const nextFolder = folders[prevIndex + 1];
     
-    const sortedPosition = (prevFolder.position + nextFolder.position) / 2;
+    let sortedPosition;
+    if (!prevFolder) {
+      // 先頭に移動した場合
+      sortedPosition = folders[0].position / 2;
+    } else if (!nextFolder) {
+      // 末尾に移動した場合
+      sortedPosition = folders.slice(-1)[0].position + 65535.0;
+    } else {
+      // その他
+      sortedPosition = (prevFolder.position + nextFolder.position) / 2;
+    }
 
     const config = await setIdToken();
     const data ={
