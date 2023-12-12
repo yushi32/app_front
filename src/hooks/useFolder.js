@@ -6,7 +6,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 
 export function useFolder() {
   const { currentUser } = useAuthContext();
-  const { folders } = useFetchFolders();
+  const { folders, getFolder } = useFetchFolders();
 
   const setIdToken = async () => {
     const token = await currentUser?.getIdToken();
@@ -69,7 +69,7 @@ export function useFolder() {
     const prevIndex = folders.findIndex(folder => folder.id === prevId);
     const prevFolder = folders[prevIndex];
     const nextFolder = folders[prevIndex + 1];
-    
+
     let sortedPosition;
     if (!prevFolder) {
       // 先頭に移動した場合
@@ -82,9 +82,16 @@ export function useFolder() {
       sortedPosition = (prevFolder.position + nextFolder.position) / 2;
     }
 
+    // ソートするフォルダと移動先の階層が違った場合、parent_idも更新する
+    const targetFolder = getFolder(targetId);
+    const isSameLayer = targetFolder.parent_id === prevFolder.parent_id;
+
     const config = await setIdToken();
-    const data ={
-      folder: { position: sortedPosition },
+    const data = {
+      folder: {
+        position: sortedPosition,
+        ...(isSameLayer || { parent_id: prevFolder.parent_id }),
+      }
     };
     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/folders/${targetId}`,
