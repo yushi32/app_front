@@ -7,6 +7,8 @@ import { useFolder } from "../hooks/useFolder";
 import { useSearchContext } from "../context/SearchContext";
 import { useFetchFolders } from "../hooks/useFetchFolders";
 
+import FolderSortingArea from "../components/FolderSortingArea";
+
 export default function Folder({ text, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -47,8 +49,11 @@ export default function Folder({ text, id, name, children }) {
   const { active, over } = useDndContext();
 
   const borderStyle = () => {
-    if (isHovered || selectedFolderId === id) return 'border-l-2 border-emerald-200';
-    return 'border-transparent';
+    return isHovered || selectedFolderId === id ? 'border-l-2 border-emerald-200' : 'border-transparent';
+  };
+
+  const bgStyle = () => {
+    return isOver ? 'bg-emerald-200' : 'bg-transparent';
   };
 
   const handleClickFolder = () => {
@@ -127,79 +132,97 @@ export default function Folder({ text, id, name, children }) {
 
   return (
     <>
-      <div
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        ref={folderRef}
-        style={style}
-        className={`
-          flex
-          items-center
-          justify-center
-          ${!form && 'justify-between'}
-          ${isOver && !isSelf ? 'bg-emerald-200' : ''}
-          ${isDragging && 'bg-white opacity-50'}
-          ${borderStyle()}
-        `}
-      >
-        {form ? (
-          <>
-            <form
-              onSubmit={handleOnSubmit}
-              ref={formRef}
-              className={`flex items-center my-1.5 ml-2 w-full rounded-full border ${isFocused ? "border-blue-400" : ""}`}
-            >
-              <input
-                type="text"
-                value={input}
-                onChange={handleInputChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                className="focus:outline-none rounded-full border border-transparent text-sm p-0.5 pl-2"
-              />
-              <button
-                type="button"
-                onClick={closeForm}
-                className="rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-6 ml-4"
+      <div className="flex flex-col">
+        <button
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onClick={handleClickFolder}
+          style={style}
+          className={`w-full h-2.5 ${bgStyle()} ${borderStyle()}`}>
+        </button>
+        <div
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          ref={folderRef}
+          style={style}
+          className={`
+            flex
+            items-center
+            justify-center
+            ${!form && 'justify-between'}
+            ${isOver && !isSelf ? 'bg-emerald-200' : ''}
+            ${isDragging && 'bg-white opacity-50'}
+            ${borderStyle()}
+          `}
+        >
+          {form ? (
+            <>
+              <form
+                onSubmit={handleOnSubmit}
+                ref={formRef}
+                className={`flex items-center my-1.5 ml-2 w-full rounded-full border ${isFocused ? "border-blue-400" : ""}`}
               >
-                -
+                <input
+                  type="text"
+                  value={input}
+                  onChange={handleInputChange}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  className="focus:outline-none rounded-full border border-transparent text-sm p-0.5 pl-2"
+                />
+                <button
+                  type="button"
+                  onClick={closeForm}
+                  className="rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-6 ml-4"
+                >
+                  -
+                </button>
+              </form>
+            </>
+          ) : (
+            <div className="flex w-full">
+              {isHovered &&
+                <Image
+                  {...listeners}
+                  {...attributes}
+                  src="/draggable.svg"
+                  alt="draggable"
+                  width={20}
+                  height={20}
+                />
+              }
+              <button
+                onClick={handleClickFolder}
+                className={`flex-1 text-left text-sm font-medium h-full w-full ${!isHovered && 'pl-2'}`}
+              >
+                {input || text || name}
               </button>
-            </form>
-          </>
-        ) : (
-          <>
-            {isHovered && 
+            </div>
+          )}
+          {!isDragging && !form && isHovered && (
+            <button
+              onClick={openForm}
+              className="pr-1"
+            >
               <Image
-                {...listeners}
-                {...attributes}
-                src="/draggable.svg"
-                alt="draggable"
+                src="/pencil.svg"
+                alt="edit"
                 width={20}
                 height={20}
+                className="hover:rotate-12 transition-transform duration-300"
               />
-            }
-            <button
-              onClick={handleClickFolder}
-              className={`flex-1 text-left text-sm font-medium h-full py-2.5 ${ !isHovered && 'pl-2'}`}
-            >
-              {input || text || name}
             </button>
-          </>
-        )}
-        {!form && isHovered && (
-          <button
-            onClick={openForm}
-            className="pr-1"
-          >
-            <Image
-              src="/pencil.svg"
-              alt="edit"
-              width={20}
-              height={20}
-              className="hover:rotate-12 transition-transform duration-300"
+          )}
+        </div>
+          {!isDragging &&
+            <FolderSortingArea
+              id={id}
+              setIsHovered={setIsHovered}
+              handleClickFolder={handleClickFolder}
+              bgStyle={bgStyle}
+              borderStyle={borderStyle}
             />
-          </button>
-        )}
+          }
       </div>
       {isOpen && childFolders?.map((folder) => {
         return (

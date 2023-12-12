@@ -5,6 +5,7 @@ export function useDnD() {
   const { putBookmarkInFolder } = useBookmark();
   const { updateParentFolder } = useFolder();
 
+  // ドラッグした要素を一意に識別するためのidからフォルダのidを取り出す処理
   const extractNumericId = (id) => {
     const identifiers = id.split(':');
     return parseInt(identifiers[0]);
@@ -19,26 +20,32 @@ export function useDnD() {
   };
 
   const handleDragEnd = (e, setActiveId) => {
-    if (isNaN(e.active.id)) setActiveId(null);
-    const isDropped = e.over;
-    const isFolder = isNaN(e.active.id);
+    const { active, over } = e;
+    setActiveId(null);
+
+    const isDropped = over;
 
     if (isDropped) {
-      // draggedItemIdはブックマークとフォルダのどちらも入る
-      const draggedItemId = e.active.id;
-      const parentFolderId = e.over.id === 'all' ? null : e.over.id;
+      // targetIdはブックマークとフォルダのどちらも入る
+      const targetId = isNaN(active.id) ? extractNumericId(active.id) : active.id;
+      const parentFolderId = over.id === 'all' ? null : over.id;
 
-      if (isFolder) {
+      /**
+       * parentFolderIdは、フォルダの上にドロップした場合は数値型、ソート領域の上にドロップした場合は文字列の数値が入る
+       * parentFolderIdがnullではなく、文字列の数値だった場合はisSortがtrueになる
+       */
+      const isSort = parentFolderId ? !Number.isInteger(parentFolderId) : parentFolderId;
+      const targetIsFolder = isNaN(active.id);
+
+      if (isSort) {
+        console.log('ソート処理');
+
+      } else if (targetIsFolder) {
         // フォルダをドラッグした時の処理
-
-        // ドラッグ&ドロップを識別するためのidからフォルダのidを取り出す処理
-        const identifiers = draggedItemId.split(':');
-        const childFolderId = parseInt(identifiers[0]);
-
-        if (childFolderId !== parentFolderId) updateParentFolder(childFolderId, parentFolderId);
+        if (targetId !== parentFolderId) updateParentFolder(targetId, parentFolderId);
       } else {
         // ブックマークをドラッグした時の処理
-        putBookmarkInFolder(draggedItemId, parentFolderId);
+        putBookmarkInFolder(targetId, parentFolderId);
       }
     }
   };
