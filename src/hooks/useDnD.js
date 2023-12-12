@@ -11,12 +11,15 @@ export function useDnD() {
   };
 
   const handleDragStart = (e, setActiveId) => {
-    const id = extractNumericId(e.active.id);
-    setActiveId(id);
+    // ブックマークをドラッグした時だけidが数値型になる
+    if (isNaN(e.active.id)) {
+      const id = extractNumericId(e.active.id);
+      setActiveId(id);
+    }
   };
 
   const handleDragEnd = (e, setActiveId) => {
-    setActiveId(null);
+    if (isNaN(e.active.id)) setActiveId(null);
     const isDropped = e.over;
     const isFolder = isNaN(e.active.id);
 
