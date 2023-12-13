@@ -13,7 +13,6 @@ export default function Folder({ level = 0, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelf, setIsSelf] = useState(true);
-  const [isButtonSwap, setIsButtonSwap] = useState(false);
   const {
     form,
     input,
