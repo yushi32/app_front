@@ -26,7 +26,7 @@ export default function Folder({ level = 0, id, name, children }) {
     handleBlur
   } = useToggleForm(false);
   const { editFolderName, deleteFolder } = useFolder();
-  const { selectedFolderId, handleFilteringByFolder } = useSearchContext();
+  const { selectedFolderId, setSelectedFolderId, handleFilteringByFolder } = useSearchContext();
 
   /**
    * バックエンドから返却されるJSONには孫フォルダのデータが含まれないため、
@@ -61,6 +61,11 @@ export default function Folder({ level = 0, id, name, children }) {
       setIsOpen(false);
     }
     handleFilteringByFolder(id);
+  };
+
+  const handleClickDelete = () => {
+    deleteFolder(id);
+    if (isSelected) setSelectedFolderId(null);
   };
 
   const handleOnSubmit = async (e) => {
@@ -175,7 +180,7 @@ export default function Folder({ level = 0, id, name, children }) {
                 </button>
               </form>
               <button
-                onClick={() => deleteFolder(id)}
+                onClick={handleClickDelete}
                 className="ml-auto mr-1"
               >
                 <Image

@@ -43,7 +43,14 @@ export default function SearchProvider({ children }) {
   };
 
   return (
-    <SearchContext.Provider value={{ selectedTags, setSelectedTags, selectedFolderId, handleFilteringByTag, handleFilteringByFolder }}>
+    <SearchContext.Provider value={{
+      selectedTags,
+      setSelectedTags,
+      selectedFolderId,
+      setSelectedFolderId,
+      handleFilteringByTag,
+      handleFilteringByFolder
+    }}>
       {children}
     </SearchContext.Provider>
   );
