@@ -56,9 +56,10 @@ export default function Folder({ id, name, children }) {
     return isOver ? 'bg-emerald-200' : 'bg-transparent';
   };
 
+  const hasChildren = childFolders?.length !== 0;
+  const isSelected = selectedFolderId === id;
+
   const handleClickFolder = () => {
-    const hasChildren = children?.length !== 0;
-    const isSelected = selectedFolderId === id;
     if (!isOpen && hasChildren) {
       setIsOpen(true);
     } else if (isOpen && isSelected) {
@@ -110,6 +111,7 @@ export default function Folder({ id, name, children }) {
   // フォルダ一覧が更新されたら子フォルダの配列を取得してローカルステートを更新する
   useEffect(() => {
     setChildFolders(getChildFolders(id));
+    if (isSelected && hasChildren) setIsOpen(true);
   }, [getChildFolders]);
 
   /**
@@ -224,13 +226,16 @@ export default function Folder({ id, name, children }) {
             />
           }
       </div>
-      {isOpen && childFolders?.map((folder) => {
-        return (
-          <div key={folder.id} className="pl-4">
-            <Folder id={folder.id} name={folder.name} parentId={folder.parent_id} children={folder.children} />
-          </div>
-          );
-      })}
+      {isOpen && (
+        <>
+          {hasChildren && <FolderSortingArea sortId={id * 0.1} />}
+          {childFolders?.map((folder) => (
+            <div key={folder.id} className="pl-4">
+              <Folder id={folder.id} name={folder.name} parentId={folder.parent_id} children={folder.children} />
+            </div>
+          ))}
+        </>
+      )}
     </>
   );
 }
