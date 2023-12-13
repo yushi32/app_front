@@ -5,6 +5,8 @@ import { mutate } from "swr";
 import { useAuthContext } from "../context/AuthContext";
 import { useFetchFolders } from "../hooks/useFetchFolders";
 
+const DEFAULT_POSITION_GAP = 65535.0;
+
 export function useFolder() {
   const { currentUser } = useAuthContext();
   const { folders, getFolder, getChildFolders } = useFetchFolders();
@@ -32,7 +34,7 @@ export function useFolder() {
       return folders[0].position / 2;
     } else if (!nextFolder) {
       // 末尾に移動した場合
-      return folders.slice(-1)[0].position + 65535.0;
+      return folders.slice(-1)[0].position + DEFAULT_POSITION_GAP;
     } else {
       // その他
       return (prevFolder.position + nextFolder.position) / 2;
@@ -119,7 +121,7 @@ export function useFolder() {
     const firstChildIndex = folders.findIndex(folder => folder.id === firstChild.id);
     const prevFolder = folders[firstChildIndex - 1];
     const sortedPosition = calculateSortedPosition(prevFolder.id);
-    
+
     const targetFolder = getFolder(targetId);
     const updateParentIdFlag = !isSameLayer(targetFolder.parent_id, parentId);
 
