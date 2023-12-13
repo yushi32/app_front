@@ -15,7 +15,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
   const [isHovered, setIsHovered] = useState(false);
   const [tags, setTags] = useState([]);
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: id,
+    id: `${id}:bookmark`,
   });
   const style = {
     transform: CSS.Transform.toString(transform)

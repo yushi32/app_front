@@ -1,9 +1,9 @@
 import { useDroppable } from "@dnd-kit/core";
 
-export default function FolderSortingArea({ id, sortId, setIsHovered, handleClick, bgStyle , borderStyle }) {
-  const { isOver, setNodeRef } = useDroppable({ id: `${sortId}` || `${id}` });
+export default function FolderSortingArea({ id, topSort = false, setIsHovered, handleClick, bgStyle , borderStyle }) {
+  const { isOver, setNodeRef } = useDroppable({ id: topSort ? `${id}:top` : `${id}:sort` });
 
-  if (sortId) {
+  if (topSort) {
     return (
       <div className="pl-4 pt-2">
         <div

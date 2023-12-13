@@ -5,16 +5,23 @@ export function useDnD() {
   const { putBookmarkInFolder } = useBookmark();
   const { updateParentFolder, sortFolder } = useFolder();
 
-  // ドラッグした要素を一意に識別するためのidからフォルダのidを取り出す処理
-  const extractNumericId = (id) => {
+  /**
+   * ドラッグ要素とドロップ要素の識別するidはすべて文字列で「id:type」の形式とする
+   * itemData関数に渡して数値のidと文字列のtypeに分解して、条件分岐と処理に使う
+   */
+  const itemData = (id) => {
+    if (id === 'all') return { id };
     const identifiers = id.split(':');
-    return parseInt(identifiers[0]);
+    return {
+      id: parseInt(identifiers[0]),
+      type: identifiers[1],
+    };
   };
 
   const handleDragStart = (e, setActiveId) => {
     // ブックマークをドラッグした時だけidが数値型になる
     if (isNaN(e.active.id)) {
-      const id = extractNumericId(e.active.id);
+      const id = itemData(e.active.id);
       setActiveId(id);
     }
   };
@@ -22,31 +29,17 @@ export function useDnD() {
   const handleDragEnd = (e, setActiveId) => {
     const { active, over } = e;
     setActiveId(null);
+    console.log(e)
 
     const isDropped = over;
 
     if (isDropped) {
-      // targetIdはブックマークとフォルダのどちらも入る
-      const targetId = isNaN(active.id) ? extractNumericId(active.id) : active.id;
-      const parentFolderId = over.id === 'all' ? null : over.id;
-
-      /**
-       * parentFolderIdは、フォルダの上にドロップした場合は数値型、ソート領域の上にドロップした場合は文字列の数値が入る
-       * parentFolderIdがnullではなく、文字列の数値だった場合はisSortがtrueになる
-       */
-      const isSort = parentFolderId ? !Number.isInteger(parentFolderId) : parentFolderId;
-      const targetIsFolder = isNaN(active.id);
-
-      if (isSort) {
-        const prevId = parseInt(parentFolderId);
-        sortFolder(targetId, prevId);
-
-      } else if (targetIsFolder) {
-        // フォルダをドラッグした時の処理
-        if (targetId !== parentFolderId) updateParentFolder(targetId, parentFolderId);
+      const targetItem = itemData(active.id);
+      
+      if (targetItem.type === 'bookmark') {
+        console.log(`${targetItem.id}: ${targetItem.type}`);
       } else {
-        // ブックマークをドラッグした時の処理
-        putBookmarkInFolder(targetId, parentFolderId);
+        console.log(`${targetItem.id}: ${targetItem.type}`);
       }
     }
   };

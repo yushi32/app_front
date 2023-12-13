@@ -37,11 +37,11 @@ export default function Folder({ level = 0, id, name, children }) {
 
   const folderRef = useRef(null);
   const { isOver, setNodeRef: setDroppableNodeRef } = useDroppable({
-    id: id,
+    id: `${id}:store`,
   });
   const { isDragging, attributes, listeners, setNodeRef: setDraggableNodeRef } = useDraggable({
     // ブックマークとフォルダがドラッグ可能なので、idの衝突を避ける
-    id: `${id}:${name}`,
+    id: `${id}:folder`,
   });
   const style = {
     opacity: isDragging ? 0 : undefined,
@@ -223,7 +223,7 @@ export default function Folder({ level = 0, id, name, children }) {
       </div>
       {isOpen && (
         <>
-          {hasChildren && <FolderSortingArea sortId={id * 0.1} />}
+          {hasChildren && <FolderSortingArea id={id} topSort={true} />}
           {childFolders?.map((folder) => (
             <div key={folder.id} className="pl-4">
               <Folder level={level + 1} id={folder.id} name={folder.name} parentId={folder.parent_id} children={folder.children} />
