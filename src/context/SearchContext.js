@@ -6,7 +6,7 @@ const SearchContext = createContext();
 
 export default function SearchProvider({ children }) {
   const [selectedTags, setSelectedTags] = useState([]);
-  const [selectedFolderId, setSelectedFolderId] = useState();
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
 
   const selectTag = (tagName) => {
     const newSelectedTags = [...selectedTags, tagName];
