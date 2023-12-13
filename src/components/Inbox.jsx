@@ -12,13 +12,8 @@ export default function Folder() {
   });
   const [isHovered, setIsHovered] = useState(null);
 
-  const borderStyle = () => {
-    return isHovered || selectedFolderId === null ? 'border-l-2 border-emerald-200' : 'border-transparent';
-  };
-
-  const bgStyle = () => {
-    return isOver ? 'bg-emerald-200' : 'bg-transparent';
-  };
+  const bgStyle = isOver ? 'bg-emerald-200' : 'bg-transparent';
+  const borderStyle = `border-l-2 ${isHovered || selectedFolderId === null ? 'border-emerald-200' : ''}`
 
   const handleOnClick = () => {
     handleFilteringByFolder(null);
@@ -36,8 +31,8 @@ export default function Folder() {
           justify-center
           justify-between
           w-full
-          ${bgStyle()}
-          ${!isOver && borderStyle()}
+          ${bgStyle}
+          ${!isOver && borderStyle}
         `}
       >
         <button

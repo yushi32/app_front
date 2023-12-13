@@ -48,16 +48,11 @@ export default function Folder({ id, name, children }) {
   };
   const { active, over } = useDndContext();
 
-  const borderStyle = () => {
-    return isHovered || selectedFolderId === id ? 'border-l-2 border-emerald-200' : 'border-transparent';
-  };
-
-  const bgStyle = () => {
-    return isOver ? 'bg-emerald-200' : 'bg-transparent';
-  };
-
   const hasChildren = childFolders?.length !== 0;
   const isSelected = selectedFolderId === id;
+
+  const bgStyle = isOver ? 'bg-emerald-200' : 'bg-transparent';
+  const borderStyle = `border-l-2 ${isHovered || isSelected ? 'border-emerald-200' : ''}`
 
   const handleClickFolder = () => {
     if (!isOpen && hasChildren) {
@@ -140,7 +135,7 @@ export default function Folder({ id, name, children }) {
           onMouseLeave={() => setIsHovered(false)}
           onClick={handleClickFolder}
           style={style}
-          className={`w-full h-2.5 ${bgStyle()} ${borderStyle()}`}>
+          className={`w-full h-2.5 ${bgStyle} ${borderStyle}`}>
         </button>
         <div
           onMouseEnter={() => setIsHovered(true)}
@@ -154,7 +149,7 @@ export default function Folder({ id, name, children }) {
             ${!form && 'justify-between'}
             ${isOver && !isSelf ? 'bg-emerald-200' : ''}
             ${isDragging && 'bg-white opacity-50'}
-            ${borderStyle()}
+            ${borderStyle}
           `}
         >
           {form ? (

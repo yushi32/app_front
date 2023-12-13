@@ -28,8 +28,8 @@ export default function FolderSortingArea({ id, sortId, setIsHovered, handleClic
       className={`
         w-full
         h-2.5
-        ${bgStyle()}
-        ${!isOver && borderStyle()}
+        ${bgStyle}
+        ${!isOver && borderStyle}
         ${isOver && 'border-b-4 border-blue-400'}
       `}
     >
