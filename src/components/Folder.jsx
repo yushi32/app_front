@@ -9,7 +9,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 
 import FolderSortingArea from "../components/FolderSortingArea";
 
-export default function Folder({ id, name, children }) {
+export default function Folder({ level = 0, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelf, setIsSelf] = useState(true);
@@ -226,9 +226,10 @@ export default function Folder({ id, name, children }) {
           {hasChildren && <FolderSortingArea sortId={id * 0.1} />}
           {childFolders?.map((folder) => (
             <div key={folder.id} className="pl-4">
-              <Folder id={folder.id} name={folder.name} parentId={folder.parent_id} children={folder.children} />
+              <Folder level={level + 1} id={folder.id} name={folder.name} parentId={folder.parent_id} children={folder.children} />
             </div>
           ))}
+          {level === 0 && <div className="w-full h-4"></div>}
         </>
       )}
     </>
