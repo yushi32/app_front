@@ -95,7 +95,8 @@ export function useFolder() {
     // ソートするフォルダと移動先の階層が違った場合、parent_idも更新する
     const targetFolder = getFolder(targetId);
     const prevFolder = getFolder(prevId);
-    const updateParentIdFlag = prevFolder && !isSameLayer(targetFolder.parent_id, prevFolder.parent_id);
+    // フォルダ全体の先頭にソートした場合はparent_idがnullであるかどうかを検証する
+    const updateParentIdFlag = !isSameLayer(targetFolder.parent_id, prevFolder ? prevFolder.parent_id : null);
 
     const config = await setIdToken();
     const data = {
