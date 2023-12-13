@@ -95,13 +95,13 @@ export function useFolder() {
     // ソートするフォルダと移動先の階層が違った場合、parent_idも更新する
     const targetFolder = getFolder(targetId);
     const prevFolder = getFolder(prevId);
-    const flag = isSameLayer(targetFolder.parent_id, prevFolder.parent_id);
+    const updateParentIdFlag = prevFolder && !isSameLayer(targetFolder.parent_id, prevFolder.parent_id);
 
     const config = await setIdToken();
     const data = {
       folder: {
         position: sortedPosition,
-        ...(flag || { parent_id: prevFolder.parent_id }),
+        ...(updateParentIdFlag ? { parent_id: prevFolder.parent_id } : {}),
       }
     };
     const res = await axios.patch(
@@ -117,16 +117,16 @@ export function useFolder() {
     const firstChild = getChildFolders(parentId)[0];
     const firstChildIndex = folders.findIndex(folder => folder.id === firstChild.id);
     const prevFolder = folders[firstChildIndex - 1];
-
     const sortedPosition = calculateSortedPosition(prevFolder.id);
+    
     const targetFolder = getFolder(targetId);
-    const flag = isSameLayer(targetFolder.parent_id, parentId);
+    const updateParentIdFlag = !isSameLayer(targetFolder.parent_id, parentId);
 
     const config = await setIdToken();
     const data = {
       folder: {
         position: sortedPosition,
-        ...(flag || { parent_id: parentId }),
+        ...(updateParentIdFlag ? { parent_id: parentId } : {}),
       }
     };
     const res = await axios.patch(
