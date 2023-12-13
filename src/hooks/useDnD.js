@@ -19,11 +19,8 @@ export function useDnD() {
   };
 
   const handleDragStart = (e, setActiveId) => {
-    // ブックマークをドラッグした時だけidが数値型になる
-    if (isNaN(e.active.id)) {
-      const id = itemData(e.active.id);
-      setActiveId(id);
-    }
+    const item = itemData(e.active.id);
+    if (item.type === 'folder') setActiveId(item.id);
   };
 
   const handleDragEnd = (e, setActiveId) => {
