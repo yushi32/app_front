@@ -32,7 +32,7 @@ export function useDnD() {
       const targetItem = itemData(active.id);
       const parentFolder = itemData(over.id);
 
-      const isSelf = targetItem.id !== parentFolder.id;
+      const isSelf = targetItem.id === parentFolder.id;
       
       if (targetItem.type === 'bookmark') {
         putBookmarkInFolder(targetItem.id, parentFolder.id);
