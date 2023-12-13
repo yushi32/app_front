@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useState } from "react";
 import { mutate } from "swr";
 
 import { useAuthContext } from "../context/AuthContext";
@@ -7,6 +8,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 export function useFolder() {
   const { currentUser } = useAuthContext();
   const { folders, getFolder, getChildFolders } = useFetchFolders();
+  const [isDeleted, setIsDeleted] = useState();
 
   const setIdToken = async () => {
     const token = await currentUser?.getIdToken();
@@ -135,11 +137,25 @@ export function useFolder() {
     mutate([`/api/v1/folders`, currentUser]);
   };
 
+  const deleteFolder = async (id) => {
+    const config = await setIdToken();
+    const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/folders/${id}`, config);
+    if (res.status === 204) {
+      setIsDeleted(true);
+      mutate([`/api/v1/folders`, currentUser]);
+      console.log('Successfully deleted');
+    } else {
+      console.log('Failed to delete');
+    }
+  };
+
   return {
+    isDeleted,
     createFolder,
     editFolderName, 
     updateParentFolder,
     sortFolder,
     prependToParentFolder,
+    deleteFolder,
   };
 };

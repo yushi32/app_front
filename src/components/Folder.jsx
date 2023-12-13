@@ -26,7 +26,7 @@ export default function Folder({ level = 0, id, name, children }) {
     handleFocus,
     handleBlur
   } = useToggleForm(false);
-  const { editFolderName } = useFolder();
+  const { editFolderName, deleteFolder } = useFolder();
   const { selectedFolderId, handleFilteringByFolder } = useSearchContext();
 
   /**
@@ -176,7 +176,7 @@ export default function Folder({ level = 0, id, name, children }) {
                 </button>
               </form>
               <button
-                onClick={() => console.log('delete this folder.')}
+                onClick={() => deleteFolder(id)}
                 className="ml-auto mr-1"
               >
                 <Image
