@@ -13,6 +13,7 @@ export default function Folder({ level = 0, id, name, children }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSelf, setIsSelf] = useState(true);
+  const [isButtonSwap, setIsButtonSwap] = useState(false);
   const {
     form,
     input,
@@ -153,11 +154,10 @@ export default function Folder({ level = 0, id, name, children }) {
           `}
         >
           {form ? (
-            <>
+            <div ref={formRef} className="flex w-full">
               <form
                 onSubmit={handleOnSubmit}
-                ref={formRef}
-                className={`flex items-center my-1.5 ml-2 w-full rounded-full border ${isFocused ? "border-blue-400" : ""}`}
+                className={`flex items-center my-1.5 ml-2 rounded-full w-4/5 border ${isFocused ? "border-blue-400" : ""}`}
               >
                 <input
                   type="text"
@@ -165,17 +165,29 @@ export default function Folder({ level = 0, id, name, children }) {
                   onChange={handleInputChange}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  className="focus:outline-none rounded-full border border-transparent text-sm p-0.5 pl-2"
+                  className="focus:outline-none rounded-full w-full border border-transparent text-sm p-0.5 pl-2"
                 />
                 <button
                   type="button"
                   onClick={closeForm}
-                  className="rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-6 ml-4"
+                  className="rounded-full bg-emerald-200 hover:bg-emerald-400 hover:scale-95 text-sm w-6 h-5"
                 >
                   -
                 </button>
               </form>
-            </>
+              <button
+                onClick={() => console.log('delete this folder.')}
+                className="ml-auto mr-1"
+              >
+                <Image
+                  src="/delete.svg"
+                  alt="delete"
+                  width={20}
+                  height={20}
+                  className="hover:rotate-12 transition-transform duration-300"
+                />
+              </button>
+            </div>
           ) : (
             <div className="flex w-full">
               {isHovered &&
@@ -199,7 +211,7 @@ export default function Folder({ level = 0, id, name, children }) {
           {!isDragging && !form && isHovered && (
             <button
               onClick={openForm}
-              className="pr-1"
+              className="mr-1"
             >
               <Image
                 src="/pencil.svg"
