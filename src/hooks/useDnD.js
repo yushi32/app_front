@@ -3,7 +3,7 @@ import { useFolder } from "./useFolder";
 
 export function useDnD() {
   const { putBookmarkInFolder } = useBookmark();
-  const { updateParentFolder, sortFolder } = useFolder();
+  const { updateParentFolder, sortFolder, prependToParentFolder } = useFolder();
 
   /**
    * ドラッグ要素とドロップ要素の識別するidはすべて文字列で「id:type」の形式とする
@@ -37,6 +37,7 @@ export function useDnD() {
       if (targetItem.type === 'bookmark') {
         putBookmarkInFolder(targetItem.id, parentFolder.id);
       } else {
+        console.log(parentFolder.type)
         switch (parentFolder.type) {
           case 'store':
             updateParentFolder(targetItem.id, parentFolder.id);
@@ -45,9 +46,11 @@ export function useDnD() {
             if (!isSelf) sortFolder(targetItem.id, parentFolder.id);
             break;
           case 'top':
+            prependToParentFolder(targetItem.id, parentFolder.id);
             break;
           default:
-            console.log('No matching case found.')
+            console.log('No matching case found.');
+            break;
         }
       }
     }

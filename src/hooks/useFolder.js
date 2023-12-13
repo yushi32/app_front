@@ -6,7 +6,7 @@ import { useFetchFolders } from "../hooks/useFetchFolders";
 
 export function useFolder() {
   const { currentUser } = useAuthContext();
-  const { folders, getFolder } = useFetchFolders();
+  const { folders, getFolder, getChildFolders } = useFetchFolders();
 
   const setIdToken = async () => {
     const token = await currentUser?.getIdToken();
@@ -17,6 +17,29 @@ export function useFolder() {
       headers: { authorization: `Bearer ${token}` },
     };
     return config;
+  };
+
+  // 現在の並び順からソート後の前後のフォルダを取得し、ソート後のpositionを求める関数
+  const calculateSortedPosition = (prevId) => {
+    const prevIndex = folders.findIndex(folder => folder.id === prevId);
+    const prevFolder = folders[prevIndex];
+    const nextFolder = folders[prevIndex + 1];
+
+    if (!prevFolder) {
+      // 先頭に移動した場合
+      return folders[0].position / 2;
+    } else if (!nextFolder) {
+      // 末尾に移動した場合
+      return folders.slice(-1)[0].position + 65535.0;
+    } else {
+      // その他
+      return (prevFolder.position + nextFolder.position) / 2;
+    }
+  };
+
+  // 2つのフォルダが同じ階層にあるかどうかを判定する関数
+  const isSameLayer = (currentParentId, targetParentId) => {
+    return currentParentId === targetParentId;
   };
 
   const createFolder = async (input) => {
@@ -65,32 +88,43 @@ export function useFolder() {
   };
 
   const sortFolder = async (targetId, prevId) => {
-    // 現在の並び順からソート後の前後のフォルダを取得する
-    const prevIndex = folders.findIndex(folder => folder.id === prevId);
-    const prevFolder = folders[prevIndex];
-    const nextFolder = folders[prevIndex + 1];
-
-    let sortedPosition;
-    if (!prevFolder) {
-      // 先頭に移動した場合
-      sortedPosition = folders[0].position / 2;
-    } else if (!nextFolder) {
-      // 末尾に移動した場合
-      sortedPosition = folders.slice(-1)[0].position + 65535.0;
-    } else {
-      // その他
-      sortedPosition = (prevFolder.position + nextFolder.position) / 2;
-    }
+    const sortedPosition = calculateSortedPosition(prevId);
 
     // ソートするフォルダと移動先の階層が違った場合、parent_idも更新する
     const targetFolder = getFolder(targetId);
-    const isSameLayer = targetFolder.parent_id === prevFolder.parent_id;
+    const prevFolder = getFolder(prevId);
+    const flag = isSameLayer(targetFolder.parent_id, prevFolder.parent_id);
 
     const config = await setIdToken();
     const data = {
       folder: {
         position: sortedPosition,
-        ...(isSameLayer || { parent_id: prevFolder.parent_id }),
+        ...(flag || { parent_id: prevFolder.parent_id }),
+      }
+    };
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/folders/${targetId}`,
+      data,
+      config
+    );
+    mutate([`/api/v1/folders`, currentUser]);
+  };
+
+  // 別のフォルダの先頭にソートした場合の処理を担う関数
+  const prependToParentFolder = async (targetId, parentId) => {
+    const firstChild = getChildFolders(parentId)[0];
+    const firstChildIndex = folders.findIndex(folder => folder.id === firstChild.id);
+    const prevFolder = folders[firstChildIndex - 1];
+
+    const sortedPosition = calculateSortedPosition(prevFolder.id);
+    const targetFolder = getFolder(targetId);
+    const flag = isSameLayer(targetFolder.parent_id, parentId);
+
+    const config = await setIdToken();
+    const data = {
+      folder: {
+        position: sortedPosition,
+        ...(flag || { parent_id: parentId }),
       }
     };
     const res = await axios.patch(
@@ -106,5 +140,6 @@ export function useFolder() {
     editFolderName, 
     updateParentFolder,
     sortFolder,
+    prependToParentFolder,
   };
 };
