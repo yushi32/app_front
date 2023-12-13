@@ -10,7 +10,7 @@ export function useDnD() {
    * itemData関数に渡して数値のidと文字列のtypeに分解して、条件分岐と処理に使う
    */
   const itemData = (id) => {
-    if (id === 'all') return { id };
+    if (id === 'all') return { id: null, type: 'store' };
     const identifiers = id.split(':');
     return {
       id: parseInt(identifiers[0]),
@@ -26,17 +26,29 @@ export function useDnD() {
   const handleDragEnd = (e, setActiveId) => {
     const { active, over } = e;
     setActiveId(null);
-    console.log(e)
 
     const isDropped = over;
-
     if (isDropped) {
       const targetItem = itemData(active.id);
+      const parentFolder = itemData(over.id);
+
+      const isSelf = targetItem.id !== parentFolder.id;
       
       if (targetItem.type === 'bookmark') {
-        console.log(`${targetItem.id}: ${targetItem.type}`);
+        putBookmarkInFolder(targetItem.id, parentFolder.id);
       } else {
-        console.log(`${targetItem.id}: ${targetItem.type}`);
+        switch (parentFolder.type) {
+          case 'store':
+            updateParentFolder(targetItem.id, parentFolder.id);
+            break;
+          case 'sort':
+            if (!isSelf) sortFolder(targetItem.id, parentFolder.id);
+            break;
+          case 'top':
+            break;
+          default:
+            console.log('No matching case found.')
+        }
       }
     }
   };
