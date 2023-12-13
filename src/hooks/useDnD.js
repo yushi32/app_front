@@ -37,13 +37,13 @@ export function useDnD() {
       if (targetItem.type === 'bookmark') {
         putBookmarkInFolder(targetItem.id, parentFolder.id);
       } else {
-        console.log(parentFolder.type)
+        if (isSelf) return;
         switch (parentFolder.type) {
           case 'store':
             updateParentFolder(targetItem.id, parentFolder.id);
             break;
           case 'sort':
-            if (!isSelf) sortFolder(targetItem.id, parentFolder.id);
+            sortFolder(targetItem.id, parentFolder.id);
             break;
           case 'top':
             prependToParentFolder(targetItem.id, parentFolder.id);
