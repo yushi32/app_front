@@ -12,8 +12,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
 import Sidebar from "../../components/Sidebar";
-import OverlayBookmark from "../../components/OverlayBookmark";
-import OverlayFolder from "../../components/OverlayFolder";
+import OverlayContainer from "../../components/OverlayContainer";
 
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
@@ -58,8 +57,7 @@ export default function Page() {
         </div>
       </div>
       <DragOverlay>
-        {activeFolder && <OverlayFolder name={activeFolder.name} />}
-        {activeBookmark && <OverlayBookmark title={activeBookmark.title} overlayColor={overlayColor} />}
+        <OverlayContainer activeBookmark={activeBookmark} activeFolder={activeFolder} overlayColor={overlayColor} />
       </DragOverlay>
     </DndContext>
   );
