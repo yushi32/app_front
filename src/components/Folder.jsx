@@ -94,7 +94,6 @@ export default function Folder({ level = 0, id, name }) {
   };
 
   useEffect(() => {
-    const isSelected = selectedFolderId === id;
     if (isOpen && !isSelected && !hasAncestor(selectedFolderId)) {
       setIsOpen(false);
     }
