@@ -19,34 +19,35 @@ export function useDnD() {
   };
 
   const handleDragStart = (e, setActiveId) => {
-    const item = itemData(e.active.id);
-    if (item.type === 'folder' || 'bookmark') setActiveId(item.id);
+    const dragItem = itemData(e.active.id);
+    setActiveId(dragItem.id);
   };
 
   const handleDragEnd = (e, setActiveId) => {
-    const { active, over } = e;
     setActiveId(null);
 
+    const { active, over } = e;
     const isDropped = over;
-    if (isDropped) {
-      const targetItem = itemData(active.id);
-      const parentFolder = itemData(over.id);
 
-      const isSelf = targetItem.id === parentFolder.id;
+    if (isDropped) {
+      const dragItem = itemData(active.id);
+      const droppedItem = itemData(over.id);
+
+      const isSelf = dragItem.id === droppedItem.id;
       
-      if (targetItem.type === 'bookmark') {
-        if (parentFolder.type === 'store') putBookmarkInFolder(targetItem.id, parentFolder.id);
+      if (dragItem.type === 'bookmark') {
+        if (droppedItem.type === 'store') putBookmarkInFolder(dragItem.id, droppedItem.id);
       } else {
         if (isSelf) return;
-        switch (parentFolder.type) {
+        switch (droppedItem.type) {
           case 'store':
-            updateParentFolder(targetItem.id, parentFolder.id);
+            updateParentFolder(dragItem.id, droppedItem.id);
             break;
           case 'sort':
-            sortFolder(targetItem.id, parentFolder.id);
+            sortFolder(dragItem.id, droppedItem.id);
             break;
           case 'top':
-            prependToParentFolder(targetItem.id, parentFolder.id);
+            prependToParentFolder(dragItem.id, droppedItem.id);
             break;
           default:
             console.log('No matching case found.');
