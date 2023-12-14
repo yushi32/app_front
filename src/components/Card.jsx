@@ -9,7 +9,7 @@ import { useBookmark } from "../hooks/useBookmark";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
-export default function Card({ id, url, title, bookmarkTags }) {
+export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) {
   const { isDeleted, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [isHovered, setIsHovered] = useState(false);
@@ -40,7 +40,11 @@ export default function Card({ id, url, title, bookmarkTags }) {
     ];
     const randomIndex = Math.floor(Math.random() * colors.length);
     setRandomColor(colors[randomIndex]);
-  }, []); 
+  }, []);
+
+  useEffect(() => {
+    setOverlayColor(randomColor)
+  }, [isDragging]);
 
   if (isDeleted) {
     return null;

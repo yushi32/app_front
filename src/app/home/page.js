@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 
@@ -20,6 +20,7 @@ export default function Page() {
   const { currentUser, loading } = useAuthContext();
   const { handleDragStart, handleDragEnd } = useDnD();
   const { setActiveId, activeFolder, activeBookmark } = useOverlay();
+  const [overlayColor, setOverlayColor] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -44,14 +45,21 @@ export default function Page() {
             <NoContents />
           ) : bookmarks.map((bookmark) => {
             return (
-              <Card key={bookmark.id} id={bookmark.id} url={bookmark.url} title={bookmark.title} bookmarkTags={bookmark.tags} />
+              <Card
+                key={bookmark.id}
+                id={bookmark.id}
+                url={bookmark.url}
+                title={bookmark.title}
+                bookmarkTags={bookmark.tags}
+                setOverlayColor={setOverlayColor}
+              />
             );
           })}
         </div>
       </div>
       <DragOverlay>
         {activeFolder && <OverlayFolder name={activeFolder.name} />}
-        {activeBookmark && <OverlayBookmark title={activeBookmark.title} />}
+        {activeBookmark && <OverlayBookmark title={activeBookmark.title} overlayColor={overlayColor} />}
       </DragOverlay>
     </DndContext>
   );

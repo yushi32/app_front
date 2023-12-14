@@ -1,24 +1,4 @@
-import { useState, useEffect } from "react"
-
-export default function Card({ title }) {
-  const [randomColor, setRandomColor] = useState();
-
-  useEffect(() => {
-    const colors = [
-      'bg-red-300',
-      'bg-blue-300',
-      'bg-green-400',
-      'bg-amber-200',
-      'bg-purple-200',
-      'bg-neutral-700',
-      'bg-teal-200',
-      'bg-pink-200',
-      'bg-orange-300'
-    ];
-    const randomIndex = Math.floor(Math.random() * colors.length);
-    setRandomColor(colors[randomIndex]);
-  }, []);
-
+export default function Card({ title, overlayColor }) {
   return (
     <div
       className="
@@ -37,7 +17,7 @@ export default function Card({ title }) {
       <div
         className="flex flex-col h-full"
       >
-        <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}>
+        <div className={`rounded-t-md ${overlayColor} flex-1 h-[50%]`}>
         </div>
         <div
           className="
