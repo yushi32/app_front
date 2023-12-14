@@ -24,7 +24,7 @@ export default function Sidebar() {
       <div className="space-y-0.5">
         <Inbox />
         {rootFolders?.map((folder) => {
-          return <Folder key={folder.id} id={folder.id} name={folder.name} children={folder.children} />;
+          return <Folder key={folder.id} id={folder.id} name={folder.name} />;
         })}
       </div>
       <SidebarFooter />
