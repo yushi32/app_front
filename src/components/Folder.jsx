@@ -132,6 +132,10 @@ export default function Folder({ level = 0, id, name }) {
     }
   }, [over]);
 
+  useEffect(() => {
+    if (!hasChildren) setIsOpen(false);
+  }, [hasChildren]);
+
   return (
     <>
       <div className="flex flex-col">
