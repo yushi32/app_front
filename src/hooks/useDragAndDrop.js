@@ -1,7 +1,7 @@
 import { useBookmark } from "./useBookmark";
 import { useFolder } from "./useFolder";
 
-export function useDnD() {
+export function useDragAndDrop() {
   const { putBookmarkInFolder } = useBookmark();
   const { updateParentFolder, sortFolder, prependToParentFolder } = useFolder();
 

@@ -1,13 +1,13 @@
 import { useDndContext } from "@dnd-kit/core";
 
-import { useDnD } from "../hooks/useDnD";
+import { useDragAndDrop } from "../hooks/useDragAndDrop";
 
 import OverlayBookmark from "./OverlayBookmark";
 import OverlayFolder from "./OverlayFolder";
 
 export default function({ activeBookmark, activeFolder, overlayColor }) {
   const { active } = useDndContext();
-  const { itemData } = useDnD();
+  const { itemData } = useDragAndDrop();
 
   const dragItem = active && itemData(active.id);
 

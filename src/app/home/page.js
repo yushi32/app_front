@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 
 import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
-import { useDnD } from "../../hooks/useDnD";
+import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { useOverlay } from "../../hooks/useOverlay";
 import { useAuthContext } from "../../context/AuthContext";
 
@@ -17,7 +17,7 @@ import OverlayContainer from "../../components/OverlayContainer";
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
   const { currentUser, loading } = useAuthContext();
-  const { handleDragStart, handleDragEnd } = useDnD();
+  const { handleDragStart, handleDragEnd } = useDragAndDrop();
   const { setActiveId, activeFolder, activeBookmark } = useOverlay();
   const [overlayColor, setOverlayColor] = useState();
   const router = useRouter();

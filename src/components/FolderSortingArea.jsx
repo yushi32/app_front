@@ -1,11 +1,11 @@
 import { useDroppable, useDndContext } from "@dnd-kit/core";
 
-import { useDnD } from "../hooks/useDnD";
+import { useDragAndDrop } from "../hooks/useDragAndDrop";
 
 export default function FolderSortingArea({ id, topSort = false, setIsHovered, handleClick, bgStyle , borderStyle }) {
   const { isOver, setNodeRef } = useDroppable({ id: topSort ? `${id}:top` : `${id}:sort` });
   const { active } = useDndContext();
-  const { itemData } = useDnD();
+  const { itemData } = useDragAndDrop();
 
   const dragItemType = active && itemData(active.id).type;
   const isFolder = dragItemType === 'folder';
