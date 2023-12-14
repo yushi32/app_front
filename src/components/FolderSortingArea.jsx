@@ -1,7 +1,14 @@
-import { useDroppable } from "@dnd-kit/core";
+import { useDroppable, useDndContext } from "@dnd-kit/core";
+
+import { useDnD } from "../hooks/useDnD";
 
 export default function FolderSortingArea({ id, topSort = false, setIsHovered, handleClick, bgStyle , borderStyle }) {
   const { isOver, setNodeRef } = useDroppable({ id: topSort ? `${id}:top` : `${id}:sort` });
+  const { active } = useDndContext();
+  const { itemData } = useDnD();
+
+  const dragItemType = active && itemData(active.id).type;
+  const isFolder = dragItemType === 'folder';
 
   if (topSort) {
     return (
@@ -30,7 +37,7 @@ export default function FolderSortingArea({ id, topSort = false, setIsHovered, h
         h-2.5
         ${bgStyle}
         ${!isOver && borderStyle}
-        ${isOver && 'border-b-4 border-blue-400'}
+        ${isOver && isFolder && 'border-b-4 border-blue-400'}
       `}
     >
     </button>

@@ -35,7 +35,7 @@ export function useDnD() {
       const isSelf = targetItem.id === parentFolder.id;
       
       if (targetItem.type === 'bookmark') {
-        putBookmarkInFolder(targetItem.id, parentFolder.id);
+        if (parentFolder.type === 'store') putBookmarkInFolder(targetItem.id, parentFolder.id);
       } else {
         if (isSelf) return;
         switch (parentFolder.type) {
@@ -57,6 +57,7 @@ export function useDnD() {
   };
 
   return {
+    itemData,
     handleDragStart,
     handleDragEnd,
   };
