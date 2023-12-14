@@ -104,7 +104,7 @@ export function useFolder() {
     const data = {
       folder: {
         position: sortedPosition,
-        ...(updateParentIdFlag ? { parent_id: prevFolder.parent_id } : {}),
+        ...(updateParentIdFlag ? { parent_id: prevFolder ? prevFolder.parent_id : null } : {}),
       }
     };
     const res = await axios.patch(
@@ -120,7 +120,7 @@ export function useFolder() {
     const firstChild = getChildFolders(parentId)[0];
     const firstChildIndex = folders.findIndex(folder => folder.id === firstChild.id);
     const prevFolder = folders[firstChildIndex - 1];
-    const sortedPosition = calculateSortedPosition(prevFolder.id);
+    const sortedPosition = calculateSortedPosition(prevFolder?.id);
 
     const targetFolder = getFolder(targetId);
     const updateParentIdFlag = !isSameLayer(targetFolder.parent_id, parentId);
