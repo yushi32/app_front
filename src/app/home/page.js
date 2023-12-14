@@ -12,13 +12,14 @@ import { useAuthContext } from "../../context/AuthContext";
 import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
 import Sidebar from "../../components/Sidebar";
+import OverlayBookmark from "../../components/OverlayBookmark";
 import OverlayFolder from "../../components/OverlayFolder";
 
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
   const { currentUser, loading } = useAuthContext();
   const { handleDragStart, handleDragEnd } = useDnD();
-  const { setActiveId, activeFolder } = useOverlay();
+  const { setActiveId, activeFolder, activeBookmark } = useOverlay();
   const router = useRouter();
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export default function Page() {
       </div>
       <DragOverlay>
         {activeFolder && <OverlayFolder name={activeFolder.name} />}
+        {activeBookmark && <OverlayBookmark title={activeBookmark.title} />}
       </DragOverlay>
     </DndContext>
   );

@@ -20,7 +20,7 @@ export function useDnD() {
 
   const handleDragStart = (e, setActiveId) => {
     const item = itemData(e.active.id);
-    if (item.type === 'folder') setActiveId(item.id);
+    if (item.type === 'folder' || 'bookmark') setActiveId(item.id);
   };
 
   const handleDragEnd = (e, setActiveId) => {

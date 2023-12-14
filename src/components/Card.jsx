@@ -14,11 +14,12 @@ export default function Card({ id, url, title, bookmarkTags }) {
   const [randomColor, setRandomColor] = useState();
   const [isHovered, setIsHovered] = useState(false);
   const [tags, setTags] = useState([]);
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { isDragging, attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `${id}:bookmark`,
   });
   const style = {
-    transform: CSS.Transform.toString(transform)
+    opacity: isDragging ? 0 : undefined,
+    transform: CSS.Transform.toString(transform),
   };
 
   useEffect(() => {
@@ -120,7 +121,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
             />
           </button>
         </div>
-      </div>      
+      </div>
     </div>
   );  
 }
