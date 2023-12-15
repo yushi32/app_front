@@ -5,7 +5,7 @@ import { useDragAndDrop } from "../hooks/useDragAndDrop";
 import OverlayBookmark from "./OverlayBookmark";
 import OverlayFolder from "./OverlayFolder";
 
-export default function({ activeBookmark, activeFolder, overlayColor }) {
+export default function OverlayContainer({ activeBookmark, activeFolder, overlayColor }) {
   const { active } = useDndContext();
   const { itemData } = useDragAndDrop();
 
