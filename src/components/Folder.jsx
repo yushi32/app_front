@@ -82,7 +82,7 @@ export default function Folder({ level = 0, id, name }) {
 
   useEffect(() => {
     setInput(name);
-  }, []);
+  }, [form]);
 
   // 選択されているフォルダの親階層に自身が含まれるかを再帰的にチェックする関数
   const hasAncestor = (folderId) => {
