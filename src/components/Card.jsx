@@ -1,16 +1,26 @@
 import { useState, useEffect } from "react"
 import Link from "next/link";
 import Image from"next/image";
+import { useDraggable } from '@dnd-kit/core';
+import { CSS } from "@dnd-kit/utilities";
 
 import { useBookmark } from "../hooks/useBookmark";
 
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
-export default function Card({ id, url, title, bookmarkTags }) {
+export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) {
   const { isDeleted, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
+  const [isHovered, setIsHovered] = useState(false);
   const [tags, setTags] = useState([]);
+  const { isDragging, attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: `${id}:bookmark`,
+  });
+  const style = {
+    opacity: isDragging ? 0 : undefined,
+    transform: CSS.Transform.toString(transform),
+  };
 
   useEffect(() => {
     if (bookmarkTags.length !== 0) {
@@ -30,7 +40,11 @@ export default function Card({ id, url, title, bookmarkTags }) {
     ];
     const randomIndex = Math.floor(Math.random() * colors.length);
     setRandomColor(colors[randomIndex]);
-  }, []); 
+  }, []);
+
+  useEffect(() => {
+    setOverlayColor(randomColor)
+  }, [isDragging]);
 
   if (isDeleted) {
     return null;
@@ -39,15 +53,53 @@ export default function Card({ id, url, title, bookmarkTags }) {
   const onClickEdit = () => {};
 
   return (
-    <div className="col-span-1 rounded-md shadow-md hover:shadow-2xl mt-4 mx-1 h-64 flex flex-col justify-between border-6">
-      <Link href={url} className="flex flex-col h-full">
-        <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}></div>
-        <div className="px-3 pt-3 pb-1 text-center overflow-scroll h-[50%] flex flex-col justify-center">
-          <p className="text-center text-sm">{title}</p>
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={style}
+      className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-64 flex flex-col justify-between border-6 bg-white"
+    >
+      <div
+        ref={setNodeRef}
+        className="flex flex-col h-full"
+      >
+        <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}>
+          {isHovered && 
+            <Image
+              {...listeners}
+              {...attributes}
+              src="/draggable.svg"
+              alt="draggable"
+              width={20}
+              height={20}
+              className="m-2"
+            />
+          }
         </div>
-      </Link>
+        <Link
+          href={url}
+          target="_blank"
+          className="
+            px-3
+            pt-3
+            pb-1
+            text-center
+            text-sm
+            overflow-scroll
+            h-[50%]
+            flex
+            flex-col
+            justify-center
+            hover:underline
+            hover:decoration-emerald-300
+            underline-offset-4
+          "
+        >
+          {title}
+        </Link>
+      </div>
       <div className="flex justify-between place-items-end px-2 py-1">
-        <div className="flex-1 flex-wrap flex gap-1">
+        <div className="flex-1 flex-wrap flex gap-1 items-center">
           {tags.length !==0 && tags.map((tag) => {
             return <Tag key={tag.id} name={tag.name} />
           })}
@@ -73,7 +125,7 @@ export default function Card({ id, url, title, bookmarkTags }) {
             />
           </button>
         </div>
-      </div>      
+      </div>
     </div>
   );  
 }

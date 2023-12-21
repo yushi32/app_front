@@ -42,10 +42,22 @@ export function useBookmark() {
     return res.data.bookmark.tags;
   };
 
+  const putBookmarkInFolder = async (bookmarkId, folderId) => {
+    const config = await setIdToken();
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${bookmarkId}`,
+      { bookmark: { folder_id: folderId } },
+      config
+    );
+    mutate([`/api/v1/bookmarks`, currentUser]);
+    console.log(res);
+  };
+
   return {
     isDeleted,
     setIsDeleted,
     deleteBookmark,
-    addTagToBookmark
+    addTagToBookmark,
+    putBookmarkInFolder
   };
 };

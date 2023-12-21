@@ -1,10 +1,10 @@
 import { useSearchContext } from "../context/SearchContext";
 
 export default function Tag({ name }) {
-  const { selectedTags, handleOnClickTag } = useSearchContext();
+  const { selectedTags, handleFilteringByTag } = useSearchContext();
 
   const handleOnClick = () => {
-    handleOnClickTag(name);
+    handleFilteringByTag(name);
   };
 
   return (

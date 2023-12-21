@@ -1,9 +1,10 @@
 import Image from"next/image";
 
+import Footer from "../components/Footer";
 import SignInButton from "../components/SignInButton";
 import ExtensionButton from "../components/ExtensionButton";
 
-export default function Home() {
+export default function Page() {
   return (
     <>
       <div className="w-full bg-neutral-800 text-white">
@@ -68,6 +69,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

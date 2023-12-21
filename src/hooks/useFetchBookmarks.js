@@ -20,12 +20,14 @@ const fetcher = async (url, currentUser) => {
     });
 };
 
-export function useFetchData() {
+export function useFetchBookmarks() {
   const { currentUser } = useAuthContext();
   const { data: bookmarks, error } = useSWR(
     currentUser ? [`/api/v1/bookmarks`, currentUser] : null, 
     ([url, currentUser]) => fetcher(url, currentUser)
   );
+
+  const totalBookmarksCount = bookmarks ? bookmarks.length : 0;
 
   useEffect(() => {
     if (error) console.log(`error message: ${error}`);
@@ -33,6 +35,7 @@ export function useFetchData() {
 
   return {
     bookmarks,
-    error
+    error,
+    totalBookmarksCount
   };
 }

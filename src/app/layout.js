@@ -2,7 +2,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 
 import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { AuthContextProvider } from "../context/AuthContext";
 import SearchContextProvider from "../context/SearchContext";
 
@@ -21,7 +20,6 @@ export default function RootLayout({ children }) {
           <body className={`${inter.className} flex flex-col min-h-screen`}>
             <Header />
             {children}
-            <Footer />
           </body>
         </html>
       </SearchContextProvider>

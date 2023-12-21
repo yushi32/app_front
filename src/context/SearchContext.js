@@ -6,8 +6,9 @@ const SearchContext = createContext();
 
 export default function SearchProvider({ children }) {
   const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
 
-  const filterByTag = (tagName) => {
+  const selectTag = (tagName) => {
     const newSelectedTags = [...selectedTags, tagName];
     setSelectedTags(newSelectedTags);
   };
@@ -21,20 +22,35 @@ export default function SearchProvider({ children }) {
     setSelectedTags([]);
   };
 
-  const isSelected = (tagName) => {
+  const isSelectedTag = (tagName) => {
     return selectedTags.includes(tagName);
   };
 
-  const handleOnClickTag = (tagName) => {
-    if (isSelected(tagName)) {
+  const handleFilteringByTag = (tagName) => {
+    if (isSelectedTag(tagName)) {
       unselectTag(tagName);
     } else {
-      filterByTag(tagName);
+      selectTag(tagName);
+    }
+  };
+
+  const handleFilteringByFolder = (folderId) => {
+    if (selectedFolderId === folderId) {
+      setSelectedFolderId(null);
+    } else {
+      setSelectedFolderId(folderId);
     }
   };
 
   return (
-    <SearchContext.Provider value={{ selectedTags, setSelectedTags, handleOnClickTag }}>
+    <SearchContext.Provider value={{
+      selectedTags,
+      setSelectedTags,
+      selectedFolderId,
+      setSelectedFolderId,
+      handleFilteringByTag,
+      handleFilteringByFolder
+    }}>
       {children}
     </SearchContext.Provider>
   );

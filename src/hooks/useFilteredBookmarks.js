@@ -1,22 +1,40 @@
 import { useMemo } from "react";
 
-import { useFetchData } from "../hooks/useFetchData";
+import { useFetchBookmarks } from "../hooks/useFetchBookmarks";
 import { useSearchContext } from "../context/SearchContext";
 
 export function useFilteredBookmarks() {
-  const { bookmarks, error } = useFetchData();
-  const { selectedTags } = useSearchContext();
+  const { bookmarks, error } = useFetchBookmarks();
+  const { selectedTags, setSelectedTags, selectedFolderId } = useSearchContext();
 
   const filteredBookmarks = useMemo(() => {
     if (!bookmarks) return [];
-    if (selectedTags.length === 0) return bookmarks;
-    const result = bookmarks.filter((bookmark) =>
-      selectedTags.every((selectedTag) =>
-        bookmark.tags.some((tag) => tag.name === selectedTag)
-      )
-    );
-    return result.length > 0 ? result : bookmarks;
-  }, [bookmarks, selectedTags]);
+  
+    let finalResult = bookmarks;
+  
+    // フォルダで絞り込む
+    if (selectedFolderId) {
+      finalResult = bookmarks.filter((bookmark) => bookmark.folder_id === selectedFolderId);
+    }
+  
+    // タグで絞り込む
+    if (selectedTags.length > 0) {
+      const tagFilteredResult = finalResult.filter((bookmark) =>
+        selectedTags.every((selectedTag) =>
+          bookmark.tags.some((tag) => tag.name === selectedTag)
+        )
+      );
+
+      // タグで絞り込んだ結果が0件になった場合、リロードする以外にタグの選択を解除できなくなるので、その場合はタグの選択を解除する
+      if (tagFilteredResult.length > 0) {
+        finalResult = tagFilteredResult;
+      } else {
+        setSelectedTags([]);
+      }
+    }
+  
+    return finalResult;
+  }, [bookmarks, selectedTags, selectedFolderId]);
 
   return {
     bookmarks: filteredBookmarks,
