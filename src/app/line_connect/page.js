@@ -3,18 +3,21 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
+import { useAuthContext } from "../../context/AuthContext";
 import { useRandomQuery } from "../../hooks/useRandomQuery";
 import { useLineApi } from "../../hooks/useLineApi";
 import { useUser } from "../../hooks/useUser";
 
 export default function Page() {
+  const { currentUser, loading } = useAuthContext();
   const { generateState, generateNonce } = useRandomQuery();
   const { getAccessToken, logout } = useLineApi();
   const { updateLineUserId } = useUser();
   const [query, setQuery] = useState('');
   const [isLinked, setIsLinked] = useState(false);
+  const router = useRouter();
   const searchParams = useSearchParams();
   // 手順1,2が完了しているかどうかをクエリパラメータの有無で判断する
   const code = searchParams.get('code');
@@ -44,6 +47,12 @@ export default function Page() {
       setQuery(`response_type=code&client_id=${process.env.NEXT_PUBLIC_LINE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_CALLBACK_URL}&state=${state}&scope=profile%20openid&nonce=${nonce}&prompt=consent&bot_prompt=normal&initial_amr_display=lineqr`);
     }
   }, []);
+
+  useEffect(() => {
+    if (!loading && !currentUser) {
+      router.push("/");
+    }
+  }, [currentUser, loading]);
 
   return (
     <div className="flex-grow flex flex-col max-w-5xl mx-auto pt-12 pb-16 text-neutral-700 bg-red-20">
