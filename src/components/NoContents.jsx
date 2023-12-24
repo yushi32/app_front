@@ -3,8 +3,15 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
+import { useFetchBookmarks } from "../hooks/useFetchBookmarks";
+import { useFetchFolders } from "../hooks/useFetchFolders";
+import { useSearchContext } from "../context/SearchContext";
+
 export default function NoContent() {
   const [num, setNum] = useState();
+  const { selectedFolderId } = useSearchContext();
+  const { totalBookmarksCount } = useFetchBookmarks();
+  const { getFolder } = useFetchFolders();
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * 7);
@@ -12,14 +19,14 @@ export default function NoContent() {
   }, []); 
 
   return (
-    <div className="flex-grow flex flex-col items-center justify-center">
+    <div className="col-span-3 flex-grow flex flex-col items-center justify-center">
       <div className="text-center py-4 mt-4 mb-4">
         <div className="mb-4">
-          おや？まだ保存したブックマークがないようですね。
+          {`${totalBookmarksCount !== 0 ? `${getFolder(selectedFolderId).name} にはまだブックマークが保存されていません。` : 'おや？まだ保存したブックマークがないようですね。'}`}
         </div>
-        <div>
-          ヘッダーの入力窓にURLを入力して Laterless を始めましょう。
-        </div>
+        {!totalBookmarksCount && <div>
+          Chrome拡張機能をインストールして Laterless を始めましょう。
+        </div>}
       </div>
       <div className="flex-grow flex items-center justify-center">
         <Image 

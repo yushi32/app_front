@@ -1,8 +1,10 @@
 import Image from"next/image";
 
-import SignInButton from "../components/SignInButton"
+import Footer from "../components/Footer";
+import SignInButton from "../components/SignInButton";
+import ExtensionButton from "../components/ExtensionButton";
 
-export default function Home() {
+export default function Page() {
   return (
     <>
       <div className="w-full bg-neutral-800 text-white">
@@ -63,13 +65,11 @@ export default function Home() {
             <p className="text-center">
               Chrome拡張機能をインストールすることで今見ているページから移動せずにLaterlessへ登録できます。
             </p>
-            <button className="mt-4 p-3 rounded-full bg-emerald-400">
-              <p>Chrome拡張機能は</p>
-              <p>こちら</p>
-            </button>
+            <ExtensionButton />
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

@@ -1,18 +1,25 @@
 'use client';
 
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 
+import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
+import { useDragAndDrop } from "../../hooks/useDragAndDrop";
+import { useOverlay } from "../../hooks/useOverlay";
 import { useAuthContext } from "../../context/AuthContext";
 
 import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
+import Sidebar from "../../components/Sidebar";
+import OverlayContainer from "../../components/OverlayContainer";
 
 export default function Page() {
-  const [bookmarks, setBookmarks] = useState([]);
-  const [dataLoading, setDataLoading] = useState(false);
+  const { bookmarks, isLoading } = useFilteredBookmarks();
   const { currentUser, loading } = useAuthContext();
+  const { handleDragStart, handleDragEnd } = useDragAndDrop();
+  const { setActiveId, activeFolder, activeBookmark } = useOverlay();
+  const [overlayColor, setOverlayColor] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -21,35 +28,37 @@ export default function Page() {
     }
   }, [currentUser, loading]);
 
-  useEffect(() => {
-    const getBookmarks = async () => {
-      const token = await currentUser?.getIdToken();
-      if (!token) {
-        return
-      } else {
-        const config = {
-          headers: { authorization: `Bearer ${token}` },
-        };
-        // console.log(currentUser)
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks`, config);
-        setBookmarks(res.data.data)
-        setDataLoading(true);
-        // console.log(res.data.data);
-      }
-    }
-    getBookmarks();
-  }, [currentUser]);
+  if (isLoading) {
+    return <div className="flex-grow flex items-center justify-center text-xl">Loading...</div>;
+  }
 
   return (
-    <>
-      {dataLoading && !bookmarks.length ? <NoContents /> : <div className="flex-grow grid grid-cols-3 gap-x-4 gap-y-4 my-8 px-12 max-w-5xl mx-auto border-4">
-      {bookmarks.map((bookmark) => {
-        return (
-          <Card key={bookmark.id} id={bookmark.attributes.id} url={bookmark.attributes.url} title={bookmark.attributes.title} />
-        )
-      })}
-    </div>
-      }
-    </>
+    <DndContext
+      onDragStart={(e) => handleDragStart(e, setActiveId)}
+      onDragEnd={(e) => handleDragEnd(e, setActiveId)}
+    >
+      <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto mt-12 mb-8 h-80">
+        <Sidebar />
+        <div className="col-span-4 overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8 pb-12">
+          {bookmarks.length === 0 ? (
+            <NoContents />
+          ) : bookmarks.map((bookmark) => {
+            return (
+              <Card
+                key={bookmark.id}
+                id={bookmark.id}
+                url={bookmark.url}
+                title={bookmark.title}
+                bookmarkTags={bookmark.tags}
+                setOverlayColor={setOverlayColor}
+              />
+            );
+          })}
+        </div>
+      </div>
+      <DragOverlay>
+        <OverlayContainer activeBookmark={activeBookmark} activeFolder={activeFolder} overlayColor={overlayColor} />
+      </DragOverlay>
+    </DndContext>
   );
 }
