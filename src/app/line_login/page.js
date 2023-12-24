@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
 import { useRandomQuery } from "../../hooks/useRandomQuery";
@@ -13,7 +14,10 @@ export default function Page() {
   const { getAccessToken, logout } = useLineApi();
   const { updateLineUserId } = useUser();
   const [query, setQuery] = useState('');
+  const [isLinked, setIsLinked] = useState(false);
   const searchParams = useSearchParams();
+  // 手順1,2が完了しているかどうかをクエリパラメータの有無で判断する
+  const code = searchParams.get('code');
 
   const linkLineAccount = async () => {
     const requestState = sessionStorage.getItem('state');
@@ -23,7 +27,8 @@ export default function Page() {
     if (requestState === responseState) {
       const res = await getAccessToken();
       const lineIdToken = res.id_token;
-      await updateLineUserId(lineIdToken);
+      const statusCode = await updateLineUserId(lineIdToken);
+      if (statusCode === 204) setIsLinked(true);
 
       // アプリ上ではLINEアカウントを使用しないので、連携処理が終わったらログアウトさせる
       const lineAccessToken = res.access_token;
@@ -60,7 +65,15 @@ export default function Page() {
 
       <div className="space-y-12">
         <div className="flex flex-col items-center">
-          <h2 className="w-full text-center text-xl font-bold border-b-2 p-2">手順1</h2>
+          <div className="flex items-center justify-center w-full border-b-2 p-2 ">
+            {code && <Image 
+              src='/check.svg'
+              alt='completed'
+              width={28}
+              height={28}
+            />}
+            <h2 className={`text-center text-xl font-bold ${code ? 'mr-7' : ''}`}>手順1</h2>
+          </div>
           <div className="mt-4 mb-2">
             <div>下のボタンを押して、LINEにログインしてください。</div>
             <div>LINEのログインページにリダイレクトされます。</div>
@@ -69,7 +82,8 @@ export default function Page() {
             href={`https://access.line.me/oauth2/v2.1/authorize?${query}`}
           >
             <button
-              className="rounded-md p-2 bg-emerald-400 text-black hover:bg-emerald-200 hover:scale-95"
+              disabled={code}
+              className={`rounded-md p-2 text-black ${code ? 'bg-gray-200' : 'bg-emerald-400 hover:bg-emerald-200 hover:scale-95'}`}
             >
               LINEにログインする
             </button>
@@ -77,7 +91,15 @@ export default function Page() {
         </div>
 
         <div className="flex flex-col items-center">
-          <h2 className="w-full text-center text-xl font-bold border-b-2 p-2">手順2</h2>
+          <div className="flex items-center justify-center w-full border-b-2 p-2 ">
+            {code && <Image 
+              src='/check.svg'
+              alt='completed'
+              width={28}
+              height={28}
+            />}
+            <h2 className={`text-center text-xl font-bold ${code ? 'mr-7' : ''}`}>手順2</h2>
+          </div>
           <div className="mt-4 mb-2">
             <div>ログイン後、同意画面が表示されるので下部にある「許可する」を押してください。</div>
             <div>「許可する」を押した後、またこちらのページにリダイレクトされます。</div>
@@ -85,15 +107,24 @@ export default function Page() {
         </div>
 
         <div className="flex flex-col items-center">
-          <h2 className="w-full text-center text-xl font-bold border-b-2 p-2">手順3</h2>
+          <div className="flex items-center justify-center w-full border-b-2 p-2 ">
+            {isLinked && <Image 
+              src='/check.svg'
+              alt='completed'
+              width={28}
+              height={28}
+            />}
+            <h2 className={`text-center text-xl font-bold ${isLinked ? 'mr-7' : ''}`}>手順3</h2>
+          </div>
           <div className="mt-4 mb-2">
             <div>こちらのページに戻ってきたら、下の「連携する」ボタンを押してください。</div>
           </div>
           <button
             onClick={linkLineAccount}
-            className="rounded-md p-2 bg-emerald-400 text-black hover:bg-emerald-200 hover:scale-95"
+            disabled={isLinked}
+            className={`rounded-md p-2 text-black ${isLinked ? 'bg-gray-200' : 'bg-emerald-400 hover:bg-emerald-200 hover:scale-95'}`}
           >
-            連携する
+            {isLinked ? '連携済み' : '連携する'}
           </button>
         </div>
 

@@ -16,13 +16,12 @@ export function useUser() {
         'X-LINE-AccessToken': lineIdToken,
       }
     };
-    
     const res = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user`,
       {},
       config
     );
-
+    return res.status;
   };
 
   return {
