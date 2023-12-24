@@ -2,18 +2,42 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import { useRandomQuery } from "../../hooks/useRandomQuery";
+import { useLineApi } from "../../hooks/useLineApi";
+import { useUser } from "../../hooks/useUser";
 
 export default function Page() {
   const { generateState, generateNonce } = useRandomQuery();
+  const { getAccessToken, logout } = useLineApi();
+  const { updateLineUserId } = useUser();
   const [query, setQuery] = useState('');
+  const searchParams = useSearchParams();
+
+  const linkLineAccount = async () => {
+    const requestState = sessionStorage.getItem('state');
+    const responseState = searchParams.get('state');
+
+    // LINEログインをリクエストした時に設定したクエリパラメータがレスポンスに含まれているかどうかを検証する
+    if (requestState === responseState) {
+      const res = await getAccessToken();
+      const lineIdToken = res.id_token;
+      await updateLineUserId(lineIdToken);
+
+      // アプリ上ではLINEアカウントを使用しないので、連携処理が終わったらログアウトさせる
+      const lineAccessToken = res.access_token;
+      await logout(lineAccessToken);
+    }
+  };
 
   useEffect(() => {
     const state = generateState();
     const nonce = generateNonce();
-    sessionStorage.setItem('state', state);
-    setQuery(`response_type=code&client_id=${process.env.NEXT_PUBLIC_LINE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_CALLBACK_URL}&state=${state}&scope=profile%20openid&nonce=${nonce}&prompt=consent&bot_prompt=normal&initial_amr_display=lineqr`);
+    if (!sessionStorage.getItem('state')) {
+      sessionStorage.setItem('state', state);
+      setQuery(`response_type=code&client_id=${process.env.NEXT_PUBLIC_LINE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_CALLBACK_URL}&state=${state}&scope=profile%20openid&nonce=${nonce}&prompt=consent&bot_prompt=normal&initial_amr_display=lineqr`);
+    }
   }, []);
 
   return (
@@ -66,6 +90,7 @@ export default function Page() {
             <div>こちらのページに戻ってきたら、下の「連携する」ボタンを押してください。</div>
           </div>
           <button
+            onClick={linkLineAccount}
             className="rounded-md p-2 bg-emerald-400 text-black hover:bg-emerald-200 hover:scale-95"
           >
             連携する
