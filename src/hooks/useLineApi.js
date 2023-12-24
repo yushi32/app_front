@@ -27,7 +27,6 @@ export function useLineApi() {
   };
 
   const logout = async (accessToken) => {
-    console.log('ログアウンとすんで')
     const body = new URLSearchParams();
     body.append('access_token', accessToken);
     body.append('client_id', process.env.NEXT_PUBLIC_LINE_CLIENT_ID);
@@ -40,7 +39,6 @@ export function useLineApi() {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }
       );
-      console.log(res)
     } catch (error) {
       console.log(error);
     }
