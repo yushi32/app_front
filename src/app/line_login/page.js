@@ -108,7 +108,11 @@ export default function Page() {
                 <div>通知を受け取るためには、laterless公式アカウントの友だち追加が必要です。</div>
                 <div>まだお済みでない方はこちらのQRコードから友だち追加してください。</div>
               </div>
-              <div className="w-36 h-36 bg-red-200"></div>
+              <img
+                src="https://qr-official.line.me/gs/M_257arxyt_GW.png?oat_content=qr"
+                width={240}
+                height={240}
+              />
             </div>
             <div className="flex flex-col items-center space-y-2">
               <div>未読のブックマークの通知機能をONにしたい方は下のボタンを押してください。</div>
