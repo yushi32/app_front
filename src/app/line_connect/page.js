@@ -9,12 +9,14 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useRandomQuery } from "../../hooks/useRandomQuery";
 import { useLineApi } from "../../hooks/useLineApi";
 import { useUser } from "../../hooks/useUser";
+import { useNotification } from "../../hooks/useNotification";
 
 export default function Page() {
   const { currentUser, loading } = useAuthContext();
   const { generateState, generateNonce } = useRandomQuery();
   const { getAccessToken, logout } = useLineApi();
   const { updateLineUserId } = useUser();
+  const { createNotification } = useNotification();
   const [query, setQuery] = useState('');
   const [isLinked, setIsLinked] = useState(false);
   const router = useRouter();
@@ -184,6 +186,7 @@ export default function Page() {
                 未読のブックマークの通知機能をONにしたい方は下のボタンを押してください。
               </p>
               <button
+                onClick={createNotification}
                 className="rounded-md p-2 bg-emerald-400 text-black hover:bg-emerald-200 hover:scale-95"
               >
                 通知をONにする
