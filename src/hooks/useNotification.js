@@ -26,7 +26,21 @@ export function useNotification() {
     return res.status;
   };
 
+  const getNotificationStatus = async () => {
+    const config = await setIdToken();
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/notification`,
+      config
+    );
+    if (res.status === 200) {
+      return res.data.notification.status;
+    } else {
+      return null;
+    }
+  };
+
   return {
     createNotification,
+    getNotificationStatus,
   };
 }
