@@ -19,6 +19,7 @@ export default function Page() {
   const { createNotification } = useNotification();
   const [query, setQuery] = useState('');
   const [isLinked, setIsLinked] = useState(false);
+  const [notificationStatus, setNotificationStatus] = useState(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   // 手順1,2が完了しているかどうかをクエリパラメータの有無で判断する
@@ -39,6 +40,11 @@ export default function Page() {
       const lineAccessToken = res.access_token;
       await logout(lineAccessToken);
     }
+  };
+
+  const setNotificationActive = async () => {
+    const statusCode = await createNotification();
+    if (statusCode === 204) setNotificationStatus(true);
   };
 
   useEffect(() => {
@@ -157,9 +163,17 @@ export default function Page() {
           </button>
         </div>
         <div className="flex flex-col items-center">
-          <h2 className="w-full text-center text-xl font-bold border-b-2 p-2">
-            手順4
-          </h2>
+          <div className="flex items-center justify-center w-full border-b-2 p-2 ">
+            {notificationStatus && <Image 
+              src='/check.svg'
+              alt='completed'
+              width={28}
+              height={28}
+            />}
+            <h2 className={`text-center text-xl font-bold ${notificationStatus ? 'mr-7' : ''}`}>
+              手順4
+            </h2>
+          </div>
           <div className="mt-4 mb-2 space-y-4">
             <div className="flex flex-col items-center">
               <p>
@@ -186,10 +200,11 @@ export default function Page() {
                 未読のブックマークの通知機能をONにしたい方は下のボタンを押してください。
               </p>
               <button
-                onClick={createNotification}
-                className="rounded-md p-2 bg-emerald-400 text-black hover:bg-emerald-200 hover:scale-95"
+                onClick={setNotificationActive}
+                disabled={notificationStatus}
+                className={`rounded-md p-2 bg-emerald-400 text-black ${notificationStatus ? 'bg-gray-200' : 'hover:bg-emerald-200 hover:scale-95'}`}
               >
-                通知をONにする
+                {notificationStatus ? '通知はONです' :'通知をONにする'}
               </button>
             </div>
             <div className="flex flex-col items-center">
