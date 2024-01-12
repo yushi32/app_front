@@ -39,8 +39,24 @@ export function useNotification() {
     }
   };
 
+  const enableNotification = async () => {
+    const config = await setIdToken();
+    const body = {
+      notification: {
+        status: true,
+      }
+    }
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/notification`,
+      body,
+      config
+    );
+    return res.status;
+  };
+
   return {
     createNotification,
     getNotificationStatus,
+    enableNotification,
   };
 }

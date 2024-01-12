@@ -16,7 +16,7 @@ export default function Page() {
   const { generateState, generateNonce } = useRandomQuery();
   const { getAccessToken, logout } = useLineApi();
   const { getUserInfo, updateLineUserId } = useUser();
-  const { createNotification, getNotificationStatus } = useNotification();
+  const { createNotification, getNotificationStatus, enableNotification } = useNotification();
   const [query, setQuery] = useState('');
   const [isLinked, setIsLinked] = useState(false);
   const [isDone, setIsDone] = useState(false);
@@ -44,8 +44,13 @@ export default function Page() {
   };
 
   const setNotificationActive = async () => {
-    const statusCode = await createNotification();
-    if (statusCode === 204) setNotificationStatus(true);
+    const statusCode = notificationStatus === null
+      ? await createNotification()
+      : await enableNotification();
+
+    if (statusCode === 204) {
+      setNotificationStatus(true);
+    }
   };
 
   useEffect(() => {
