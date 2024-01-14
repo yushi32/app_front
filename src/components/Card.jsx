@@ -80,6 +80,7 @@ export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) 
           href={url}
           onClick={() => markBookmarkAsRead(id)}
           target="_blank"
+          rel="noopener noreferrer"
           className="
             px-3
             pt-3
