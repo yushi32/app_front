@@ -9,7 +9,7 @@ import { useSearchContext } from "../context/SearchContext";
 
 export default function NoContent() {
   const [num, setNum] = useState();
-  const { selectedFolderId } = useSearchContext();
+  const { selectedFolderId, searchKeyword } = useSearchContext();
   const { totalBookmarksCount } = useFetchBookmarks();
   const { getFolder } = useFetchFolders();
 
@@ -18,15 +18,27 @@ export default function NoContent() {
     setNum(randomIndex + 1);
   }, []); 
 
+  const message = () => {
+    if (searchKeyword) {
+      return `タイトルに ${searchKeyword} を含むブックマークは見つかりませんでした。`;
+    } else if (totalBookmarksCount !== 0) {
+      return `${getFolder(selectedFolderId).name} にはまだブックマークが保存されていません。`;
+    } else {
+      return (
+        <>
+          <p>おや？まだ保存したブックマークがないようですね。</p>
+          <p>Chrome拡張機能をインストールして Laterless を始めましょう。</p>
+        </>
+      );
+    }
+  };
+
   return (
     <div className="col-span-3 flex-grow flex flex-col items-center justify-center">
-      <div className="text-center py-4 mt-4 mb-4">
-        <div className="mb-4">
-          {`${totalBookmarksCount !== 0 ? `${getFolder(selectedFolderId).name} にはまだブックマークが保存されていません。` : 'おや？まだ保存したブックマークがないようですね。'}`}
+      <div className="text-center py-4 mt-4 mb-8">
+        <div className="space-y-4">
+          {message()}
         </div>
-        {!totalBookmarksCount && <div>
-          Chrome拡張機能をインストールして Laterless を始めましょう。
-        </div>}
       </div>
       <div className="flex-grow flex items-center justify-center">
         <Image 
