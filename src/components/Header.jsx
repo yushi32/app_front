@@ -9,6 +9,7 @@ import SignInButton from "./SignInButton";
 import SignOutButton from "./SignOutButton";
 import ExtensionButton from "./ExtensionButton";
 import LineLinkButton from "./LineLinkButton";
+import SearchForm from "./SearchForm";
 
 import { useAuthContext } from "../context/AuthContext";
 
@@ -26,6 +27,7 @@ export default function Header() {
             <h2 className="text-lg">Laterless</h2>
           </Link>
         </nav>
+        {currentUser && <SearchForm />}
           {currentUser ? (
             <div className="flex items-center justify-center space-x-4">
               <LineLinkButton textSize={'text-xs'} />
