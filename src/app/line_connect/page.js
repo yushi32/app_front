@@ -9,14 +9,18 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useRandomQuery } from "../../hooks/useRandomQuery";
 import { useLineApi } from "../../hooks/useLineApi";
 import { useUser } from "../../hooks/useUser";
+import { useNotification } from "../../hooks/useNotification";
 
 export default function Page() {
   const { currentUser, loading } = useAuthContext();
   const { generateState, generateNonce } = useRandomQuery();
   const { getAccessToken, logout } = useLineApi();
-  const { updateLineUserId } = useUser();
+  const { getUserInfo, updateLineUserId } = useUser();
+  const { createNotification, getNotificationStatus, enableNotification } = useNotification();
   const [query, setQuery] = useState('');
   const [isLinked, setIsLinked] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const [notificationStatus, setNotificationStatus] = useState(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   // 手順1,2が完了しているかどうかをクエリパラメータの有無で判断する
@@ -39,6 +43,16 @@ export default function Page() {
     }
   };
 
+  const setNotificationActive = async () => {
+    const statusCode = notificationStatus === null
+      ? await createNotification()
+      : await enableNotification();
+
+    if (statusCode === 204) {
+      setNotificationStatus(true);
+    }
+  };
+
   useEffect(() => {
     const state = generateState();
     const nonce = generateNonce();
@@ -49,9 +63,25 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (!loading && !currentUser) {
-      router.push("/");
+    if (loading) return;
+    if (!currentUser) {
+      router.push('/');
+      return;
     }
+
+    const fetchNotificationStatus = async () => {
+      const status = await getNotificationStatus();
+      if (status !== null) {
+        setNotificationStatus(status);
+        setIsDone(true);
+        return;
+      }
+
+      const { has_line_user_id } = await getUserInfo();
+      setIsDone(has_line_user_id);
+    };
+
+    fetchNotificationStatus();
   }, [currentUser, loading]);
 
   return (
@@ -79,13 +109,13 @@ export default function Page() {
       <div className="space-y-12">
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center w-full border-b-2 p-2 ">
-            {code && <Image 
+            {(isDone || code) && <Image 
               src='/check.svg'
               alt='completed'
               width={28}
               height={28}
             />}
-            <h2 className={`text-center text-xl font-bold ${code ? 'mr-7' : ''}`}>
+            <h2 className={`text-center text-xl font-bold ${isDone || code ? 'mr-7' : ''}`}>
               手順1
             </h2>
           </div>
@@ -101,8 +131,8 @@ export default function Page() {
             href={`https://access.line.me/oauth2/v2.1/authorize?${query}`}
           >
             <button
-              disabled={code}
-              className={`rounded-md p-2 text-black ${code ? 'bg-gray-200' : 'bg-emerald-400 hover:bg-emerald-200 hover:scale-95'}`}
+              disabled={isDone || code}
+              className={`rounded-md p-2 text-black ${isDone || code ? 'bg-gray-200' : 'bg-emerald-400 hover:bg-emerald-200 hover:scale-95'}`}
             >
               LINEにログインする
             </button>
@@ -110,13 +140,13 @@ export default function Page() {
         </div>
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center w-full border-b-2 p-2 ">
-            {code && <Image 
+            {(isDone || code) && <Image 
               src='/check.svg'
               alt='completed'
               width={28}
               height={28}
             />}
-            <h2 className={`text-center text-xl font-bold ${code ? 'mr-7' : ''}`}>
+            <h2 className={`text-center text-xl font-bold ${isDone || code ? 'mr-7' : ''}`}>
               手順2
             </h2>
           </div>
@@ -131,13 +161,13 @@ export default function Page() {
         </div>
         <div className="flex flex-col items-center">
           <div className="flex items-center justify-center w-full border-b-2 p-2 ">
-            {isLinked && <Image 
+            {(isDone || isLinked) && <Image 
               src='/check.svg'
               alt='completed'
               width={28}
               height={28}
             />}
-            <h2 className={`text-center text-xl font-bold ${isLinked ? 'mr-7' : ''}`}>
+            <h2 className={`text-center text-xl font-bold ${isDone || isLinked ? 'mr-7' : ''}`}>
               手順3
             </h2>
           </div>
@@ -148,16 +178,24 @@ export default function Page() {
           </div>
           <button
             onClick={linkLineAccount}
-            disabled={isLinked}
-            className={`rounded-md p-2 text-black ${isLinked ? 'bg-gray-200' : 'bg-emerald-400 hover:bg-emerald-200 hover:scale-95'}`}
+            disabled={isDone || isLinked}
+            className={`rounded-md p-2 text-black ${isDone || isLinked ? 'bg-gray-200' : 'bg-emerald-400 hover:bg-emerald-200 hover:scale-95'}`}
           >
-            {isLinked ? '連携済み' : '連携する'}
+            {isDone || isLinked ? '連携済み' : '連携する'}
           </button>
         </div>
         <div className="flex flex-col items-center">
-          <h2 className="w-full text-center text-xl font-bold border-b-2 p-2">
-            手順4
-          </h2>
+          <div className="flex items-center justify-center w-full border-b-2 p-2 ">
+            {notificationStatus && <Image 
+              src='/check.svg'
+              alt='completed'
+              width={28}
+              height={28}
+            />}
+            <h2 className={`text-center text-xl font-bold ${notificationStatus ? 'mr-7' : ''}`}>
+              手順4
+            </h2>
+          </div>
           <div className="mt-4 mb-2 space-y-4">
             <div className="flex flex-col items-center">
               <p>
@@ -184,9 +222,11 @@ export default function Page() {
                 未読のブックマークの通知機能をONにしたい方は下のボタンを押してください。
               </p>
               <button
-                className="rounded-md p-2 bg-emerald-400 text-black hover:bg-emerald-200 hover:scale-95"
+                onClick={setNotificationActive}
+                disabled={notificationStatus}
+                className={`rounded-md p-2 bg-emerald-400 text-black ${notificationStatus ? 'bg-gray-200' : 'hover:bg-emerald-200 hover:scale-95'}`}
               >
-                通知をONにする
+                {notificationStatus ? '通知はONです' :'通知をONにする'}
               </button>
             </div>
             <div className="flex flex-col items-center">

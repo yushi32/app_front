@@ -10,7 +10,7 @@ import Tag from "./Tag";
 import AddTag from "./AddTag";
 
 export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) {
-  const { isDeleted, deleteBookmark } = useBookmark();
+  const { isDeleted, markBookmarkAsRead, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [isHovered, setIsHovered] = useState(false);
   const [tags, setTags] = useState([]);
@@ -78,7 +78,9 @@ export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) 
         </div>
         <Link
           href={url}
+          onClick={() => markBookmarkAsRead(id)}
           target="_blank"
+          rel="noopener noreferrer"
           className="
             px-3
             pt-3
