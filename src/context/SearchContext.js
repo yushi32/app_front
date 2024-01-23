@@ -7,6 +7,7 @@ const SearchContext = createContext();
 export default function SearchProvider({ children }) {
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState(null);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const selectTag = (tagName) => {
     const newSelectedTags = [...selectedTags, tagName];
@@ -48,6 +49,8 @@ export default function SearchProvider({ children }) {
       setSelectedTags,
       selectedFolderId,
       setSelectedFolderId,
+      searchKeyword,
+      setSearchKeyword,
       handleFilteringByTag,
       handleFilteringByFolder
     }}>

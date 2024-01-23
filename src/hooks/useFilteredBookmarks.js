@@ -5,7 +5,7 @@ import { useSearchContext } from "../context/SearchContext";
 
 export function useFilteredBookmarks() {
   const { bookmarks, error } = useFetchBookmarks();
-  const { selectedTags, setSelectedTags, selectedFolderId } = useSearchContext();
+  const { selectedTags, setSelectedTags, selectedFolderId, searchKeyword } = useSearchContext();
 
   const filteredBookmarks = useMemo(() => {
     if (!bookmarks) return [];
@@ -32,9 +32,16 @@ export function useFilteredBookmarks() {
         setSelectedTags([]);
       }
     }
-  
+
+    // 検索キーワードで絞り込む
+    if (searchKeyword) {
+      finalResult = finalResult.filter((bookmark) =>
+        bookmark.title.toLowerCase().includes(searchKeyword.toLowerCase())
+      );
+    }
+
     return finalResult;
-  }, [bookmarks, selectedTags, selectedFolderId]);
+  }, [bookmarks, selectedTags, selectedFolderId, searchKeyword]);
 
   return {
     bookmarks: filteredBookmarks,

@@ -1,12 +1,17 @@
 import { useState } from "react";
 
+import { useSearchContext }from "../context/SearchContext";
+
 export default function SearchForm() {
+  const { setSearchKeyword } = useSearchContext();
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(input);
+    if (input !== '') {
+      setSearchKeyword(input);
+    }
   };
 
   const handleInputChange = (e) => {
