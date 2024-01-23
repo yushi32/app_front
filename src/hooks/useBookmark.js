@@ -19,6 +19,15 @@ export function useBookmark() {
     return config;
   };
 
+  const markBookmarkAsRead = async (id) => {
+    const config = await setIdToken();
+    await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${id}`,
+      { bookmark: { status: 'read' } },
+      config
+    );
+  };
+
   const deleteBookmark = async (id) => {
     const config = await setIdToken();
     const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${id}`, config);
@@ -56,6 +65,7 @@ export function useBookmark() {
   return {
     isDeleted,
     setIsDeleted,
+    markBookmarkAsRead,
     deleteBookmark,
     addTagToBookmark,
     putBookmarkInFolder

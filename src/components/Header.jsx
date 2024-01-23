@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import SignInButton from "./SignInButton";
 import SignOutButton from "./SignOutButton";
 import ExtensionButton from "./ExtensionButton";
+import LineLinkButton from "./LineLinkButton";
 
 import { useAuthContext } from "../context/AuthContext";
 
@@ -27,6 +28,7 @@ export default function Header() {
         </nav>
           {currentUser ? (
             <div className="flex items-center justify-center space-x-4">
+              <LineLinkButton textSize={'text-xs'} />
               <ExtensionButton textSize={'text-xs'} />
               <SignOutButton logout={logout} />
             </div>
