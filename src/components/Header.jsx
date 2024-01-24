@@ -3,8 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useEffect } from "react";
-
 import SignInButton from "./SignInButton";
 import SignOutButton from "./SignOutButton";
 import ExtensionButton from "./ExtensionButton";
@@ -15,8 +13,6 @@ import { useAuthContext } from "../context/AuthContext";
 
 export default function Header() {
   const { currentUser, logout } = useAuthContext();
-
-  useEffect(() => {}, [currentUser]);
 
   return (
     <header className="sticky top-0 w-full bg-white border-b-2">
