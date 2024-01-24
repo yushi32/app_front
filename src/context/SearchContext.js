@@ -21,6 +21,7 @@ export default function SearchProvider({ children }) {
 
   const removeFilter = () => {
     setSelectedTags([]);
+    setSelectedFolderId(null);
   };
 
   const isSelectedTag = (tagName) => {
@@ -52,7 +53,8 @@ export default function SearchProvider({ children }) {
       searchKeyword,
       setSearchKeyword,
       handleFilteringByTag,
-      handleFilteringByFolder
+      handleFilteringByFolder,
+      removeFilter
     }}>
       {children}
     </SearchContext.Provider>

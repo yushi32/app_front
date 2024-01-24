@@ -18,7 +18,7 @@ import OverlayContainer from "../../components/OverlayContainer";
 export default function Page() {
   useRequireAuth();
   const { bookmarks, isLoading } = useFilteredBookmarks();
-  const { searchKeyword, setSearchKeyword } = useSearchContext();
+  const { removeFilter, searchKeyword, setSearchKeyword } = useSearchContext();
   const { handleDragStart, handleDragEnd } = useDragAndDrop();
   const { setActiveId, activeFolder, activeBookmark } = useOverlay();
   const [overlayColor, setOverlayColor] = useState();
@@ -35,6 +35,7 @@ export default function Page() {
   useEffect(() => {
     const searchKeyword = searchParams.get('search_keyword');
     setSearchKeyword(searchKeyword);
+    removeFilter();
   }, [searchParams]);
 
   if (isLoading) {
