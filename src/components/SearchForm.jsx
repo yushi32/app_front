@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 
 import { useSearchContext }from "../context/SearchContext";
@@ -7,11 +7,13 @@ export default function SearchForm() {
   const { setSearchKeyword } = useSearchContext();
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const inputRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input !== '') {
       setSearchKeyword(input);
+      inputRef.current.blur();
     }
   };
 
@@ -32,6 +34,7 @@ export default function SearchForm() {
       <div className="flex items-center justify-center">
         <input
           placeholder="検索"
+          ref={inputRef}
           value={input} 
           onChange={handleInputChange}
           onFocus={() => setIsFocused(true)}
