@@ -20,7 +20,13 @@ export default function NoContent() {
 
   const message = () => {
     if (searchKeyword) {
-      return `タイトルに ${searchKeyword} を含むブックマークは見つかりませんでした。`;
+      return (
+        <>
+          タイトル又はタグに&nbsp;
+          <span className="font-semibold">{searchKeyword}</span>
+          &nbsp;を含むブックマークは見つかりませんでした。
+        </>
+      );
     } else if (totalBookmarksCount !== 0) {
       return `${getFolder(selectedFolderId).name} にはまだブックマークが保存されていません。`;
     } else {
