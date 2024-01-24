@@ -3,16 +3,18 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import { useAuthContext } from "../../context/AuthContext";
 import { useRandomQuery } from "../../hooks/useRandomQuery";
 import { useLineApi } from "../../hooks/useLineApi";
 import { useUser } from "../../hooks/useUser";
 import { useNotification } from "../../hooks/useNotification";
+import { useRequireAuth } from "../../hooks/useRequireAuth";
 
 export default function Page() {
-  const { currentUser, loading } = useAuthContext();
+  useRequireAuth();
+  const { currentUser } = useAuthContext();
   const { generateState, generateNonce } = useRandomQuery();
   const { getAccessToken, logout } = useLineApi();
   const { getUserInfo, updateLineUserId } = useUser();
@@ -21,7 +23,6 @@ export default function Page() {
   const [isLinked, setIsLinked] = useState(false);
   const [isDone, setIsDone] = useState(false);
   const [notificationStatus, setNotificationStatus] = useState(null);
-  const router = useRouter();
   const searchParams = useSearchParams();
   // 手順1,2が完了しているかどうかをクエリパラメータの有無で判断する
   const code = searchParams.get('code');
@@ -63,13 +64,8 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    if (loading) return;
-    if (!currentUser) {
-      router.push('/');
-      return;
-    }
-
-    const fetchNotificationStatus = async () => {
+    if (currentUser) {
+      const fetchNotificationStatus = async () => {
       const status = await getNotificationStatus();
       if (status !== null) {
         setNotificationStatus(status);
@@ -82,7 +78,8 @@ export default function Page() {
     };
 
     fetchNotificationStatus();
-  }, [currentUser, loading]);
+    }
+  }, [currentUser]);
 
   return (
     <div className="flex-grow flex flex-col max-w-5xl mx-auto pt-12 pb-16 text-neutral-700 bg-red-20">
