@@ -1,19 +1,18 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
-
-import { useSearchContext }from "../context/SearchContext";
+import { useRouter } from "next/navigation";
 
 export default function SearchForm() {
-  const { setSearchKeyword } = useSearchContext();
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (input !== '') {
-      setSearchKeyword(input);
       inputRef.current.blur();
+      router.push(`/result?search_keyword=${input}`);
     }
   };
 
