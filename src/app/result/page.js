@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 
 import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { useOverlay } from "../../hooks/useOverlay";
-import { useAuthContext } from "../../context/AuthContext";
+import { useRequireAuth } from "../../hooks/useRequireAuth";
 import { useSearchContext } from "../../context/SearchContext";
 
 import Card from "../../components/Card";
@@ -16,13 +16,12 @@ import Sidebar from "../../components/Sidebar";
 import OverlayContainer from "../../components/OverlayContainer";
 
 export default function Page() {
+  useRequireAuth();
   const { bookmarks, isLoading } = useFilteredBookmarks();
-  const { currentUser, loading } = useAuthContext();
   const { searchKeyword, setSearchKeyword } = useSearchContext();
   const { handleDragStart, handleDragEnd } = useDragAndDrop();
   const { setActiveId, activeFolder, activeBookmark } = useOverlay();
   const [overlayColor, setOverlayColor] = useState();
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const message = () => {
@@ -32,12 +31,6 @@ export default function Page() {
       </div>
     );
   };
-
-  useEffect(() => {
-    if (!loading && !currentUser) {
-      router.push("/");
-    }
-  }, [currentUser, loading]);
 
   useEffect(() => {
     const searchKeyword = searchParams.get('search_keyword');

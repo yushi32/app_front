@@ -1,24 +1,15 @@
 'use client';
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Image from"next/image";
 
-import { useAuthContext } from "../context/AuthContext";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 import Footer from "../components/Footer";
 import SignInButton from "../components/SignInButton";
 import ExtensionButton from "../components/ExtensionButton";
 
 export default function Page() {
-  const { currentUser, loading } = useAuthContext();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && currentUser) {
-      router.replace('/home');
-    }
-  }, [currentUser, loading]);
+  useRequireAuth();
 
   return (
     <>
