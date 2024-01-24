@@ -30,7 +30,13 @@ export default function SearchForm() {
       onSubmit={handleSubmit}
       className={`w-80 rounded-full px-2 py-0.5 border ${isFocused ? "border-blue-400": ''}`}
     >
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center space-x-2">
+        <Image
+          src="/search.svg"
+          alt="search"
+          width={24}
+          height={24}
+        />
         <input
           placeholder="検索"
           ref={inputRef}
