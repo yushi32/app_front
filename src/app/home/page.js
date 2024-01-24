@@ -8,6 +8,7 @@ import { useFilteredBookmarks } from "../../hooks/useFilteredBookmarks";
 import { useDragAndDrop } from "../../hooks/useDragAndDrop";
 import { useOverlay } from "../../hooks/useOverlay";
 import { useAuthContext } from "../../context/AuthContext";
+import { useSearchContext } from "../../context/SearchContext";
 
 import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
@@ -17,6 +18,7 @@ import OverlayContainer from "../../components/OverlayContainer";
 export default function Page() {
   const { bookmarks, isLoading } = useFilteredBookmarks();
   const { currentUser, loading } = useAuthContext();
+  const { setSearchKeyword } = useSearchContext();
   const { handleDragStart, handleDragEnd } = useDragAndDrop();
   const { setActiveId, activeFolder, activeBookmark } = useOverlay();
   const [overlayColor, setOverlayColor] = useState();
@@ -27,6 +29,10 @@ export default function Page() {
       router.push("/");
     }
   }, [currentUser, loading]);
+
+  useEffect(() => {
+    setSearchKeyword('')
+  }, []);
 
   if (isLoading) {
     return <div className="flex-grow flex items-center justify-center text-xl">Loading...</div>;
