@@ -25,11 +25,16 @@ export function useFilteredBookmarks() {
         )
       );
 
-      // タグで絞り込んだ結果が0件になった場合、リロードする以外にタグの選択を解除できなくなるので、その場合はタグの選択を解除する
-      if (tagFilteredResult.length > 0) {
+      // 検索キーワードがある場合はタグの選択を解除しない
+      if (searchKeyword) {
         finalResult = tagFilteredResult;
       } else {
-        setSelectedTags([]);
+        // タグで絞り込んだ結果が0件になった場合、リロードする以外にタグの選択を解除できなくなるので、その場合はタグの選択を解除する
+        if (tagFilteredResult.length > 0) {
+          finalResult = tagFilteredResult;
+        } else {
+          setSelectedTags([]);
+        }
       }
     }
 
