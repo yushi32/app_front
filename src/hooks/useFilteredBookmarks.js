@@ -35,8 +35,10 @@ export function useFilteredBookmarks() {
 
     // 検索キーワードで絞り込む
     if (searchKeyword) {
+      const lowerCaseSearchKeyword = searchKeyword.toLowerCase();
       finalResult = finalResult.filter((bookmark) =>
-        bookmark.title.toLowerCase().includes(searchKeyword.toLowerCase())
+        bookmark.title.toLowerCase().includes(lowerCaseSearchKeyword) ||
+        bookmark.tags.some(tag => tag.name.toLowerCase().includes(lowerCaseSearchKeyword))
       );
     }
 
