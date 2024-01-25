@@ -5,7 +5,7 @@ import { useSearchContext } from "../context/SearchContext";
 
 export function useFilteredBookmarks() {
   const { bookmarks, error } = useFetchBookmarks();
-  const { selectedTags, setSelectedTags, selectedFolderId } = useSearchContext();
+  const { selectedTags, setSelectedTags, selectedFolderId, searchKeyword } = useSearchContext();
 
   const filteredBookmarks = useMemo(() => {
     if (!bookmarks) return [];
@@ -25,16 +25,30 @@ export function useFilteredBookmarks() {
         )
       );
 
-      // タグで絞り込んだ結果が0件になった場合、リロードする以外にタグの選択を解除できなくなるので、その場合はタグの選択を解除する
-      if (tagFilteredResult.length > 0) {
+      // 検索キーワードがある場合はタグの選択を解除しない
+      if (searchKeyword) {
         finalResult = tagFilteredResult;
       } else {
-        setSelectedTags([]);
+        // タグで絞り込んだ結果が0件になった場合、リロードする以外にタグの選択を解除できなくなるので、その場合はタグの選択を解除する
+        if (tagFilteredResult.length > 0) {
+          finalResult = tagFilteredResult;
+        } else {
+          setSelectedTags([]);
+        }
       }
     }
-  
+
+    // 検索キーワードで絞り込む
+    if (searchKeyword) {
+      const lowerCaseSearchKeyword = searchKeyword.toLowerCase();
+      finalResult = finalResult.filter((bookmark) =>
+        bookmark.title.toLowerCase().includes(lowerCaseSearchKeyword) ||
+        bookmark.tags.some(tag => tag.name.toLowerCase().includes(lowerCaseSearchKeyword))
+      );
+    }
+
     return finalResult;
-  }, [bookmarks, selectedTags, selectedFolderId]);
+  }, [bookmarks, selectedTags, selectedFolderId, searchKeyword]);
 
   return {
     bookmarks: filteredBookmarks,

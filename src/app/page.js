@@ -1,10 +1,16 @@
+'use client';
+
 import Image from"next/image";
+
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 import Footer from "../components/Footer";
 import SignInButton from "../components/SignInButton";
 import ExtensionButton from "../components/ExtensionButton";
 
 export default function Page() {
+  useRequireAuth();
+
   return (
     <>
       <div className="w-full bg-neutral-800 text-white">
