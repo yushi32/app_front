@@ -1,5 +1,17 @@
+import { useState } from "react";
+
+import { AutoComplete } from 'primereact/autocomplete';
+
 import { useBookmark } from "../hooks/useBookmark";
 import { useToggleForm } from "../hooks/useToggleForm";
+
+const userTags = [
+  {id: 1, name: 'React'},
+  {id: 2, name: 'Chrome拡張機能'},
+  {id: 3, name: 'Docker'},
+  {id: 4, name: 'Next.js'},
+  {id: 5, name: 'あいうえお'},
+];
 
 export default function AddTag({ tags, setTags, bookmarkId }) {
   const { addTagToBookmark } = useBookmark();
@@ -15,6 +27,7 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
     handleFocus,
     handleBlur
   } = useToggleForm();
+  const [items, setItems] = useState([]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -30,6 +43,17 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
     setInput(e.target.value);
   };
 
+  const search = (event) => {
+    console.log(event.query)
+    const inputValue = event.query.toLowerCase();
+    console.log(`inputValue: ${inputValue}`)
+    const matchingTags = userTags.filter(tag =>
+      tag.name.toLowerCase().includes(inputValue)
+    );
+    console.log(matchingTags)
+    setItems(matchingTags.map(tag => tag.name));
+  };
+
   return (
     <>
       {form ? (
@@ -38,13 +62,11 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
           ref={formRef}
           className={`flex items-center justify-center rounded-full border pl-1 ${isFocused ? "border-blue-400" : ""}`}
         >
-          <input
-            type="text"
+          <AutoComplete
             value={input}
+            suggestions={items}
+            completeMethod={search}
             onChange={handleInputChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            className="focus:outline-none text-xs w-20"
           />
           <button
             type="button"
