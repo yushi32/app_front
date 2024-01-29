@@ -75,6 +75,8 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
             suggestions={suggestions}
             completeMethod={search}
             onChange={handleInputChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             pt={pt}
           />
           <button
