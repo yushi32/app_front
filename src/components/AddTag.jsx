@@ -21,7 +21,7 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
     handleFocus,
     handleBlur
   } = useToggleForm();
-  const [items, setItems] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
     const matchingTags = selectableTags.filter(tag =>
       tag.name.toLowerCase().includes(inputValue)
     );
-    setItems(matchingTags.map(tag => tag.name));
+    setSuggestions(matchingTags.map(tag => tag.name));
   };
 
   return (
@@ -55,7 +55,7 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
         >
           <AutoComplete
             value={input}
-            suggestions={items}
+            suggestions={suggestions}
             completeMethod={search}
             onChange={handleInputChange}
           />
