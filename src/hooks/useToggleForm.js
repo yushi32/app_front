@@ -23,6 +23,10 @@ export function useToggleForm(clearInput=true) {
   };
 
   const handleClickOutside = (event) => {
+    if (event.target.classList.contains('p-autocomplete-item')) {
+      return;
+    }
+
     if (formRef.current && !formRef.current.contains(event.target)) {
       setForm(false);
       if (clearInput) {
