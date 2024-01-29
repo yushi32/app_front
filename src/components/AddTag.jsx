@@ -73,7 +73,7 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
         <form
           onSubmit={handleOnSubmit}
           ref={formRef}
-          className={`flex items-center justify-center rounded-full border pl-1 ${isFocused ? "border-blue-400" : ""}`}
+          className={`flex items-center justify-center rounded-full border pl-1.5 ${isFocused ? "border-blue-400" : ""}`}
         >
           <AutoComplete
             value={input}
