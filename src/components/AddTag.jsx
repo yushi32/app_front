@@ -78,6 +78,7 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
             onFocus={handleFocus}
             onBlur={handleBlur}
             pt={pt}
+            dropdown
           />
           <button
             type="button"
