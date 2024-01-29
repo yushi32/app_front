@@ -2,18 +2,12 @@ import { useState } from "react";
 
 import { AutoComplete } from 'primereact/autocomplete';
 
+import { useFetchSelectableTags } from "../hooks/useFetchSelectableTags";
 import { useBookmark } from "../hooks/useBookmark";
 import { useToggleForm } from "../hooks/useToggleForm";
 
-const userTags = [
-  {id: 1, name: 'React'},
-  {id: 2, name: 'Chrome拡張機能'},
-  {id: 3, name: 'Docker'},
-  {id: 4, name: 'Next.js'},
-  {id: 5, name: 'あいうえお'},
-];
-
 export default function AddTag({ tags, setTags, bookmarkId }) {
+  const { selectableTags } = useFetchSelectableTags();
   const { addTagToBookmark } = useBookmark();
   const {
     form,
@@ -43,14 +37,11 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
     setInput(e.target.value);
   };
 
-  const search = (event) => {
-    console.log(event.query)
-    const inputValue = event.query.toLowerCase();
-    console.log(`inputValue: ${inputValue}`)
-    const matchingTags = userTags.filter(tag =>
+  const search = (e) => {
+    const inputValue = e.query.toLowerCase();
+    const matchingTags = selectableTags.filter(tag =>
       tag.name.toLowerCase().includes(inputValue)
     );
-    console.log(matchingTags)
     setItems(matchingTags.map(tag => tag.name));
   };
 
