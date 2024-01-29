@@ -48,6 +48,7 @@ export function useBookmark() {
       config
     );
     mutate([`/api/v1/bookmarks`, currentUser]);
+    mutate(['/api/v1/tags', currentUser]);
     return res.data.bookmark.tags;
   };
 
