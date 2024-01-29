@@ -61,7 +61,7 @@ export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) 
     >
       <div
         ref={setNodeRef}
-        className="flex flex-col h-full"
+        className="flex flex-col h-full bg-white"
       >
         <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}>
           {isHovered && 
