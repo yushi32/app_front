@@ -12,6 +12,11 @@ const pt = {
       className: "border-none p-0.5 focus:outline-none focus:shadow-none text-xs w-28"
     }
   },
+  dropdownButton: {
+    root: {
+      className: "w-8 h-6 p-0 bg-blue-400 border-blue-400 hover:bg-blue-500 hover:border-blue-500"
+    }
+  },
   panel : {
     className: "m-1"
   },
