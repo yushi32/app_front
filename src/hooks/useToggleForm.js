@@ -12,6 +12,7 @@ export function useToggleForm(clearInput=true) {
 
   const closeForm = () => {
     setForm(false);
+    setInput('');
   };
 
   const handleFocus = () => {
