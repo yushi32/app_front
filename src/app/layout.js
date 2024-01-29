@@ -16,7 +16,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <PrimeReactProvider>
+    <PrimeReactProvider value={{ unstyled: true, pt: {} }}>
       <AuthContextProvider>
         <SearchContextProvider>
           <html lang="ja">

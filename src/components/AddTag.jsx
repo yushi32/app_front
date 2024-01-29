@@ -6,6 +6,23 @@ import { useFetchSelectableTags } from "../hooks/useFetchSelectableTags";
 import { useBookmark } from "../hooks/useBookmark";
 import { useToggleForm } from "../hooks/useToggleForm";
 
+const pt = {
+  input: {
+    root: {
+      className: "border-none p-0.5 focus:outline-none focus:shadow-none text-xs w-28"
+    }
+  },
+  panel : {
+    className: "m-1"
+  },
+  list : {
+    className: "py-2"
+  },
+  item: {
+    className: "flex flex-col justify-center h-7 py-1 px-2 text-xs"
+  },
+};
+
 export default function AddTag({ tags, setTags, bookmarkId }) {
   const { selectableTags } = useFetchSelectableTags();
   const { addTagToBookmark } = useBookmark();
@@ -58,6 +75,7 @@ export default function AddTag({ tags, setTags, bookmarkId }) {
             suggestions={suggestions}
             completeMethod={search}
             onChange={handleInputChange}
+            pt={pt}
           />
           <button
             type="button"
