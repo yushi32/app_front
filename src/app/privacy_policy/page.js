@@ -131,10 +131,10 @@ export default function Page() {
         </h2>
         <div className="text-sm space-y-4">
           <p>
-            お客様の情報の開示、情報の訂正、利用停止、削除をご希望の場合は、以下のTwitterアカウントにご連絡ください。
-            Twitterアカウント：
+            お客様の情報の開示、情報の訂正、利用停止、削除をご希望の場合は、以下のX（旧Twitter）アカウントにご連絡ください。
           </p>
           <p>
+            X（旧Twitter）アカウント：
             <Link 
               href="https://twitter.com/yushi_en"
               className="text-emerald-500 hover:text-emerald-300"
