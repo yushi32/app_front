@@ -4,7 +4,7 @@ export default function Page() {
   return (
     <div className="flex-grow max-w-5xl mx-auto pt-12 pb-16 space-y-14 text-neutral-700">
       <div className="border-b-2">
-        <h1 className="text-xl font-semibold">プライバシーポリシー</h1>
+        <h1 className="text-2xl font-semibold">プライバシーポリシー</h1>
         <p className="py-4 text-sm">
           Laterless（以下、「当方」といいます。）は、本ウェブサイト上で提供するサービス（以下、「本サービス」といいます。）におけるユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシーを定めます。
         </p>
