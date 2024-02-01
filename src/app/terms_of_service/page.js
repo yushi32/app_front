@@ -250,15 +250,13 @@ export default function Page() {
         </h2>
         <div className="space-y-4 text-sm">
           <p>
-            本サービスの利用によって取得する個人情報については、当方 
-            <span>
-              <Link 
-                href="/terms_of_service"
-                className="text-emerald-500 hover:text-emerald-300"
-              >
-                「プライバシーポリシー」
-              </Link>
-            </span>
+            本サービスの利用によって取得する個人情報については、当方の
+            <Link 
+              href="/privacy_policy"
+              className="text-emerald-500 hover:text-emerald-300"
+            >
+              プライバシーポリシー
+            </Link>
             に従い適切に取り扱うものとします。
           </p>
         </div>
