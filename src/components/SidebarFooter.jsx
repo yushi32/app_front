@@ -6,7 +6,7 @@ export default function SidebarFooter() {
       <Link href="/home" className="p-2 hover:text-emerald-300">Laterlessについて</Link>
       <Link href="/terms_of_service" className="p-2 hover:text-emerald-300">利用規約</Link>
       <Link href="/privacy_policy" className="p-2 hover:text-emerald-300">プライバシーポリシー</Link>
-      <Link href="/home" className="p-2 hover:text-emerald-300">お問い合わせ</Link>
+      <Link href="/contact_us" className="p-2 hover:text-emerald-300">お問い合わせ</Link>
       <p className="p-2">© 2023 All rights reserved.</p>
     </div>
   );
