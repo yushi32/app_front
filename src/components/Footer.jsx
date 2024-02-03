@@ -10,7 +10,7 @@ export default function Footer() {
         <nav className="space-x-6">
           <Link href="/terms_of_service">利用規約</Link>
           <Link href="/privacy_policy">プライバシーポリシー</Link>
-          <Link href="/">お問い合わせ</Link>
+          <Link href="/contact_us">お問い合わせ</Link>
         </nav>
       </div>
     </footer> 
