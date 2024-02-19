@@ -29,7 +29,7 @@ const pt = {
 };
 
 export default function AddTag({ tags, setTags, bookmarkId }) {
-  const { selectableTags } = useFetchSelectableTags();
+  const { selectableTags } = useFetchSelectableTags([]);
   const { addTagToBookmark } = useBookmark();
   const {
     form,
