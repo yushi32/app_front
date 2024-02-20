@@ -9,10 +9,31 @@ import SearchContextProvider from "../context/SearchContext";
 
 const inter = Inter({ subsets: ['latin'] })
 
+const siteName= 'Laterless';
+const description = 'あなたが気に入るブックマークアプリ';
+
 export const metadata = {
-  title: 'Laterless',
-  description: 'あなたが気に入るブックマークアプリ',
-}
+  metadataBase: new URL('https://laterless.vercel.app/'),
+  title: {
+    default: siteName,
+  },
+  description,
+  openGraph: {
+    title: siteName,
+    description,
+    siteName,
+    locale: 'ja_JP',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteName,
+    description,
+  },
+  alternates: {
+    canonical: '/',
+  },
+};
 
 export default function RootLayout({ children }) {
   return (
