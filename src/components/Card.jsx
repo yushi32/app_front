@@ -21,6 +21,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
     opacity: isDragging ? 0 : undefined,
     transform: CSS.Transform.toString(transform),
   };
+  const displayTitle = title.length > 100 ? title.substring(0, 99) + '...' : title;
 
   useEffect(() => {
     if (bookmarkTags.length !== 0) {
@@ -95,7 +96,6 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
             my-auto
             text-center
             text-sm
-            overflow-scroll
             flex
             flex-col
             justify-center
@@ -104,7 +104,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
             underline-offset-4
           "
         >
-          {title}
+          {displayTitle}
         </Link>
       </div>
       <div className="flex justify-between place-items-end px-2 py-1">
