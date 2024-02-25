@@ -61,7 +61,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
     >
       <div
         ref={setNodeRef}
-        className="flex flex-col h-full bg-white"
+        className="flex flex-col flex-grow bg-white"
       >
         {thumbnail ?
           <img
@@ -91,8 +91,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
           rel="noopener noreferrer"
           className="
             px-3
-            pt-3
-            pb-1
+            py-2
             my-auto
             text-center
             text-sm
