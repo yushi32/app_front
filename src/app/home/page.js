@@ -47,6 +47,7 @@ export default function Page() {
                 id={bookmark.id}
                 url={bookmark.url}
                 title={bookmark.title}
+                thumbnail={bookmark.thumbnail}
                 bookmarkTags={bookmark.tags}
                 setOverlayColor={setOverlayColor}
               />

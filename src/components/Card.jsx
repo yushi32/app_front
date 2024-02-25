@@ -9,7 +9,7 @@ import { useBookmark } from "../hooks/useBookmark";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
-export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) {
+export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverlayColor }) {
   const { isDeleted, markBookmarkAsRead, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [isHovered, setIsHovered] = useState(false);
@@ -63,19 +63,27 @@ export default function Card({ id, url, title, bookmarkTags, setOverlayColor }) 
         ref={setNodeRef}
         className="flex flex-col h-full bg-white"
       >
-        <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}>
-          {isHovered && 
-            <Image
-              {...listeners}
-              {...attributes}
-              src="/draggable.svg"
-              alt="draggable"
-              width={20}
-              height={20}
-              className="m-2"
-            />
-          }
-        </div>
+        {thumbnail ?
+          <img
+            alt="thumbnail"
+            className="rounded-t-md mx-auto w-full aspect-[1/0.525]"
+            src={thumbnail}
+          />
+        :
+          <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}>
+            {isHovered &&
+              <Image
+                {...listeners}
+                {...attributes}
+                src="/draggable.svg"
+                alt="draggable"
+                width={20}
+                height={20}
+                className="m-2"
+              />
+            }
+          </div>
+        }
         <Link
           href={url}
           onClick={() => markBookmarkAsRead(id)}
