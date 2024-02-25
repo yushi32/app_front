@@ -1,4 +1,4 @@
-export default function Card({ title, overlayColor }) {
+export default function Card({ title, thumbnail, overlayColor }) {
   return (
     <div
       className="
@@ -17,8 +17,15 @@ export default function Card({ title, overlayColor }) {
       <div
         className="flex flex-col h-full"
       >
-        <div className={`rounded-t-md ${overlayColor} flex-1 h-[50%]`}>
-        </div>
+        {thumbnail ? 
+          <img
+            alt="Article thumbnail"
+            src={thumbnail}
+            className="rounded-t-md mx-auto w-full aspect-[1/0.525]"
+          />
+        :
+          <div className={`rounded-t-md ${overlayColor} w-full aspect-[1/0.525]`}></div>
+        }
         <div
           className="
             px-1
