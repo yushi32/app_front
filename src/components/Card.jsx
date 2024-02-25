@@ -65,11 +65,24 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
         className="flex flex-col flex-grow bg-white"
       >
         {thumbnail ?
-          <img
-            alt="thumbnail"
-            className="rounded-t-md mx-auto w-full aspect-[1/0.525]"
-            src={thumbnail}
-          />
+          <div className="relative">
+            {isHovered &&
+              <Image
+                {...listeners}
+                {...attributes}
+                src="/draggable.svg"
+                alt="draggable"
+                width={20}
+                height={20}
+                className="absolute z-10 m-2"
+              />
+            }
+            <img
+              alt="thumbnail"
+              className="rounded-t-md mx-auto w-full aspect-[1/0.525]"
+              src={thumbnail}
+            />
+          </div>
         :
           <div className={`rounded-t-md ${randomColor} w-full aspect-[1/0.525]`}>
             {isHovered &&
