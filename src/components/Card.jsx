@@ -108,7 +108,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
         </Link>
       </div>
       <div className="flex justify-between place-items-end px-2 py-1">
-        <div className="flex-1 flex-wrap flex gap-1 items-center">
+        <div className="flex-1 flex gap-1 items-center overflow-x-auto">
           {tags.length !==0 && tags.map((tag) => {
             return <Tag key={tag.id} name={tag.name} />
           })}

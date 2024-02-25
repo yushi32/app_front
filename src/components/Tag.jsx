@@ -14,6 +14,7 @@ export default function Tag({ name }) {
         `rounded-full
         bg-emerald-200
         text-xs
+        whitespace-nowrap
         px-2
         py-1
         hover:bg-emerald-400
