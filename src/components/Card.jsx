@@ -70,7 +70,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
             src={thumbnail}
           />
         :
-          <div className={`rounded-t-md ${randomColor} flex-1 h-[50%]`}>
+          <div className={`rounded-t-md ${randomColor} w-full aspect-[1/0.525]`}>
             {isHovered &&
               <Image
                 {...listeners}
@@ -93,10 +93,10 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
             px-3
             pt-3
             pb-1
+            my-auto
             text-center
             text-sm
             overflow-scroll
-            h-[50%]
             flex
             flex-col
             justify-center
