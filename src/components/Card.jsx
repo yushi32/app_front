@@ -99,27 +99,23 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
               }
             </div>
           }
-          <Link
-            href={url}
-            onClick={() => markBookmarkAsRead(id)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              px-3
-              py-2
-              my-auto
-              text-center
-              text-sm
-              flex
-              flex-col
-              justify-center
-              hover:underline
-              hover:decoration-emerald-300
-              underline-offset-4
-            "
-          >
-            {displayTitle}
-          </Link>
+          <div className="flex flex-col my-auto px-3 py-2">
+            <Link
+              href={url}
+              onClick={() => markBookmarkAsRead(id)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                text-center
+                text-sm
+                hover:underline
+                hover:decoration-emerald-300
+                underline-offset-4
+              "
+            >
+              {displayTitle}
+            </Link>
+          </div>
         </div>
         <div className="flex justify-between place-items-end px-2 py-1">
           <div className="flex-1 flex flex-wrap gap-1 items-center">
