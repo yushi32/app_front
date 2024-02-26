@@ -296,7 +296,7 @@ export default function Page() {
       </div>
       <div>
         <p className="text-sm">
-          2023年2月1日 制定
+          2024年2月1日 制定
         </p>
       </div>
     </div>
