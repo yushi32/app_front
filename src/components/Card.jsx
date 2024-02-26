@@ -59,7 +59,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={style}
-        className="col-span-1 rounded-md shadow-card hover:shadow-card-hover mx-1 flex flex-col justify-between border-6 bg-white"
+        className="col-span-1 rounded-md shadow-card hover:shadow-card-hover mx-1 flex flex-col justify-between bg-white"
       >
         <div
           ref={setNodeRef}
