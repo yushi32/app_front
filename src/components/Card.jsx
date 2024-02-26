@@ -58,11 +58,11 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={style}
-      className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 h-[300px] flex flex-col justify-between border-6 bg-white"
+      className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 flex flex-col justify-between border-6 bg-white"
     >
       <div
         ref={setNodeRef}
-        className="flex flex-col flex-grow bg-white"
+        className="flex flex-col min-h-[266px] bg-white"
       >
         {thumbnail ?
           <div className="relative">
