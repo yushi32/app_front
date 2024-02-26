@@ -54,98 +54,100 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
   const onClickEdit = () => {};
 
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      style={style}
-      className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 flex flex-col justify-between border-6 bg-white"
-    >
+    <div className="flex-grow">
       <div
-        ref={setNodeRef}
-        className="flex flex-col min-h-[266px] bg-white"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={style}
+        className="col-span-1 rounded-md shadow-md hover:shadow-2xl mx-1 flex flex-col justify-between border-6 bg-white"
       >
-        {thumbnail ?
-          <div className="relative">
-            {isHovered &&
-              <Image
-                {...listeners}
-                {...attributes}
-                src="/draggable.svg"
-                alt="draggable"
-                width={20}
-                height={20}
-                className="absolute z-10 m-2"
-              />
-            }
-            <img
-              alt="thumbnail"
-              className="rounded-t-md mx-auto w-full aspect-[1/0.525]"
-              src={thumbnail}
-            />
-          </div>
-        :
-          <div className={`rounded-t-md ${randomColor} w-full aspect-[1/0.525]`}>
-            {isHovered &&
-              <Image
-                {...listeners}
-                {...attributes}
-                src="/draggable.svg"
-                alt="draggable"
-                width={20}
-                height={20}
-                className="m-2"
-              />
-            }
-          </div>
-        }
-        <Link
-          href={url}
-          onClick={() => markBookmarkAsRead(id)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-            px-3
-            py-2
-            my-auto
-            text-center
-            text-sm
-            flex
-            flex-col
-            justify-center
-            hover:underline
-            hover:decoration-emerald-300
-            underline-offset-4
-          "
+        <div
+          ref={setNodeRef}
+          className="flex flex-col min-h-[266px] bg-white"
         >
-          {displayTitle}
-        </Link>
-      </div>
-      <div className="flex justify-between place-items-end px-2 py-1">
-        <div className="flex-1 flex flex-wrap gap-1 items-center">
-          <AddTag tags={tags} setTags={setTags} bookmarkId={id} />
-          {tags.length !==0 && tags.map((tag) => {
-            return <Tag key={tag.id} name={tag.name} />
-          })}
+          {thumbnail ?
+            <div className="relative">
+              {isHovered &&
+                <Image
+                  {...listeners}
+                  {...attributes}
+                  src="/draggable.svg"
+                  alt="draggable"
+                  width={20}
+                  height={20}
+                  className="absolute z-10 m-2"
+                />
+              }
+              <img
+                alt="thumbnail"
+                className="rounded-t-md mx-auto w-full aspect-[1/0.525]"
+                src={thumbnail}
+              />
+            </div>
+          :
+            <div className={`rounded-t-md ${randomColor} w-full aspect-[1/0.525]`}>
+              {isHovered &&
+                <Image
+                  {...listeners}
+                  {...attributes}
+                  src="/draggable.svg"
+                  alt="draggable"
+                  width={20}
+                  height={20}
+                  className="m-2"
+                />
+              }
+            </div>
+          }
+          <Link
+            href={url}
+            onClick={() => markBookmarkAsRead(id)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              px-3
+              py-2
+              my-auto
+              text-center
+              text-sm
+              flex
+              flex-col
+              justify-center
+              hover:underline
+              hover:decoration-emerald-300
+              underline-offset-4
+            "
+          >
+            {displayTitle}
+          </Link>
         </div>
-        <div className="flex items-center justify-center">
-          <button onClick={onClickEdit}>
-            <Image
-              src="/pencil.svg"
-              alt="edit"
-              width={24}
-              height={24}
-              className="hover:rotate-12 transition-transform duration-300"
-            />
-          </button>
-          <button onClick={() => deleteBookmark(id)}>
-            <Image
-              src="/delete.svg"
-              alt="delete"
-              width={24}
-              height={24}
-              className="hover:rotate-12 transition-transform duration-300"
-            />
-          </button>
+        <div className="flex justify-between place-items-end px-2 py-1">
+          <div className="flex-1 flex flex-wrap gap-1 items-center">
+            <AddTag tags={tags} setTags={setTags} bookmarkId={id} />
+            {tags.length !==0 && tags.map((tag) => {
+              return <Tag key={tag.id} name={tag.name} />
+            })}
+          </div>
+          <div className="flex items-center justify-center">
+            <button onClick={onClickEdit}>
+              <Image
+                src="/pencil.svg"
+                alt="edit"
+                width={24}
+                height={24}
+                className="hover:rotate-12 transition-transform duration-300"
+              />
+            </button>
+            <button onClick={() => deleteBookmark(id)}>
+              <Image
+                src="/delete.svg"
+                alt="delete"
+                width={24}
+                height={24}
+                className="hover:rotate-12 transition-transform duration-300"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </div>
