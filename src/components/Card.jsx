@@ -66,7 +66,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
           className="flex flex-col rounded-t-md min-h-[266px] bg-white"
         >
           {thumbnail ?
-            <div className="relative">
+            <div className="relative border-b">
               {isHovered &&
                 <Image
                   {...listeners}
