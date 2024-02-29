@@ -12,7 +12,7 @@ export default function OverlayContainer({ activeBookmark, activeFolder, overlay
   const dragItem = active && itemData(active.id);
 
   if (dragItem && dragItem.type === 'bookmark') {
-    return <OverlayBookmark title={activeBookmark.title} overlayColor={overlayColor} />;
+    return <OverlayBookmark title={activeBookmark.title} thumbnail={activeBookmark.thumbnail} overlayColor={overlayColor} />;
   }
 
   if (dragItem && dragItem.type === 'folder') {

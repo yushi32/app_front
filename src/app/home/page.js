@@ -35,9 +35,9 @@ export default function Page() {
       onDragStart={(e) => handleDragStart(e, setActiveId)}
       onDragEnd={(e) => handleDragEnd(e, setActiveId)}
     >
-      <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto mt-12 mb-8 h-80">
+      <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto mb-8 h-80">
         <Sidebar />
-        <div className="col-span-4 overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8 pb-12">
+        <div className="col-span-4 overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8 pt-12 pb-6">
           {bookmarks.length === 0 ? (
             <NoContents />
           ) : bookmarks.map((bookmark) => {
@@ -47,6 +47,7 @@ export default function Page() {
                 id={bookmark.id}
                 url={bookmark.url}
                 title={bookmark.title}
+                thumbnail={bookmark.thumbnail}
                 bookmarkTags={bookmark.tags}
                 setOverlayColor={setOverlayColor}
               />
