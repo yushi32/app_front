@@ -44,10 +44,8 @@ export default function RootLayout({ children }) {
       <AuthContextProvider>
         <SearchContextProvider>
           <html lang="ja">
-            <head>
-              {GA_TAG_ID && <GoogleAnalytics gaId={GA_TAG_ID} />}
-            </head>
             <body className={`${inter.className} flex flex-col min-h-screen`}>
+              {GA_TAG_ID && <GoogleAnalytics gaId={GA_TAG_ID} />}
               <Header />
               {children}
             </body>
