@@ -9,7 +9,7 @@ import { useBookmark } from "../hooks/useBookmark";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
-export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverlayColor }) {
+export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverlayColor, setIsModalOpen }) {
   const { isDeleted, markBookmarkAsRead, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [isHovered, setIsHovered] = useState(false);
@@ -51,7 +51,9 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
     return null;
   }
 
-  const onClickEdit = () => {};
+  const onClickEdit = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <div className="flex-grow">
