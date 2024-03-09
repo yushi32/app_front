@@ -1,6 +1,6 @@
 import { Dialog } from "primereact/dialog";
         
-export default function BookmarkModal({ isModalOpen, setIsModalOpen }) {
+export default function ModalWindow({ isModalOpen, setIsModalOpen }) {
   return (
     <Dialog visible={isModalOpen} onHide={() => setIsModalOpen(false)}>
       <p>

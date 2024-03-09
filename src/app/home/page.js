@@ -13,7 +13,7 @@ import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
 import Sidebar from "../../components/Sidebar";
 import OverlayContainer from "../../components/OverlayContainer";
-import BookmarkModal from "../../components/BookmarkModal";
+import ModalWindow from "../../components/ModalWindow";
 
 export default function Page() {
   useRequireAuth();
@@ -40,7 +40,7 @@ export default function Page() {
       <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto mb-8 h-80">
         <Sidebar />
         <div className="col-span-4 overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8 pt-12 pb-6">
-          <BookmarkModal
+          <ModalWindow
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
           />
