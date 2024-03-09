@@ -9,7 +9,8 @@ import { useBookmark } from "../hooks/useBookmark";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
-export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverlayColor, setIsModalOpen }) {
+export default function Card({ setOverlayColor, setIsModalOpen, ...bookmark }) {
+  const { id, url, title, thumbnail, tags: bookmarkTags } = bookmark;
   const { isDeleted, markBookmarkAsRead, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [isHovered, setIsHovered] = useState(false);

@@ -50,11 +50,7 @@ export default function Page() {
             return (
               <Card
                 key={bookmark.id}
-                id={bookmark.id}
-                url={bookmark.url}
-                title={bookmark.title}
-                thumbnail={bookmark.thumbnail}
-                bookmarkTags={bookmark.tags}
+                {...bookmark}
                 setOverlayColor={setOverlayColor}
                 setIsModalOpen={setIsModalOpen}
               />
