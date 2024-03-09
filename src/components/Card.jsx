@@ -9,7 +9,7 @@ import { useBookmark } from "../hooks/useBookmark";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
-export default function Card({ setOverlayColor, setIsModalOpen, ...bookmark }) {
+export default function Card({ setOverlayColor, openBookmarkModal, ...bookmark }) {
   const { id, url, title, thumbnail, tags: bookmarkTags } = bookmark;
   const { isDeleted, markBookmarkAsRead, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
@@ -52,8 +52,8 @@ export default function Card({ setOverlayColor, setIsModalOpen, ...bookmark }) {
     return null;
   }
 
-  const onClickEdit = () => {
-    setIsModalOpen(true);
+  const handleOnClickEdit = () => {
+    openBookmarkModal(bookmark);
   };
 
   return (
@@ -128,7 +128,7 @@ export default function Card({ setOverlayColor, setIsModalOpen, ...bookmark }) {
             })}
           </div>
           <div className="flex items-center justify-center">
-            <button onClick={onClickEdit}>
+            <button onClick={handleOnClickEdit}>
               <Image
                 src="/pencil.svg"
                 alt="edit"

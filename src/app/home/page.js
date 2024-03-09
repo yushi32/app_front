@@ -23,6 +23,12 @@ export default function Page() {
   const { setActiveId, activeFolder, activeBookmark } = useOverlay();
   const [overlayColor, setOverlayColor] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBookmark, setSelectedBookmark] = useState(null);
+
+  const openBookmarkModal = (bookmark) => {
+    setIsModalOpen(true);
+    setSelectedBookmark(bookmark);
+  };
 
   useEffect(() => {
     setSearchKeyword('')
@@ -40,10 +46,13 @@ export default function Page() {
       <div className="flex-grow grid grid-cols-5 max-w-7xl w-full mx-auto mb-8 h-80">
         <Sidebar />
         <div className="col-span-4 overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 max-w-5xl w-full mx-auto px-8 pt-12 pb-6">
-          <ModalWindow
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-          />
+          {selectedBookmark &&
+            <ModalWindow
+              isModalOpen={isModalOpen}
+              setIsModalOpen={setIsModalOpen}
+              selectedBookmark={selectedBookmark}
+            />
+          }
           {bookmarks.length === 0 ? (
             <NoContents />
           ) : bookmarks.map((bookmark) => {
@@ -52,7 +61,7 @@ export default function Page() {
                 key={bookmark.id}
                 {...bookmark}
                 setOverlayColor={setOverlayColor}
-                setIsModalOpen={setIsModalOpen}
+                openBookmarkModal={openBookmarkModal}
               />
             );
           })}
