@@ -2,6 +2,17 @@ export default function BookmarkDetails({ id, title, url, thumbnail, tags, folde
 
   return (
     <div className="flex flex-col w-[600px] min-h-[600px] px-12">
+      {thumbnail &&
+        <div className="pb-6 border-b">
+          <div className="relative mx-auto w-[320px]">
+            <img
+              src={thumbnail}
+              alt="thumbnail"
+              className="rounded-md mx-auto w-full aspect-[1/0.525]"
+            />
+          </div>
+        </div>
+      }
       <form className="mt-6 space-y-4">
         <div className="flex flex-col space-y-1">
           <label htmlFor="title">タイトル</label>
