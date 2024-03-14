@@ -1,4 +1,15 @@
+import { useForm } from "react-hook-form";
+
 export default function BookmarkDetails({ id, title, url, thumbnail, tags, folder_id }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <div className="flex flex-col w-[600px] min-h-[600px] px-12">
@@ -13,14 +24,17 @@ export default function BookmarkDetails({ id, title, url, thumbnail, tags, folde
           </div>
         </div>
       }
-      <form className="mt-6 space-y-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-6 space-y-4"
+      >
         <div className="flex flex-col space-y-1">
           <label htmlFor="title">タイトル</label>
           <input
             id="title"
             type="text"
-            value={title}
             className="rounded-md px-2 py-1 border"
+            {...register("bookmark.title")}
           />
         </div>
         <div className="flex flex-col space-y-1">
@@ -28,13 +42,16 @@ export default function BookmarkDetails({ id, title, url, thumbnail, tags, folde
           <textarea
             id="note"
             className="rounded-md px-2 py-1 border"
+            {...register("bookmark.caption")}
           />
         </div>
         <div className="flex flex-col space-y-1">
           <label htmlFor="folder">フォルダ</label>
           <input
             id="folder"
+            type="text"
             className="rounded-md px-2 py-1 border"
+            {...register("folderPath")}
           />
         </div>
         <div className="flex flex-col space-y-1">
@@ -42,6 +59,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, tags, folde
           <input
             id="tags"
             className="rounded-md px-2 py-1 border"
+            {...register("bookmark.tags")}
           >
           </input>
         </div>
