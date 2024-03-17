@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 
+import { useFetchFolders } from "../hooks/useFetchFolders";
+
 export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id }) {
+  const { getFolderPath } = useFetchFolders();
+  const folderPath = getFolderPath(folder_id);
   const {
     register,
     handleSubmit,
@@ -9,6 +13,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     defaultValues: {
       'bookmark.title': title,
       'bookmark.note': note,
+      'folderPath': folderPath,
     }
   });
 
