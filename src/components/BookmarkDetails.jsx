@@ -42,7 +42,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <textarea
             id="note"
             className="rounded-md px-2 py-1 border"
-            {...register("bookmark.caption")}
+            {...register("bookmark.note")}
           />
         </div>
         <div className="flex flex-col space-y-1">
