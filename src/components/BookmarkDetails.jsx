@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-export default function BookmarkDetails({ id, title, url, thumbnail, tags, folder_id }) {
+export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id }) {
   const {
     register,
     handleSubmit,
