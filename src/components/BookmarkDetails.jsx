@@ -5,7 +5,12 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      'bookmark.title': title,
+      'bookmark.note': note,
+    }
+  });
 
   const onSubmit = (data) => {
     console.log(data);
