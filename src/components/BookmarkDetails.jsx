@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 
 import { useFetchFolders } from "../hooks/useFetchFolders";
 
+import Tag from "./Tag";
+
 export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id }) {
   const { getFolderPath } = useFetchFolders();
   const folderPath = getFolderPath(folder_id);
@@ -14,6 +16,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
       'bookmark.title': title,
       'bookmark.note': note,
       'folderPath': folderPath,
+      'bookmark.tags': null,
     }
   });
 
@@ -66,12 +69,16 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
         </div>
         <div className="flex flex-col space-y-1">
           <label htmlFor="tags">タグ</label>
-          <input
-            id="tags"
-            className="rounded-md px-2 py-1 border"
-            {...register("bookmark.tags")}
-          >
-          </input>
+          <div className="flex items-center space-x-1 rounded-md px-2 py-1 border">
+            {tags.length > 0 &&
+              tags.map((tag) => <Tag key={tag.id} name={tag.name} isDisabled={true} />)
+            }
+            <input
+              id="tags"
+              className="w-full pl-1"
+              {...register("bookmark.tags")}
+            />
+          </div>
         </div>
         <button
           type="submit"
