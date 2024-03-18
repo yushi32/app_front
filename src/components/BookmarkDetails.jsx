@@ -1,10 +1,16 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { useFetchFolders } from "../hooks/useFetchFolders";
 
 import Tag from "./Tag";
 
+const setFormStyle = (focusId, currentId) => (
+  `rounded-md px-2 py-1 border ${focusId === currentId ? 'focus:outline-none border-blue-400' : ''}`
+);
+
 export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id }) {
+  const [focusedForm, setFocusedForm] = useState(null);
   const { getFolderPath } = useFetchFolders();
   const folderPath = getFolderPath(folder_id);
   const {
@@ -22,6 +28,14 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
 
   const onSubmit = (data) => {
     console.log(data);
+  };
+
+  const handleOnFocus = (field) => {
+    setFocusedForm(field);
+  };
+
+  const handleOnBlur = () => {
+    setFocusedForm(null);
   };
 
   return (
@@ -46,7 +60,9 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <input
             id="title"
             type="text"
-            className="rounded-md px-2 py-1 border"
+            onFocus={() => handleOnFocus('title')}
+            onBlur={handleOnBlur}
+            className={`${setFormStyle(focusedForm, 'title')}`}
             {...register("bookmark.title")}
           />
         </div>
@@ -54,7 +70,9 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <label htmlFor="note">ノート</label>
           <textarea
             id="note"
-            className="rounded-md px-2 py-1 border"
+            onFocus={() => handleOnFocus('note')}
+            onBlur={handleOnBlur}
+            className={`${setFormStyle(focusedForm, 'note')}`}
             {...register("bookmark.note")}
           />
         </div>
@@ -63,19 +81,23 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <input
             id="folder"
             type="text"
-            className="rounded-md px-2 py-1 border"
+            onFocus={() => handleOnFocus('folder')}
+            onBlur={handleOnBlur}
+            className={`${setFormStyle(focusedForm, 'folder')}`}
             {...register("folderPath")}
           />
         </div>
         <div className="flex flex-col space-y-1">
           <label htmlFor="tags">タグ</label>
-          <div className="flex items-center space-x-1 rounded-md px-2 py-1 border">
+          <div className={`flex items-center space-x-1 ${setFormStyle(focusedForm, 'tags')}`}>
             {tags.length > 0 &&
               tags.map((tag) => <Tag key={tag.id} name={tag.name} isDisabled={true} />)
             }
             <input
               id="tags"
-              className="w-full pl-1"
+              onFocus={() => handleOnFocus('tags')}
+              onBlur={handleOnBlur}
+              className="w-full pl-1 focus:outline-none"
               {...register("bookmark.tags")}
             />
           </div>
