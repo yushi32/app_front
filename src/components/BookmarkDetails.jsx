@@ -50,6 +50,17 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     }
   };
 
+  const handleOnKeyDown = (e) => {
+    if (e.key == 'Backspace' || e.key === 'Delete') {
+      const input = e.target.value;
+      if (!input && submitTags.length > 0) {
+        const newSubmitTags = [...submitTags];
+        newSubmitTags.pop();
+        setSubmitTags(newSubmitTags);
+      }
+    }
+  };
+
   useEffect(() => {
     setSubmitTags(tags);
   }, []);
@@ -113,6 +124,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
               id="tags"
               onFocus={() => handleOnFocus('tags')}
               onBlur={handleOnBlur}
+              onKeyDown={(e) => handleOnKeyDown(e)}
               className="w-full pl-1 focus:outline-none"
               {...register("bookmark.tags", {
                 onChange: (e) => {
