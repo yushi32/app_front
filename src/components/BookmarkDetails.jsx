@@ -16,6 +16,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
   const folderPath = getFolderPath(folder_id);
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -37,6 +38,16 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
 
   const handleOnBlur = () => {
     setFocusedForm(null);
+  };
+
+  const handleOnChangeTagsField = (e) => {
+    const input = e.target.value;
+    if (input.match(/[ \u3000]$/)) {
+      const tagName = input.trimEnd();
+      const newTag = { id: tagName, name: tagName };
+      setSubmitTags([...submitTags, newTag]);
+      reset();
+    }
   };
 
   useEffect(() => {
@@ -103,7 +114,11 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
               onFocus={() => handleOnFocus('tags')}
               onBlur={handleOnBlur}
               className="w-full pl-1 focus:outline-none"
-              {...register("bookmark.tags")}
+              {...register("bookmark.tags", {
+                onChange: (e) => {
+                  handleOnChangeTagsField(e);
+                }
+              })}
             />
           </div>
         </div>
