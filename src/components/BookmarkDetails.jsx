@@ -12,6 +12,7 @@ const setFormStyle = (focusId, currentId) => (
 export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id }) {
   const [focusedForm, setFocusedForm] = useState(null);
   const [submitTags, setSubmitTags] = useState([]);
+  const [isTagInvalid, setIsTagInvalid] = useState(false);
   const { getFolderPath } = useFetchFolders();
   const folderPath = getFolderPath(folder_id);
   const {
@@ -42,6 +43,13 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
 
   const handleOnChangeTagsField = (e) => {
     const input = e.target.value;
+    if (input.match(/^[ \u3000]/)) {
+      setIsTagInvalid(true);
+      return;
+    }
+
+    if (isTagInvalid) setIsTagInvalid(false);
+
     if (input.match(/[ \u3000]$/)) {
       const tagName = input.trimEnd();
       const newTag = { id: tagName, name: tagName };
@@ -119,7 +127,13 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
         </div>
         <div className="flex flex-col space-y-1">
           <label htmlFor="tags">タグ</label>
-          <div className={`flex items-center space-x-1 ${setFormStyle(focusedForm, 'tags')}`}>
+          <div className={`
+            flex
+            items-center
+            space-x-1
+            ${setFormStyle(focusedForm, 'tags')}
+            ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
+          `}>
             {submitTags.length > 0 &&
               submitTags.map((tag) => <Tag key={tag.id} name={tag.name} isDisabled={true} />)
             }
