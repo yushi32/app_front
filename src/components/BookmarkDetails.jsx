@@ -43,13 +43,16 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
 
   const handleOnChangeTagsField = (e) => {
     const input = e.target.value;
+    // 半角スペースまたは全角スペースで始まっている場合、不正な入力であることを示す
     if (input.match(/^[ \u3000]/)) {
       setIsTagInvalid(true);
       return;
     }
 
+    // 先頭が半角スペースまたは全角スペースではなくなった時、ボーダーの色を戻す
     if (isTagInvalid) setIsTagInvalid(false);
 
+    // タグの末尾に半角スペースまたは全角スペースが入力された時、タグを確定する
     if (input.match(/[ \u3000]$/)) {
       const tagName = input.trimEnd();
       const newTag = { id: tagName, name: tagName };
