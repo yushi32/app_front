@@ -88,9 +88,10 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             id="title"
             type="text"
             onFocus={() => handleOnFocus('title')}
-            onBlur={handleOnBlur}
             className={`${setFormStyle(focusedForm, 'title')}`}
-            {...register("bookmark.title")}
+            {...register("bookmark.title", {
+              onBlur: handleOnBlur
+            })}
           />
         </div>
         <div className="flex flex-col space-y-1">
@@ -98,9 +99,10 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <textarea
             id="note"
             onFocus={() => handleOnFocus('note')}
-            onBlur={handleOnBlur}
             className={`${setFormStyle(focusedForm, 'note')}`}
-            {...register("bookmark.note")}
+            {...register("bookmark.note", {
+              onBlur: handleOnBlur
+            })}
           />
         </div>
         <div className="flex flex-col space-y-1">
@@ -109,9 +111,10 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             id="folder"
             type="text"
             onFocus={() => handleOnFocus('folder')}
-            onBlur={handleOnBlur}
             className={`${setFormStyle(focusedForm, 'folder')}`}
-            {...register("folderPath")}
+            {...register("folderPath", {
+              onBlur: handleOnBlur
+            })}
           />
         </div>
         <div className="flex flex-col space-y-1">
@@ -123,13 +126,13 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             <input
               id="tags"
               onFocus={() => handleOnFocus('tags')}
-              onBlur={handleOnBlur}
               onKeyDown={(e) => handleOnKeyDown(e)}
               className="w-full pl-1 focus:outline-none"
               {...register("bookmark.tags", {
                 onChange: (e) => {
                   handleOnChangeTagsField(e);
-                }
+                },
+                onBlur: handleOnBlur
               })}
             />
           </div>
