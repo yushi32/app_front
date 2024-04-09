@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { useFetchFolders } from "../hooks/useFetchFolders";
 
-import Tag from "./Tag";
+import DisplayTag from "./DisplayTag";
 
 const setFormStyle = (focusId, currentId) => (
   `rounded-md px-2 py-1 border ${focusId === currentId ? 'focus:outline-none border-blue-400' : ''}`
@@ -138,7 +138,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
           `}>
             {submitTags.length > 0 &&
-              submitTags.map((tag) => <Tag key={tag.id} name={tag.name} isDisabled={true} />)
+              submitTags.map((tag) => <DisplayTag key={tag.id} name={tag.name} />)
             }
             <input
               id="tags"
