@@ -25,10 +25,6 @@ export default function Card({ setOverlayColor, openBookmarkModal, ...bookmark }
   const displayTitle = title.length > 100 ? title.substring(0, 99) + '...' : title;
 
   useEffect(() => {
-    if (bookmarkTags.length !== 0) {
-      setTags(bookmarkTags);
-    }
-
     const colors = [
       'bg-red-300',
       'bg-blue-300',
@@ -43,6 +39,12 @@ export default function Card({ setOverlayColor, openBookmarkModal, ...bookmark }
     const randomIndex = Math.floor(Math.random() * colors.length);
     setRandomColor(colors[randomIndex]);
   }, []);
+
+  useEffect(() => {
+    if (bookmarkTags.length !== 0) {
+      setTags(bookmarkTags);
+    }
+  }, [bookmarkTags]);
 
   useEffect(() => {
     setOverlayColor(randomColor)
