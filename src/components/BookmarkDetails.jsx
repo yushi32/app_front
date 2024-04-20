@@ -146,7 +146,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
           `}>
             {submitTags.length > 0 &&
-              submitTags.map((tag) => <DisplayTag key={tag.id} name={tag.name} />)
+              submitTags.map((tag) => <DisplayTag key={tag.id} name={tag.name} setSubmitTags={setSubmitTags} />)
             }
             <input
               id="tags"
