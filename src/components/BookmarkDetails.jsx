@@ -93,7 +93,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
   }, []);
 
   return (
-    <div className="flex flex-col w-[600px] min-h-[600px] px-12">
+    <div className="flex flex-col text-sm w-[600px] min-h-[600px] px-12">
       {thumbnail &&
         <div className="pb-6 border-b">
           <div className="relative mx-auto w-[320px]">
