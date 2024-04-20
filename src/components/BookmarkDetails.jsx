@@ -136,6 +136,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <input
             id="folder"
             type="text"
+            disabled={true}
             onFocus={() => handleOnFocus('folder')}
             className={`${setFormStyle(focusedForm, 'folder')}`}
             {...register("folderPath", {
