@@ -162,6 +162,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             <div className="flex-grow">
               <input
                 id="tags"
+                placeholder="スペースで区切ってください"
                 onFocus={() => handleOnFocus('tags')}
                 onKeyDown={(e) => handleOnKeyDown(e)}
                 className="w-full pl-1 focus:outline-none"
