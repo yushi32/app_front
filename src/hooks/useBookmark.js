@@ -28,6 +28,19 @@ export function useBookmark() {
     );
   };
 
+  const updateBookmark = async (id, params) => {
+    const config = await setIdToken();
+    const res = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${id}`,
+      { bookmark: params },
+      config
+    );
+    if (res.status === 200) {
+      mutate([`/api/v1/bookmarks`, currentUser]);
+      mutate(['/api/v1/tags', currentUser]);
+    }
+  };
+
   const deleteBookmark = async (id) => {
     const config = await setIdToken();
     const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/bookmarks/${id}`, config);
@@ -67,6 +80,7 @@ export function useBookmark() {
     isDeleted,
     setIsDeleted,
     markBookmarkAsRead,
+    updateBookmark,
     deleteBookmark,
     addTagToBookmark,
     putBookmarkInFolder

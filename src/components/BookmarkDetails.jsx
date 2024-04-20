@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { useFetchFolders } from "../hooks/useFetchFolders";
+import { useBookmark } from "../hooks/useBookmark";
 
 import DisplayTag from "./DisplayTag";
 
@@ -14,6 +15,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
   const [submitTags, setSubmitTags] = useState([]);
   const [isTagInvalid, setIsTagInvalid] = useState(false);
   const { getFolderPath } = useFetchFolders();
+  const { updateBookmark } = useBookmark();
   const folderPath = getFolderPath(folder_id);
   const {
     register,
@@ -30,7 +32,12 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
   });
 
   const onSubmit = (data) => {
-    console.log(data);
+    const params = {
+      title: data.bookmark.title,
+      note: data.bookmark.note,
+      tag_names: submitTags.map((tag) => tag.name),
+    };
+    updateBookmark(id, params);
   };
 
   const handleOnFocus = (field) => {
