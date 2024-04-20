@@ -38,6 +38,7 @@ export function useBookmark() {
     if (res.status === 200) {
       mutate([`/api/v1/bookmarks`, currentUser]);
       mutate(['/api/v1/tags', currentUser]);
+      return res.status;
     }
   };
 

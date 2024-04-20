@@ -22,7 +22,7 @@ export default function ModalWindow({ isModalOpen, setIsModalOpen, selectedBookm
       visible={isModalOpen}
       onHide={() => setIsModalOpen(false)}
     >
-      <BookmarkDetails {...selectedBookmark} />
+      <BookmarkDetails {...selectedBookmark} setIsModalOpen={setIsModalOpen} />
     </Dialog>
   );
 };

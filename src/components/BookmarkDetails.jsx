@@ -10,7 +10,7 @@ const setFormStyle = (focusId, currentId) => (
   `rounded-md px-2 py-1 border ${focusId === currentId ? 'focus:outline-none border-blue-400' : ''}`
 );
 
-export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id }) {
+export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id, setIsModalOpen }) {
   const [focusedForm, setFocusedForm] = useState(null);
   const [submitTags, setSubmitTags] = useState([]);
   const [isTagInvalid, setIsTagInvalid] = useState(false);
@@ -31,13 +31,14 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     }
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const params = {
       title: data.bookmark.title,
       note: data.bookmark.note,
       tag_names: submitTags.map((tag) => tag.name),
     };
-    updateBookmark(id, params);
+    const status = await updateBookmark(id, params);
+    if (status === 200) setIsModalOpen(false);
   };
 
   const handleOnFocus = (field) => {
