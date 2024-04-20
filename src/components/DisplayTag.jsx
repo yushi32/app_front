@@ -15,7 +15,7 @@ export default function DisplayTag({ name, setSubmitTags }) {
       <button
         type="button"
         onClick={handleOnClickRemoveButton}
-        className="flex-shrink-0 pl-1 pr-2"
+        className="flex items-center justify-center flex-shrink-0 ml-1 h-4 w-3"
       >
         <Image 
           src="/remove.svg"
