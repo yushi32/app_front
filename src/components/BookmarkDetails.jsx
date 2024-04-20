@@ -63,9 +63,17 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     // タグの末尾に半角スペースまたは全角スペースが入力された時、タグを確定する
     if (input.match(/[ \u3000]$/)) {
       const tagName = input.trimEnd();
-      const newTag = { id: tagName, name: tagName };
-      setSubmitTags([...submitTags, newTag]);
-      reset();
+
+      // 既存のタグと重複している場合、フォームの色を変更
+      if (submitTags.some((tag) => tag.name === tagName)) {
+        setIsTagInvalid(true);
+        return;
+      } else {
+        // 重複していない場合はタグを追加
+        const newTag = { id: tagName, name: tagName };
+        setSubmitTags([...submitTags, newTag]);
+        reset();
+      }
     }
   };
 
