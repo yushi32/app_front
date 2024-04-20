@@ -148,26 +148,31 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <label htmlFor="tags">タグ</label>
           <div className={`
             flex
+            flex-wrap
             items-center
-            space-x-1
+            gap-1
             ${setFormStyle(focusedForm, 'tags')}
             ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
           `}>
             {submitTags.length > 0 &&
-              submitTags.map((tag) => <DisplayTag key={tag.id} name={tag.name} setSubmitTags={setSubmitTags} />)
+              submitTags.map((tag) => 
+                <DisplayTag key={tag.id} name={tag.name} setSubmitTags={setSubmitTags} />
+              )
             }
-            <input
-              id="tags"
-              onFocus={() => handleOnFocus('tags')}
-              onKeyDown={(e) => handleOnKeyDown(e)}
-              className="w-full pl-1 focus:outline-none"
-              {...register("bookmark.tags", {
-                onChange: (e) => {
-                  handleOnChangeTagsField(e);
-                },
-                onBlur: handleOnBlur
-              })}
-            />
+            <div className="flex-grow">
+              <input
+                id="tags"
+                onFocus={() => handleOnFocus('tags')}
+                onKeyDown={(e) => handleOnKeyDown(e)}
+                className="w-full pl-1 focus:outline-none"
+                {...register("bookmark.tags", {
+                  onChange: (e) => {
+                    handleOnChangeTagsField(e);
+                  },
+                  onBlur: handleOnBlur
+                })}
+              />
+            </div>
           </div>
         </div>
         <button
