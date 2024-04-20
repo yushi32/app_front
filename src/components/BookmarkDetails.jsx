@@ -7,7 +7,7 @@ import { useBookmark } from "../hooks/useBookmark";
 import DisplayTag from "./DisplayTag";
 
 const setFormStyle = (focusId, currentId) => (
-  `rounded-md px-2 py-1 border ${focusId === currentId ? 'focus:outline-none border-blue-400' : ''}`
+  `rounded-md min-h-[36px] px-2 py-1 border ${focusId === currentId ? 'focus:outline-none border-blue-400' : ''}`
 );
 
 export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id, setIsModalOpen }) {
