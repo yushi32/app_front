@@ -164,7 +164,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
                 placeholder="スペースで区切ってください"
                 onFocus={() => handleOnFocus('tags')}
                 onKeyDown={(e) => handleOnKeyDown(e)}
-                className="w-full pl-1 focus:outline-none"
+                className="min-h-[26px] w-full pl-1 focus:outline-none"
                 {...register("bookmark.tags", {
                   onChange: (e) => {
                     handleOnChangeTagsField(e);
