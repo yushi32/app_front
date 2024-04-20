@@ -125,6 +125,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           <label htmlFor="note">ノート</label>
           <textarea
             id="note"
+            rows={4}
             onFocus={() => handleOnFocus('note')}
             className={`${setFormStyle(focusedForm, 'note')}`}
             {...register("bookmark.note", {
