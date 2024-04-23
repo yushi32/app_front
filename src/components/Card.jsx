@@ -41,9 +41,7 @@ export default function Card({ setOverlayColor, openBookmarkModal, ...bookmark }
   }, []);
 
   useEffect(() => {
-    if (bookmarkTags.length !== 0) {
-      setTags(bookmarkTags);
-    }
+    setTags(bookmarkTags);
   }, [bookmarkTags]);
 
   useEffect(() => {
