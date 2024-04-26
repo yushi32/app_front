@@ -124,14 +124,18 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label htmlFor="note">ノート</label>
+          <div className="flex justify-between">
+            <label htmlFor="note">ノート</label>
+            {errors.bookmark?.note?.message && <p className="text-red-600">{errors.bookmark?.note?.message}</p>}
+          </div>
           <textarea
             id="note"
             rows={4}
             onFocus={() => handleOnFocus('note')}
             className={`${setFormStyle(focusedForm, 'note')}`}
             {...register("bookmark.note", {
-              onBlur: handleOnBlur
+              onBlur: handleOnBlur,
+              maxLength: { value: 500, message: '500文字以内で入力してください。'},
             })}
           />
         </div>
