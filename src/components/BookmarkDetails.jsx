@@ -108,14 +108,18 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
         className="mt-6 space-y-3"
       >
         <div className="flex flex-col space-y-1">
-          <label htmlFor="title">タイトル</label>
+          <div className="flex justify-between">
+            <label htmlFor="title">タイトル</label>
+            {errors.bookmark?.title?.message && <p className="text-red-600">{errors.bookmark?.title?.message}</p>}
+          </div>
           <input
             id="title"
             type="text"
             onFocus={() => handleOnFocus('title')}
             className={`${setFormStyle(focusedForm, 'title')}`}
             {...register("bookmark.title", {
-              onBlur: handleOnBlur
+              onBlur: handleOnBlur,
+              required: 'タイトルは必須です。',
             })}
           />
         </div>
