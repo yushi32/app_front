@@ -28,7 +28,8 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
       'bookmark.note': note,
       'folderPath': folderPath,
       'bookmark.tags': null,
-    }
+    },
+    mode: 'onChange',
   });
 
   const onSubmit = async (data) => {
