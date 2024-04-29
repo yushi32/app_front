@@ -20,7 +20,6 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
   const {
     control,
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -32,7 +31,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     },
     mode: 'onChange',
   });
-  const { fields } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control,
     name: 'bookmark.tags',
   });
@@ -71,14 +70,14 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
       const tagName = input.trimEnd();
 
       // 既存のタグと重複している場合、フォームの色を変更
-      if (submitTags.some((tag) => tag.name === tagName)) {
+      if (fields.some((tag) => tag.name === tagName)) {
         setIsTagInvalid(true);
         return;
       } else {
         // 重複していない場合はタグを追加
         const newTag = { id: tagName, name: tagName };
-        setSubmitTags([...submitTags, newTag]);
-        reset();
+        append(newTag);
+        e.target.value = '';
       }
     }
   };
