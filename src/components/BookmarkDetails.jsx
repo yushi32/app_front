@@ -31,7 +31,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     },
     mode: 'onChange',
   });
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: 'bookmark.tags',
   });
@@ -85,10 +85,8 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
   const handleOnKeyDown = (e) => {
     if (e.key == 'Backspace' || e.key === 'Delete') {
       const input = e.target.value;
-      if (!input && submitTags.length > 0) {
-        const newSubmitTags = [...submitTags];
-        newSubmitTags.pop();
-        setSubmitTags(newSubmitTags);
+      if (!input && fields.length > 0) {
+        remove(fields.length - 1);
       }
     }
   };
