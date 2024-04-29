@@ -1,10 +1,8 @@
 import Image from "next/image";
 
-export default function DisplayTag({ name, setSubmitTags }) {
+export default function DisplayTag({ name, index, remove }) {
   const handleOnClickRemoveButton = () => {
-    setSubmitTags((prevTags) => {
-      return prevTags.filter((tag) => tag.name !== name);
-    });
+    remove(index);
   };
 
   return (

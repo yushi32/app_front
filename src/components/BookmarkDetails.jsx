@@ -162,7 +162,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
           `}>
             {fields.map((item, index) => (
-              <DisplayTag key={item.id} name={item.name} index={index} />
+              <DisplayTag key={item.id} name={item.name} index={index} remove={remove} />
             ))}
             <Controller
               render={({ field }) => (
