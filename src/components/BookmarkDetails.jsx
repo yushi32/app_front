@@ -12,7 +12,6 @@ const setFormStyle = (focusId, currentId) => (
 
 export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id, setIsModalOpen }) {
   const [focusedForm, setFocusedForm] = useState(null);
-  const [submitTags, setSubmitTags] = useState([]);
   const [isTagInvalid, setIsTagInvalid] = useState(false);
   const { getFolderPath } = useFetchFolders();
   const { updateBookmark } = useBookmark();
