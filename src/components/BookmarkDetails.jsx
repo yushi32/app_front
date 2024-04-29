@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 
 import { useFetchFolders } from "../hooks/useFetchFolders";
 import { useBookmark } from "../hooks/useBookmark";
@@ -18,6 +18,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
   const { updateBookmark } = useBookmark();
   const folderPath = getFolderPath(folder_id);
   const {
+    control,
     register,
     reset,
     handleSubmit,
@@ -27,9 +28,13 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
       'bookmark.title': title,
       'bookmark.note': note,
       'folderPath': folderPath,
-      'bookmark.tags': null,
+      'bookmark.tags': tags,
     },
     mode: 'onChange',
+  });
+  const { fields } = useFieldArray({
+    control,
+    name: 'bookmark.tags',
   });
 
   const onSubmit = async (data) => {
@@ -88,10 +93,6 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
       }
     }
   };
-
-  useEffect(() => {
-    setSubmitTags(tags);
-  }, []);
 
   return (
     <div className="flex flex-col text-sm w-[600px] min-h-[600px] px-12">
@@ -163,26 +164,23 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             ${setFormStyle(focusedForm, 'tags')}
             ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
           `}>
-            {submitTags.length > 0 &&
-              submitTags.map((tag) => 
-                <DisplayTag key={tag.id} name={tag.name} setSubmitTags={setSubmitTags} />
-              )
-            }
-            <div className="flex-grow">
-              <input
-                id="tags"
-                placeholder="スペースで区切ってください"
-                onFocus={() => handleOnFocus('tags')}
-                onKeyDown={(e) => handleOnKeyDown(e)}
-                className="min-h-[26px] w-full pl-1 focus:outline-none"
-                {...register("bookmark.tags", {
-                  onChange: (e) => {
-                    handleOnChangeTagsField(e);
-                  },
-                  onBlur: handleOnBlur
-                })}
-              />
-            </div>
+            {fields.map((item, index) => (
+              <DisplayTag key={item.id} name={item.name} index={index} />
+            ))}
+            <Controller
+              render={({ field }) => (
+                <input
+                  id="tags"
+                  placeholder="スペースで区切ってください"
+                  onChange={(e) => handleOnChangeTagsField(e)}
+                  onFocus={() => handleOnFocus('tags')}
+                  onKeyDown={(e) => handleOnKeyDown(e)}
+                  className="flex-grow min-h-[26px] pl-1 focus:outline-none"
+                />
+              )}
+              name="bookmark.tags"
+              control={control}
+            />
           </div>
         </div>
         <button
