@@ -40,7 +40,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     const params = {
       title: data.bookmark.title,
       note: data.bookmark.note,
-      tag_names: submitTags.map((tag) => tag.name),
+      tag_names: data.bookmark.tags.map((tag) => tag.name),
     };
     const status = await updateBookmark(id, params);
     if (status === 200) setIsModalOpen(false);
