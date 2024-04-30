@@ -14,6 +14,7 @@ import Card from "../../components/Card";
 import NoContents from "../../components/NoContents";
 import Sidebar from "../../components/Sidebar";
 import OverlayContainer from "../../components/OverlayContainer";
+import ModalWindow from "../../components/ModalWindow";
 
 export default function Page() {
   useRequireAuth();
@@ -23,6 +24,8 @@ export default function Page() {
   const { setActiveId, activeFolder, activeBookmark } = useOverlay();
   const [overlayColor, setOverlayColor] = useState();
   const searchParams = useSearchParams();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBookmark, setSelectedBookmark] = useState(null);
 
   const message = () => {
     return (
@@ -30,6 +33,11 @@ export default function Page() {
         <span className="italic">{searchKeyword}</span>&nbsp;での検索結果 ー {`${bookmarks.length}`}件
       </div>
     );
+  };
+
+  const openBookmarkModal = (bookmark) => {
+    setSelectedBookmark(bookmark);
+    setIsModalOpen(true);
   };
 
   useEffect(() => {
@@ -52,6 +60,13 @@ export default function Page() {
         <div className="col-span-4 max-w-5xl w-full mx-auto px-8">
           {message()}
           <div className="overflow-y-auto grid grid-cols-3 gap-x-4 gap-y-4 pb-12">
+            {selectedBookmark &&
+              <ModalWindow
+                isModalOpen={isModalOpen}
+                setIsModalOpen={setIsModalOpen}
+                selectedBookmark={selectedBookmark}
+              />
+            }
             {bookmarks.length === 0 ? (
               <NoContents />
             ) : (
@@ -61,6 +76,7 @@ export default function Page() {
                     key={bookmark.id}
                     {...bookmark}
                     setOverlayColor={setOverlayColor}
+                    openBookmarkModal={openBookmarkModal}
                   />
                 );
               })
