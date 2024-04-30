@@ -39,6 +39,29 @@ export function useFetchFolders() {
     return folders ? folders.filter((folder) => folder.parent_id === id) : [];
   }, [folders]);
 
+  // ループでルートフォルダまで辿り、辿ったフォルダ名を配列に格納する
+  const buildFolderPath = (folderId, path = []) => {
+    let currentFolderId = folderId;
+
+    while (currentFolderId) {
+      const folder = getFolder(currentFolderId);
+      if (!folder) break;
+
+      path.unshift(folder.name);
+      if (folder.parent_id === null) break;
+
+      currentFolderId = folder.parent_id;
+    }
+
+    return path;
+  };
+
+  // buildFolderPath関数で生成した配列からフォルダのパスを示す文字列を作成する
+  const getFolderPath = (folderId) => {
+    const pathArray = buildFolderPath(folderId);
+    return pathArray.join('/');
+  };
+
   useEffect(() => {
     if (error) console.log(`error message: ${error}`);
   }, [error]);
@@ -49,6 +72,7 @@ export function useFetchFolders() {
     isLoading: !folders && !error,
     error,
     getFolder,
-    getChildFolders
+    getChildFolders,
+    getFolderPath,
   };
 }

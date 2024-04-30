@@ -9,7 +9,8 @@ import { useBookmark } from "../hooks/useBookmark";
 import Tag from "./Tag";
 import AddTag from "./AddTag";
 
-export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverlayColor }) {
+export default function Card({ setOverlayColor, openBookmarkModal, ...bookmark }) {
+  const { id, url, title, thumbnail, tags: bookmarkTags } = bookmark;
   const { isDeleted, markBookmarkAsRead, deleteBookmark } = useBookmark();
   const [randomColor, setRandomColor] = useState();
   const [isHovered, setIsHovered] = useState(false);
@@ -24,10 +25,6 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
   const displayTitle = title.length > 100 ? title.substring(0, 99) + '...' : title;
 
   useEffect(() => {
-    if (bookmarkTags.length !== 0) {
-      setTags(bookmarkTags);
-    }
-
     const colors = [
       'bg-red-300',
       'bg-blue-300',
@@ -44,6 +41,10 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
   }, []);
 
   useEffect(() => {
+    setTags(bookmarkTags);
+  }, [bookmarkTags]);
+
+  useEffect(() => {
     setOverlayColor(randomColor)
   }, [isDragging]);
 
@@ -51,7 +52,9 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
     return null;
   }
 
-  const onClickEdit = () => {};
+  const handleOnClickEdit = () => {
+    openBookmarkModal(bookmark);
+  };
 
   return (
     <div className="flex-grow">
@@ -125,7 +128,7 @@ export default function Card({ id, url, title, thumbnail, bookmarkTags, setOverl
             })}
           </div>
           <div className="flex items-center justify-center">
-            <button onClick={onClickEdit}>
+            <button onClick={handleOnClickEdit}>
               <Image
                 src="/pencil.svg"
                 alt="edit"
