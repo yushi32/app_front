@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 
 import { useFetchFolders } from "../hooks/useFetchFolders";
@@ -13,6 +13,7 @@ const setFormStyle = (focusId, currentId) => (
 export default function BookmarkDetails({ id, title, url, thumbnail, note, tags, folder_id, setIsModalOpen }) {
   const [focusedForm, setFocusedForm] = useState(null);
   const [isTagInvalid, setIsTagInvalid] = useState(false);
+  const tagsFieldRef = useRef(null);
   const { getFolderPath } = useFetchFolders();
   const { updateBookmark } = useBookmark();
   const folderPath = getFolderPath(folder_id);
@@ -103,6 +104,12 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     }
   };
 
+  const handleOnClickTagsField = () => {
+    if (tagsFieldRef.current) {
+      tagsFieldRef.current.focus();
+    }
+  };
+
   return (
     <div className="flex flex-col text-sm w-[600px] min-h-[600px] px-12">
       {thumbnail &&
@@ -168,14 +175,17 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
             <label htmlFor="tags">タグ</label>
             {errors.bookmark?.tags && <p className="text-red-600">{errors.bookmark?.tags?.message}</p>}
           </div>
-          <div className={`
-            flex
-            flex-wrap
-            items-center
-            gap-1
-            ${setFormStyle(focusedForm, 'tags')}
-            ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
-          `}>
+          <div
+            onClick= {handleOnClickTagsField}
+            className={`
+              flex
+              flex-wrap
+              items-center
+              gap-1
+              ${setFormStyle(focusedForm, 'tags')}
+              ${isTagInvalid ? 'border-red-600 caret-red-600 ' : ''}
+            `}
+          >
             {fields.map((item, index) => (
               <DisplayTag key={item.id} name={item.name} index={index} remove={remove} />
             ))}
@@ -184,6 +194,7 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
                 <input
                   id="tags"
                   placeholder="スペースで区切ってください"
+                  ref={tagsFieldRef}
                   onChange={(e) => handleOnChangeTagsField(e)}
                   onFocus={() => handleOnFocus('tags')}
                   onKeyDown={(e) => handleOnKeyDown(e)}
