@@ -59,10 +59,7 @@ export default function Page() {
                 return (
                   <Card
                     key={bookmark.id}
-                    id={bookmark.id}
-                    url={bookmark.url}
-                    title={bookmark.title}
-                    bookmarkTags={bookmark.tags}
+                    {...bookmark}
                     setOverlayColor={setOverlayColor}
                   />
                 );
