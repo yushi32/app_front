@@ -20,6 +20,8 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     control,
     register,
     handleSubmit,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -57,12 +59,19 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
     const input = e.target.value;
     // 半角スペースまたは全角スペースで始まっている場合、不正な入力であることを示す
     if (input.match(/^[ \u3000]/)) {
+      setError('bookmark.tags', {
+        type: 'startWithSpace',
+        message: '先頭にスペースは使えません。'
+      });
       setIsTagInvalid(true);
       return;
     }
 
     // 先頭が半角スペースまたは全角スペースではなくなった時、ボーダーの色を戻す
-    if (isTagInvalid) setIsTagInvalid(false);
+    if (isTagInvalid) {
+      clearErrors('bookmark.tags');
+      setIsTagInvalid(false);
+    }
 
     // タグの末尾に半角スペースまたは全角スペースが入力された時、タグを確定する
     if (input.match(/[ \u3000]$/)) {
@@ -70,6 +79,10 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
 
       // 既存のタグと重複している場合、フォームの色を変更
       if (fields.some((tag) => tag.name === tagName)) {
+        setError('bookmark.tags', {
+          type: 'isDuplicated',
+          message: '同じタグは登録できません。'
+        });
         setIsTagInvalid(true);
         return;
       } else {
@@ -151,7 +164,10 @@ export default function BookmarkDetails({ id, title, url, thumbnail, note, tags,
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label htmlFor="tags">タグ</label>
+          <div className="flex justify-between">
+            <label htmlFor="tags">タグ</label>
+            {errors.bookmark?.tags && <p className="text-red-600">{errors.bookmark?.tags?.message}</p>}
+          </div>
           <div className={`
             flex
             flex-wrap
